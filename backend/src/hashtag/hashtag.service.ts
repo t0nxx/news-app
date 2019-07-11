@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { HashTag } from './hashtage.entity';
 import { Repository } from 'typeorm';
-import { PaginationDto } from 'src/shared/pagination.filter';
+import { PaginationDto } from '../shared/pagination.filter';
 import { HashTagDto } from './hashtag.dto';
 import { HashTagUpdateDto } from './hashtag.update.dto';
 

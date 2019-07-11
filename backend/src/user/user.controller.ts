@@ -4,8 +4,8 @@ import { UserService } from './user.service';
 import { UserDto } from './user.dto';
 import { UserUpdateDto } from './user.update.dto';
 import { User } from './user.decorator';
-import { PaginationDto } from 'src/shared/pagination.filter';
-import { Category } from 'src/category/category.entity';
+import { PaginationDto } from '../shared/pagination.filter';
+import { Category } from '../category/category.entity';
 
 @ApiUseTags('users')
 @Controller('users')

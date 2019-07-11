@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
 import { Repository } from 'typeorm';
-import { PaginationDto } from 'src/shared/pagination.filter';
+import { PaginationDto } from '../shared/pagination.filter';
 import { CategoryDto } from './category.dto';
 import { CategoryUpdateDto } from './category.update.dto';
 

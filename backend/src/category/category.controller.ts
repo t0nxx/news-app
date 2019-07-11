@@ -2,7 +2,7 @@ import { Controller, Get, Query, Post, Body, Put, Param, ParseIntPipe, Delete } 
 import { ApiUseTags, ApiImplicitHeader, ApiImplicitParam } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CategoryDto } from './category.dto';
-import { PaginationDto } from 'src/shared/pagination.filter';
+import { PaginationDto } from '../shared/pagination.filter';
 import { CategoryUpdateDto } from './category.update.dto';
 
 @ApiUseTags('categories')

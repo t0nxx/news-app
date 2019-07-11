@@ -5,9 +5,9 @@ import { Repository } from 'typeorm';
 import { UserDto } from './user.dto';
 import { UserUpdateDto } from './user.update.dto';
 import { hashSync } from 'bcryptjs';
-import { generateJwtToken } from 'src/shared/generate.jwt';
-import { PaginationDto } from 'src/shared/pagination.filter';
-import { Category } from 'src/category/category.entity';
+import { generateJwtToken } from '../shared/generate.jwt';
+import { PaginationDto } from '../shared/pagination.filter';
+import { Category } from '../category/category.entity';
 
 @Injectable()
 export class UserService {

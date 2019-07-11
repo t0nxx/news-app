@@ -1,7 +1,7 @@
 import { Controller, Query, Get, Param, ParseIntPipe, Post, Body, Put, Delete } from '@nestjs/common';
 import { ApiUseTags, ApiImplicitParam, ApiImplicitHeader } from '@nestjs/swagger';
 import { HashtagService } from './hashtag.service';
-import { PaginationDto } from 'src/shared/pagination.filter';
+import { PaginationDto } from '../shared/pagination.filter';
 import { HashTagDto } from './hashtag.dto';
 import { HashTagUpdateDto } from './hashtag.update.dto';
 

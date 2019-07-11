@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, } from 'typeorm';
-import { Category } from 'src/category/category.entity';
+import { Category } from '../category/category.entity';
 
 export enum UserRole {
     ADMIN = 'admin',

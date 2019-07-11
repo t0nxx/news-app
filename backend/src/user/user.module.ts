@@ -1,11 +1,11 @@
 import { Module, MiddlewareConsumer, RequestMethod, NestModule } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { UserAuthMiddleware } from 'src/auth/user.auth.middleware';
-import { AdminMiddleAuth } from 'src/auth/admin.auth.middleware';
+import { UserAuthMiddleware } from '../auth/user.auth.middleware';
+import { AdminMiddleAuth } from '../auth/admin.auth.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Category } from 'src/category/category.entity';
+import { Category } from '../category/category.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Category])],
