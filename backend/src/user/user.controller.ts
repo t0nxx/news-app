@@ -5,6 +5,7 @@ import { UserDto } from './user.dto';
 import { UserUpdateDto } from './user.update.dto';
 import { User } from './user.decorator';
 import { PaginationDto } from 'src/shared/pagination.filter';
+import { Category } from 'src/category/category.entity';
 
 @ApiUseTags('users')
 @Controller('users')
@@ -55,6 +56,26 @@ export class UserController {
         @Query('role') role: string,
     ) {
         return this.userService.promoteUserLevel(id, role);
+    }
+
+    /* start relations */
+
+    @ApiImplicitHeader({ name: 'authorization', required: true })
+    @Put('/update/me/subscribe')
+    async subscribeToCategories(
+        @User('id') id,
+        @Body() categories: Category[],
+    ) {
+        return await this.userService.subscribeToCategories(id, categories);
+    }
+
+    @ApiImplicitHeader({ name: 'authorization', required: true })
+    @Put('/update/me/unsubscribe')
+    async UnsubscribeFromCategories(
+        @User('id') id,
+        @Body() categories: Category[],
+    ) {
+        return await this.userService.UnsubscribeFromCategories(id, categories);
     }
 
 }

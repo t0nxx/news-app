@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, } from 'typeorm';
+import { Category } from 'src/category/category.entity';
 
 export enum UserRole {
     ADMIN = 'admin',
@@ -30,11 +31,13 @@ export class User {
     @Column({ default: Math.floor(100000 + Math.random() * 900000) })
     changePassCode: number;
 
-    // @OneToMany(type => Order, order => order.user)
-    // orders: Order[];
-
     @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
     role: UserRole;
+
+    /* start relations */
+    @ManyToMany(type => Category)
+    @JoinTable()
+    subscribed: Category[];
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;

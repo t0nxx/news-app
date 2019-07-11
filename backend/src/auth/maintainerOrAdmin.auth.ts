@@ -6,7 +6,7 @@ export class MaintainerOrAdminMiddleAuth implements NestMiddleware {
         if (!isLogedIn) {
             throw new UnauthorizedException('Not authorized');
         }
-        if (isLogedIn.data.role === 'admin' || isLogedIn.data.role === 'maintainer') {
+        if (isLogedIn.role === 'admin' || isLogedIn.role === 'maintainer') {
             next();
         } else {
             throw new UnauthorizedException('Not authorized');

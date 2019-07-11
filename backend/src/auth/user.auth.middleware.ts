@@ -16,7 +16,7 @@ export class UserAuthMiddleware implements NestMiddleware {
             const decode: any = await jwt.verify(token, process.env.JWTSECRET);
             const user = await this.userService.getOneUser(decode.id);
             if (!user) { throw new UnauthorizedException('Not authorized'); }
-            req['user'] = user; // req.user will not work with ts
+            req['user'] = user.data; // req.user will not work with ts
             next();
         } catch (error) {
             throw new UnauthorizedException('Not authorized');

@@ -7,12 +7,15 @@ import { UserUpdateDto } from './user.update.dto';
 import { hashSync } from 'bcryptjs';
 import { generateJwtToken } from 'src/shared/generate.jwt';
 import { PaginationDto } from 'src/shared/pagination.filter';
+import { Category } from 'src/category/category.entity';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+        @InjectRepository(Category)
+        private readonly categoryRepository: Repository<Category>,
     ) { }
 
     /* get all users */
@@ -28,20 +31,22 @@ export class UserService {
     }
 
     /* get one user */
-    async getOneUser(id: number) {
-        const findOne = await this.userRepository.findOne(id);
+    async getOneUser(userId: number) {
+        const findOne = await this.userRepository.findOne({ id: userId }, { relations: ['subscribed'] });
         if (!findOne) {
             throw new NotFoundException('invalid id');
         }
-        const { firstName, lastName, email, number, role } = findOne;
+        const { id, firstName, lastName, email, number, role, subscribed } = findOne;
         return {
             data: {
+                id,
                 firstName,
                 lastName,
                 email,
                 number,
                 joined: findOne.createdAt,
                 role,
+                subscribed,
             },
         };
     }
@@ -151,5 +156,31 @@ export class UserService {
         }
         await this.userRepository.save(findOne);
         return 'done role upgraded';
+    }
+
+    /* subscribe to categories */
+    async subscribeToCategories(id: number, categories: Category[]) {
+        const findOne = await this.userRepository.findOne(id, { relations: ['subscribed'] });
+        if (!findOne) {
+            throw new NotFoundException('invalid id');
+        }
+        const result = await this.categoryRepository.findByIds(categories);
+        findOne.subscribed.push(...result);
+        const subDone = await this.userRepository.save(findOne);
+        return 'subscribe Done';
+    }
+
+    /* subscribe to categories */
+    async UnsubscribeFromCategories(id: number, categories: Category[]) {
+        const findOne = await this.userRepository.findOne(id, { relations: ['subscribed'] });
+        if (!findOne) {
+            throw new NotFoundException('invalid id');
+        }
+        const result = await this.categoryRepository.findByIds(categories);
+
+        const filtered = findOne.subscribed.filter(element => !result.find(remove => remove.id == element.id));
+        findOne.subscribed = filtered;
+        const UnsubDone = await this.userRepository.save(findOne);
+        return 'Unsubscribe Done';
     }
 }

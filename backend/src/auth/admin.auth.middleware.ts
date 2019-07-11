@@ -6,7 +6,7 @@ export class AdminMiddleAuth implements NestMiddleware {
         if (!isLogedIn) {
             throw new UnauthorizedException('Not authorized');
         }
-        if (isLogedIn.data.role === 'admin') {
+        if (isLogedIn.role === 'admin') {
             next();
         } else {
             throw new UnauthorizedException('Not authorized');
