@@ -65,7 +65,7 @@ export class CategoryService {
             throw new NotFoundException('invalid id');
         }
         await this.categoryRepository.delete(id);
-        return 'done . category deleted';
+        return { data: 'done . category deleted' };
     }
 }
 

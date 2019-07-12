@@ -23,7 +23,7 @@ export class UserService {
         if (!paginate.page) { paginate.page = 1; }
         if (!paginate.limit) { paginate.limit = 10; }
         const [data, count] = await this.userRepository.findAndCount({
-            select: ['id', 'firstName', 'lastName', 'email', 'number', 'createdAt'],
+            select: ['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt'],
             take: paginate.limit,
             skip: paginate.page * (paginate.page - 1)
         });
@@ -155,7 +155,7 @@ export class UserService {
                 break;
         }
         await this.userRepository.save(findOne);
-        return 'done role upgraded';
+        return { data: 'done role upgraded' };
     }
 
     /* subscribe to categories */
@@ -167,7 +167,7 @@ export class UserService {
         const result = await this.categoryRepository.findByIds(categories);
         findOne.subscribed.push(...result);
         const subDone = await this.userRepository.save(findOne);
-        return 'subscribe Done';
+        return { data: 'subscribe Done' };
     }
 
     /* subscribe to categories */
@@ -181,6 +181,6 @@ export class UserService {
         const filtered = findOne.subscribed.filter(element => !result.find(remove => remove.id == element.id));
         findOne.subscribed = filtered;
         const UnsubDone = await this.userRepository.save(findOne);
-        return 'Unsubscribe Done';
+        return { data: 'Unsubscribe Done' };
     }
 }

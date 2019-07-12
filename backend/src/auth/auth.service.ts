@@ -25,6 +25,7 @@ export class AuthService {
                 lastName: user.lastName,
                 email: user.email,
                 number: user.number,
+                role: user.role,
             },
             token: await generateJwtToken({
                 id: user.id,

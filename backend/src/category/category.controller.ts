@@ -1,9 +1,10 @@
-import { Controller, Get, Query, Post, Body, Put, Param, ParseIntPipe, Delete } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Put, Param, ParseIntPipe, Delete, Res } from '@nestjs/common';
 import { ApiUseTags, ApiImplicitHeader, ApiImplicitParam } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CategoryDto } from './category.dto';
 import { PaginationDto } from '../shared/pagination.filter';
 import { CategoryUpdateDto } from './category.update.dto';
+
 
 @ApiUseTags('categories')
 @Controller('categories')
@@ -26,6 +27,7 @@ export class CategoryController {
     @ApiImplicitHeader({ name: 'authorization', required: true })
     @Post('/new')
     async createNewUser(@Body() cate: CategoryDto) {
+        console.log(cate);
         return this.categoryService.createNewcategory(cate);
     }
 
@@ -36,6 +38,7 @@ export class CategoryController {
         @Param('id', new ParseIntPipe()) id,
         @Body() cate: CategoryUpdateDto,
     ) {
+        console.log(cate);
         return this.categoryService.updatecategory(id, cate);
     }
 

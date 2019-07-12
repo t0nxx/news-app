@@ -20,6 +20,6 @@ export class CategoryModule implements NestModule {
         { path: 'categories', method: RequestMethod.GET },
         { path: 'categories/getOne/:id', method: RequestMethod.GET },
       )
-      .forRoutes(CategoryController);
+      // .forRoutes(CategoryController);
   }
 }

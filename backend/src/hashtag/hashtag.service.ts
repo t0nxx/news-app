@@ -65,6 +65,6 @@ export class HashtagService {
             throw new NotFoundException('invalid id');
         }
         await this.hashTagRepository.delete(id);
-        return 'done . hashTag deleted';
+        return { data: 'done . hashTag deleted' };
     }
 }

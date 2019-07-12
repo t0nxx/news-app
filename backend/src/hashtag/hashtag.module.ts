@@ -20,6 +20,6 @@ export class HashtagModule implements NestModule {
         { path: 'hashtags', method: RequestMethod.GET },
         { path: 'hashtags/getOne/:id', method: RequestMethod.GET },
       )
-      .forRoutes(HashtagController);
+      // .forRoutes(HashtagController);
   }
 }
