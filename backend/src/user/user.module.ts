@@ -20,9 +20,9 @@ export class UserModule implements NestModule {
       .forRoutes(
         { path: 'users/me', method: RequestMethod.GET },
         { path: 'users/update/me', method: RequestMethod.PUT },
-        { path: 'users/delete/me', method: RequestMethod.DELETE } ,
-        { path: 'users/update/me/subscribe', method: RequestMethod.POST } ,
-        { path: 'users/update/me/unsubscribe', method: RequestMethod.POST } ,
+        { path: 'users/delete/me', method: RequestMethod.DELETE },
+        { path: 'users/update/me/subscribe', method: RequestMethod.PUT },
+        { path: 'users/update/me/unsubscribe', method: RequestMethod.PUT } ,
       );
     consumer
       .apply(UserAuthMiddleware, AdminMiddleAuth)
