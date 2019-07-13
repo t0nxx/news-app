@@ -21,6 +21,7 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("../user/user.service");
 const jwt = require("jsonwebtoken");
 const dotenv_1 = require("dotenv");
+const jwt_1 = require("../config/jwt");
 dotenv_1.config();
 let UserAuthMiddleware = class UserAuthMiddleware {
     constructor(userService) {
@@ -33,7 +34,7 @@ let UserAuthMiddleware = class UserAuthMiddleware {
                 throw new common_1.UnauthorizedException('Not authorized');
             }
             try {
-                const decode = yield jwt.verify(token, process.env.JWTSECRET);
+                const decode = yield jwt.verify(token, jwt_1.JWTSECRET);
                 const user = yield this.userService.getOneUser(decode.id);
                 if (!user) {
                     throw new common_1.UnauthorizedException('Not authorized');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Datagrid, TextField, DateField, Create, Edit, SimpleForm, TextInput, DisabledInput } from 'react-admin';
+import { List, Datagrid, TextField, DateField, Create, Edit, SimpleForm, TextInput, DisabledInput, EditButton, DeleteButton } from 'react-admin';
 
 export const HashTagList = props => (
     <List {...props}>
@@ -8,6 +8,8 @@ export const HashTagList = props => (
             <TextField source="name" />
             <DateField source="createdAt" />
             <DateField source="updatedAt" />
+            <EditButton basePath="/hashTags" />
+            <DeleteButton basePath="/hashTags" />
         </Datagrid>
     </List>
 );

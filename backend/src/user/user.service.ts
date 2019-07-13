@@ -23,7 +23,7 @@ export class UserService {
         if (!paginate.page) { paginate.page = 1; }
         if (!paginate.limit) { paginate.limit = 10; }
         const [data, count] = await this.userRepository.findAndCount({
-            select: ['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt'],
+            select: ['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt'],
             take: paginate.limit,
             skip: paginate.page * (paginate.page - 1)
         });
@@ -143,19 +143,21 @@ export class UserService {
         if (!findOne) {
             throw new NotFoundException('invalid id');
         }
+        let role;
         switch (newRole) {
-            case 'ADMIN':
-                findOne.role = UserRole.ADMIN;
+            case 'admin':
+                role = UserRole.ADMIN;
                 break;
-            case 'MAINTAINER':
-                findOne.role = UserRole.MAINTAINER;
+            case 'maintainer':
+                role = UserRole.MAINTAINER;
                 break;
             default:
-                findOne.role = UserRole.USER;
+                role = UserRole.USER;
                 break;
         }
-        await this.userRepository.save(findOne);
-        return { data: 'done role upgraded' };
+        await this.userRepository.update({ id: findOne.id }, { role });
+        const updated = await this.userRepository.findOne(id);
+        return { data: updated };
     }
 
     /* subscribe to categories */

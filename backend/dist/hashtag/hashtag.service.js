@@ -81,7 +81,7 @@ let HashtagService = class HashtagService {
                 throw new common_1.NotFoundException('invalid id');
             }
             yield this.hashTagRepository.delete(id);
-            return 'done . hashTag deleted';
+            return { data: 'done . hashTag deleted' };
         });
     }
 };

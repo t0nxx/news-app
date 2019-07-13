@@ -26,9 +26,9 @@ export class UserModule implements NestModule {
       );
     consumer
       .apply(UserAuthMiddleware, AdminMiddleAuth)
-      // .forRoutes(
-      //   { path: 'users', method: RequestMethod.GET },
-      //   { path: 'users/promote', method: RequestMethod.GET },
-      // );
+      .forRoutes(
+        { path: 'users', method: RequestMethod.GET },
+        { path: 'users/promote', method: RequestMethod.PUT },
+      );
   }
 }

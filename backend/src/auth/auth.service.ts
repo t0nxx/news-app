@@ -35,4 +35,30 @@ export class AuthService {
         };
 
     }
+    /* admin & maintainer login */
+    async adminEmailLogin(emailDto: EmailLoginDto): Promise<any> {
+        const user = await this.userRepository.findOne({ email: emailDto.email });
+        if (!user) { throw new BadRequestException('invalid email / password'); }
+
+        const checkPass = await bcrypt.compareSync(emailDto.password, user.password);
+        if (!checkPass) { throw new BadRequestException('invalid email / password'); }
+        /* check if admin or maintainer */
+        if (user.role === 'user') { throw new BadRequestException('invalid email / password'); }
+        return {
+            data: {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                number: user.number,
+                role: user.role,
+            },
+            token: await generateJwtToken({
+                id: user.id,
+                email: user.email,
+                changePassCode: user.changePassCode,
+            }),
+        };
+
+    }
 }

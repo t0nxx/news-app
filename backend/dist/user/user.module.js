@@ -18,10 +18,10 @@ let UserModule = class UserModule {
     configure(consumer) {
         consumer
             .apply(user_auth_middleware_1.UserAuthMiddleware)
-            .forRoutes({ path: 'users/me', method: common_1.RequestMethod.GET }, { path: 'users/update/me', method: common_1.RequestMethod.PUT }, { path: 'users/delete/me', method: common_1.RequestMethod.DELETE }, { path: 'users/update/me/subscribe', method: common_1.RequestMethod.POST }, { path: 'users/update/me/unsubscribe', method: common_1.RequestMethod.POST });
+            .forRoutes({ path: 'users/me', method: common_1.RequestMethod.GET }, { path: 'users/update/me', method: common_1.RequestMethod.PUT }, { path: 'users/delete/me', method: common_1.RequestMethod.DELETE }, { path: 'users/update/me/subscribe', method: common_1.RequestMethod.PUT }, { path: 'users/update/me/unsubscribe', method: common_1.RequestMethod.PUT });
         consumer
             .apply(user_auth_middleware_1.UserAuthMiddleware, admin_auth_middleware_1.AdminMiddleAuth)
-            .forRoutes({ path: 'users', method: common_1.RequestMethod.GET }, { path: 'users/promote', method: common_1.RequestMethod.GET });
+            .forRoutes({ path: 'users', method: common_1.RequestMethod.GET }, { path: 'users/promote', method: common_1.RequestMethod.PUT });
     }
 };
 UserModule = __decorate([

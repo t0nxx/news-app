@@ -8,8 +8,8 @@ import {
     GET_MANY_REFERENCE,
 } from 'react-admin';
 
-
-const apiUrl = 'http://localhost:3001';
+// const apiUrl = 'http://localhost:3001';
+const apiUrl = 'http://ec2-35-168-9-164.compute-1.amazonaws.com:3001';
 
 /**
  * Maps react-admin queries to my REST API
@@ -21,10 +21,12 @@ const apiUrl = 'http://localhost:3001';
  */
 export default (type, resource, params) => {
     let url = '';
+    const token = localStorage.getItem('token');
     const options = {
         headers: new Headers({
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: token
         }),
     };
     switch (type) {
@@ -51,10 +53,13 @@ export default (type, resource, params) => {
             url = `${apiUrl}/${resource}/new`;
             options.method = 'POST';
             options.body = JSON.stringify(params.data);
-            console.log(options.body);
             break;
         case UPDATE:
             url = `${apiUrl}/${resource}/update/${params.id}`;
+            if (resource === 'users') {
+                url = `${apiUrl}/${resource}/promote/${params.id}`;
+            }
+
             options.method = 'PUT';
             options.body = JSON.stringify(params.data);
             break;
@@ -96,6 +101,9 @@ export default (type, resource, params) => {
                     console.log(json);
                     return { data: { ...params.data, id: json.data.id } };
                 case GET_ONE:
+                    console.log(json);
+                    return { data: json.data };
+                case UPDATE:
                     console.log(json);
                     return { data: json.data };
                 case DELETE:

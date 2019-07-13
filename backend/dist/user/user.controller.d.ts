@@ -19,6 +19,18 @@ export declare class UserController {
             subscribed: Category[];
         };
     }>;
+    getMe(id: any): Promise<{
+        data: {
+            id: number;
+            firstName: string;
+            lastName: string;
+            email: string;
+            number: string;
+            joined: Date;
+            role: import("./user.entity").UserRole;
+            subscribed: Category[];
+        };
+    }>;
     createNewUser(userDto: UserDto): Promise<{
         data: {
             id: number;
@@ -32,7 +44,13 @@ export declare class UserController {
     }>;
     updateUser(id: any, updateUserDto: UserUpdateDto): Promise<any>;
     deletPie(id: any): Promise<string>;
-    promoteUserLevel(id: any, role: string): Promise<string>;
-    subscribeToCategories(id: any, categories: Category[]): Promise<string>;
-    UnsubscribeFromCategories(id: any, categories: Category[]): Promise<string>;
+    promoteUserLevel(id: any, role: string): Promise<{
+        data: import("./user.entity").User;
+    }>;
+    subscribeToCategories(id: any, categories: Category[]): Promise<{
+        data: string;
+    }>;
+    UnsubscribeFromCategories(id: any, categories: Category[]): Promise<{
+        data: string;
+    }>;
 }

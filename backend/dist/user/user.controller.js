@@ -41,6 +41,11 @@ let UserController = class UserController {
             return this.userService.getOneUser(id);
         });
     }
+    getMe(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.userService.getOneUser(id);
+        });
+    }
     createNewUser(userDto) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.userService.createNewUser(userDto);
@@ -82,12 +87,20 @@ __decorate([
 ], UserController.prototype, "getAllUsers", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    common_1.Get('/getOne/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getOneUser", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     common_1.Get('/me'),
     __param(0, user_decorator_1.User('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "getOneUser", null);
+], UserController.prototype, "getMe", null);
 __decorate([
     common_1.Post('/new'),
     __param(0, common_1.Body()),
@@ -117,9 +130,9 @@ __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitQuery({ name: 'id', type: 'number', required: true }),
     swagger_1.ApiImplicitQuery({ name: 'role', enum: ['ADMIN', 'MAINTAINER', 'USER'], required: true }),
-    common_1.Get('/promote'),
-    __param(0, common_1.Query('id', new common_1.ParseIntPipe())),
-    __param(1, common_1.Query('role')),
+    common_1.Put('/promote/:id'),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(1, common_1.Body('role')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)

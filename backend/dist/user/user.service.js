@@ -41,7 +41,7 @@ let UserService = class UserService {
                 paginate.limit = 10;
             }
             const [data, count] = yield this.userRepository.findAndCount({
-                select: ['id', 'firstName', 'lastName', 'email', 'number', 'createdAt'],
+                select: ['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt'],
                 take: paginate.limit,
                 skip: paginate.page * (paginate.page - 1)
             });
@@ -155,19 +155,21 @@ let UserService = class UserService {
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
+            let role;
             switch (newRole) {
-                case 'ADMIN':
-                    findOne.role = user_entity_1.UserRole.ADMIN;
+                case 'admin':
+                    role = user_entity_1.UserRole.ADMIN;
                     break;
-                case 'MAINTAINER':
-                    findOne.role = user_entity_1.UserRole.MAINTAINER;
+                case 'maintainer':
+                    role = user_entity_1.UserRole.MAINTAINER;
                     break;
                 default:
-                    findOne.role = user_entity_1.UserRole.USER;
+                    role = user_entity_1.UserRole.USER;
                     break;
             }
-            yield this.userRepository.save(findOne);
-            return 'done role upgraded';
+            yield this.userRepository.update({ id: findOne.id }, { role });
+            const updated = yield this.userRepository.findOne(id);
+            return { data: updated };
         });
     }
     subscribeToCategories(id, categories) {
@@ -179,7 +181,7 @@ let UserService = class UserService {
             const result = yield this.categoryRepository.findByIds(categories);
             findOne.subscribed.push(...result);
             const subDone = yield this.userRepository.save(findOne);
-            return 'subscribe Done';
+            return { data: 'subscribe Done' };
         });
     }
     UnsubscribeFromCategories(id, categories) {
@@ -192,7 +194,7 @@ let UserService = class UserService {
             const filtered = findOne.subscribed.filter(element => !result.find(remove => remove.id == element.id));
             findOne.subscribed = filtered;
             const UnsubDone = yield this.userRepository.save(findOne);
-            return 'Unsubscribe Done';
+            return { data: 'Unsubscribe Done' };
         });
     }
 };

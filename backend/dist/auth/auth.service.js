@@ -47,6 +47,37 @@ let AuthService = class AuthService {
                     lastName: user.lastName,
                     email: user.email,
                     number: user.number,
+                    role: user.role,
+                },
+                token: yield generate_jwt_1.generateJwtToken({
+                    id: user.id,
+                    email: user.email,
+                    changePassCode: user.changePassCode,
+                }),
+            };
+        });
+    }
+    adminEmailLogin(emailDto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.userRepository.findOne({ email: emailDto.email });
+            if (!user) {
+                throw new common_1.BadRequestException('invalid email / password');
+            }
+            const checkPass = yield bcrypt.compareSync(emailDto.password, user.password);
+            if (!checkPass) {
+                throw new common_1.BadRequestException('invalid email / password');
+            }
+            if (user.role === 'user') {
+                throw new common_1.BadRequestException('invalid email / password');
+            }
+            return {
+                data: {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    number: user.number,
+                    role: user.role,
                 },
                 token: yield generate_jwt_1.generateJwtToken({
                     id: user.id,

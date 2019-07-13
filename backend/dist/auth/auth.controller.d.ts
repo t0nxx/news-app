@@ -4,4 +4,5 @@ export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
     emailLogin(emailDto: EmailLoginDto): Promise<any>;
+    adminLogin(emailDto: EmailLoginDto): Promise<any>;
 }

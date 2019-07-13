@@ -1,4 +1,4 @@
-import { Controller, Get, Body, ParseIntPipe, Post, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Body, ParseIntPipe, Post, Put, Delete, Query, Param } from '@nestjs/common';
 import { ApiUseTags, ApiImplicitParam, ApiImplicitHeader, ApiImplicitQuery } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserDto } from './user.dto';
@@ -21,8 +21,14 @@ export class UserController {
     }
 
     @ApiImplicitHeader({ name: 'authorization', required: true })
+    @Get('/getOne/:id')
+    async getOneUser(@Param('id') id) {
+        return this.userService.getOneUser(id);
+    }
+
+    @ApiImplicitHeader({ name: 'authorization', required: true })
     @Get('/me')
-    async getOneUser(@User('id') id) {
+    async getMe(@User('id') id) {
         return this.userService.getOneUser(id);
     }
 
@@ -50,10 +56,10 @@ export class UserController {
     @ApiImplicitHeader({ name: 'authorization', required: true })
     @ApiImplicitQuery({ name: 'id', type: 'number', required: true })
     @ApiImplicitQuery({ name: 'role', enum: ['ADMIN', 'MAINTAINER', 'USER'], required: true })
-    @Get('/promote')
+    @Put('/promote/:id')
     async promoteUserLevel(
-        @Query('id', new ParseIntPipe()) id,
-        @Query('role') role: string,
+        @Param('id', new ParseIntPipe()) id,
+        @Body('role') role: string,
     ) {
         return this.userService.promoteUserLevel(id, role);
     }

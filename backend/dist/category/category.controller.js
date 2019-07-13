@@ -42,11 +42,13 @@ let CategoryController = class CategoryController {
     }
     createNewUser(cate) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(cate);
             return this.categoryService.createNewcategory(cate);
         });
     }
     updateCategory(id, cate) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(cate);
             return this.categoryService.updatecategory(id, cate);
         });
     }

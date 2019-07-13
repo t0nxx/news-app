@@ -81,7 +81,7 @@ let CategoryService = class CategoryService {
                 throw new common_1.NotFoundException('invalid id');
             }
             yield this.categoryRepository.delete(id);
-            return 'done . category deleted';
+            return { data: 'done . category deleted' };
         });
     }
 };

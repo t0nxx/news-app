@@ -33,6 +33,11 @@ let AuthController = class AuthController {
             return this.authService.emailLogin(emailDto);
         });
     }
+    adminLogin(emailDto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.authService.adminEmailLogin(emailDto);
+        });
+    }
 };
 __decorate([
     common_1.Post('/login'),
@@ -41,6 +46,13 @@ __decorate([
     __metadata("design:paramtypes", [login_dto_1.EmailLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "emailLogin", null);
+__decorate([
+    common_1.Post('/login/admin'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [login_dto_1.EmailLoginDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "adminLogin", null);
 AuthController = __decorate([
     swagger_1.ApiUseTags('auth'),
     common_1.Controller('auth'),

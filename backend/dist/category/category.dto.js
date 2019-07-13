@@ -16,7 +16,7 @@ class CategoryDto {
 __decorate([
     swagger_1.ApiModelProperty(),
     class_validator_1.IsNotEmpty(),
-    class_validator_1.IsAlphanumeric(),
+    class_validator_1.IsString(),
     __metadata("design:type", String)
 ], CategoryDto.prototype, "name", void 0);
 exports.CategoryDto = CategoryDto;

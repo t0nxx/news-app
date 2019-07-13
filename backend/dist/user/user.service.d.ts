@@ -34,7 +34,13 @@ export declare class UserService {
     }>;
     updateUser(id: number, updateUser: UserUpdateDto): Promise<any>;
     deletUser(id: number): Promise<string>;
-    promoteUserLevel(id: number, newRole: string): Promise<string>;
-    subscribeToCategories(id: number, categories: Category[]): Promise<string>;
-    UnsubscribeFromCategories(id: number, categories: Category[]): Promise<string>;
+    promoteUserLevel(id: number, newRole: string): Promise<{
+        data: User;
+    }>;
+    subscribeToCategories(id: number, categories: Category[]): Promise<{
+        data: string;
+    }>;
+    UnsubscribeFromCategories(id: number, categories: Category[]): Promise<{
+        data: string;
+    }>;
 }
