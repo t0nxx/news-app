@@ -11,14 +11,6 @@ import {
 // const apiUrl = 'http://localhost:3001';
 const apiUrl = 'http://ec2-35-168-9-164.compute-1.amazonaws.com:3001';
 
-/**
- * Maps react-admin queries to my REST API
- *
- * @param {string} type Request type, e.g GET_LIST
- * @param {string} resource Resource name, e.g. "posts"
- * @param {Object} payload Request parameters. Depends on the request type
- * @returns {Promise} the Promise for a data response
- */
 export default (type, resource, params) => {
     let url = '';
     const token = localStorage.getItem('token');
@@ -32,17 +24,15 @@ export default (type, resource, params) => {
     switch (type) {
         case GET_LIST: {
             const { page, perPage } = params.pagination;
-            // const { field, order } = params.sort;
+            const { field, order } = params.sort;
             const query = {
-                // sort: JSON.stringify([field, order]),
-                // range: JSON.stringify([
-                //     (page - 1) * perPage,
-                //     page * perPage - 1,
-                // ]),
                 page: page,
                 limit: perPage,
-                filter: JSON.stringify(params.filter),
+                query: params.filter.query,
+                order: order,
+                sortField: field
             };
+            console.log(params);
             url = `${apiUrl}/${resource}?${stringify(query)}`;
             break;
         }
@@ -80,22 +70,10 @@ export default (type, resource, params) => {
             switch (type) {
                 case GET_LIST:
                 case GET_MANY_REFERENCE:
-                    // if (!headers.has('content-range')) {
-                    //     throw new Error(
-                    //         'The Content-Range header is missing in the HTTP Response. The simple REST data provider expects responses for lists of resources to contain this header with the total number of results to build the pagination. If you are using CORS, did you declare Content-Range in the Access-Control-Expose-Headers header?'
-                    //     );
-                    // }
                     console.log(json);
                     return {
                         data: json.data,
                         total: json.count
-                        // total: parseInt(
-                        //     headers
-                        //         .get('content-range')
-                        //         .split('/')
-                        //         .pop(),
-                        //     5
-                        // ),
                     };
                 case CREATE:
                     console.log(json);

@@ -1,8 +1,9 @@
 import React from 'react';
-import { List, Datagrid, TextField, DateField, Create, Edit, SimpleForm, TextInput, DisabledInput, EditButton, DeleteButton } from 'react-admin';
+import { List, Datagrid, TextField, DateField, Create, Edit, SimpleForm, TextInput, DisabledInput, EditButton, DeleteButton, } from 'react-admin';
+import { SearchFilter } from '../shared/serachFilter';
 
 export const CategoryList = props => (
-    <List {...props}>
+    <List filters={<SearchFilter />} {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />

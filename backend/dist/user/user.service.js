@@ -27,6 +27,7 @@ const typeorm_2 = require("typeorm");
 const bcryptjs_1 = require("bcryptjs");
 const generate_jwt_1 = require("../shared/generate.jwt");
 const category_entity_1 = require("../category/category.entity");
+const QueryOrderFormat_1 = require("../shared/QueryOrderFormat");
 let UserService = class UserService {
     constructor(userRepository, categoryRepository) {
         this.userRepository = userRepository;
@@ -34,17 +35,10 @@ let UserService = class UserService {
     }
     getAllUsers(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!paginate.page) {
-                paginate.page = 1;
-            }
-            if (!paginate.limit) {
-                paginate.limit = 10;
-            }
-            const [data, count] = yield this.userRepository.findAndCount({
-                select: ['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt'],
-                take: paginate.limit,
-                skip: paginate.page * (paginate.page - 1)
-            });
+            const q = this.userRepository.createQueryBuilder();
+            q.addSelect(['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt']);
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['email', 'role', 'number', 'firstName']);
+            const [data, count] = yield qAfterFormat.getManyAndCount();
             return { data, count };
         });
     }

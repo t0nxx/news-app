@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { PaginationDto } from '../shared/pagination.filter';
 import { HashTagDto } from './hashtag.dto';
 import { HashTagUpdateDto } from './hashtag.update.dto';
+import { FormatQueryOrderAndPagination } from '../shared/QueryOrderFormat';
 
 @Injectable()
 export class HashtagService {
@@ -15,12 +16,9 @@ export class HashtagService {
 
     /* get all Hashtags */
     async getAllHashtags(paginate: PaginationDto): Promise<any> {
-        if (!paginate.page) { paginate.page = 1; }
-        if (!paginate.limit) { paginate.limit = 10; }
-        const [data, count] = await this.hashTagRepository.findAndCount({
-            take: paginate.limit,
-            skip: paginate.page * (paginate.page - 1),
-        });
+        const q = this.hashTagRepository.createQueryBuilder();
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['name']);
+        const [data, count] = await qAfterFormat.getManyAndCount();
         return { data, count };
     }
 

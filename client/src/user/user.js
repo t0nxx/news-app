@@ -1,9 +1,10 @@
 import React from 'react';
 import { List, Datagrid, TextField, DateField, EmailField, Create, Edit, SimpleForm, TextInput, SelectInput, DisabledInput, EditButton } from 'react-admin';
+import { SearchFilter } from '../shared/serachFilter';
 //ArrayField,Create, Edit, SimpleForm, TextInput, DisabledInput,SelectField
 
 export const UserList = props => (
-    <List {...props}>
+    <List filters={<SearchFilter />}{...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="firstName" />

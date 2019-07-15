@@ -24,22 +24,16 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const hashtage_entity_1 = require("./hashtage.entity");
 const typeorm_2 = require("typeorm");
+const QueryOrderFormat_1 = require("../shared/QueryOrderFormat");
 let HashtagService = class HashtagService {
     constructor(hashTagRepository) {
         this.hashTagRepository = hashTagRepository;
     }
     getAllHashtags(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!paginate.page) {
-                paginate.page = 1;
-            }
-            if (!paginate.limit) {
-                paginate.limit = 10;
-            }
-            const [data, count] = yield this.hashTagRepository.findAndCount({
-                take: paginate.limit,
-                skip: paginate.page * (paginate.page - 1),
-            });
+            const q = this.hashTagRepository.createQueryBuilder();
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['name']);
+            const [data, count] = yield qAfterFormat.getManyAndCount();
             return { data, count };
         });
     }

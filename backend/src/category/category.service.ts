@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { PaginationDto } from '../shared/pagination.filter';
 import { CategoryDto } from './category.dto';
 import { CategoryUpdateDto } from './category.update.dto';
+import { FormatQueryOrderAndPagination } from '../shared/QueryOrderFormat';
 
 @Injectable()
 export class CategoryService {
@@ -15,12 +16,9 @@ export class CategoryService {
 
     /* get all Categories */
     async getAllCategories(paginate: PaginationDto): Promise<any> {
-        if (!paginate.page) { paginate.page = 1; }
-        if (!paginate.limit) { paginate.limit = 10; }
-        const [data, count] = await this.categoryRepository.findAndCount({
-            take: paginate.limit,
-            skip: paginate.page * (paginate.page - 1),
-        });
+        const q = this.categoryRepository.createQueryBuilder();
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['name']);
+        const [data, count] = await qAfterFormat.getManyAndCount();
         return { data, count };
     }
 

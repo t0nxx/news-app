@@ -12,6 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const class_transformer_1 = require("class-transformer");
+var orderEnum;
+(function (orderEnum) {
+    orderEnum["ASC"] = "ASC";
+    orderEnum["DESC"] = "DESC";
+})(orderEnum = exports.orderEnum || (exports.orderEnum = {}));
 class PaginationDto {
 }
 __decorate([
@@ -26,5 +31,20 @@ __decorate([
     class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], PaginationDto.prototype, "page", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], PaginationDto.prototype, "query", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], PaginationDto.prototype, "sortField", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], PaginationDto.prototype, "order", void 0);
 exports.PaginationDto = PaginationDto;
 //# sourceMappingURL=pagination.filter.js.map

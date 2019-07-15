@@ -1,6 +1,11 @@
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, Min } from 'class-validator';
+import { IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
+
+export enum orderEnum {
+    ASC = 'ASC',
+    DESC = 'DESC',
+}
 export class PaginationDto {
 
     @ApiModelPropertyOptional()
@@ -12,5 +17,17 @@ export class PaginationDto {
     @Transform(id => parseInt(id))
     @IsOptional()
     page: number;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    query: string;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    sortField: string;
+
+    @ApiModelPropertyOptional()
+    @IsOptional()
+    order: orderEnum;
 
 }

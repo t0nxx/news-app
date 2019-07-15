@@ -24,22 +24,16 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const category_entity_1 = require("./category.entity");
 const typeorm_2 = require("typeorm");
+const QueryOrderFormat_1 = require("../shared/QueryOrderFormat");
 let CategoryService = class CategoryService {
     constructor(categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
     getAllCategories(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!paginate.page) {
-                paginate.page = 1;
-            }
-            if (!paginate.limit) {
-                paginate.limit = 10;
-            }
-            const [data, count] = yield this.categoryRepository.findAndCount({
-                take: paginate.limit,
-                skip: paginate.page * (paginate.page - 1),
-            });
+            const q = this.categoryRepository.createQueryBuilder();
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['name']);
+            const [data, count] = yield qAfterFormat.getManyAndCount();
             return { data, count };
         });
     }

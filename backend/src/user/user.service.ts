@@ -8,6 +8,7 @@ import { hashSync } from 'bcryptjs';
 import { generateJwtToken } from '../shared/generate.jwt';
 import { PaginationDto } from '../shared/pagination.filter';
 import { Category } from '../category/category.entity';
+import { FormatQueryOrderAndPagination } from '../shared/QueryOrderFormat';
 
 @Injectable()
 export class UserService {
@@ -20,13 +21,10 @@ export class UserService {
 
     /* get all users */
     async getAllUsers(paginate: PaginationDto): Promise<any> {
-        if (!paginate.page) { paginate.page = 1; }
-        if (!paginate.limit) { paginate.limit = 10; }
-        const [data, count] = await this.userRepository.findAndCount({
-            select: ['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt'],
-            take: paginate.limit,
-            skip: paginate.page * (paginate.page - 1)
-        });
+        const q = this.userRepository.createQueryBuilder();
+        q.addSelect(['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt']);
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['email', 'role', 'number', 'firstName']);
+        const [data, count] = await qAfterFormat.getManyAndCount();
         return { data, count };
     }
 
