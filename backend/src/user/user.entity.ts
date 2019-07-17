@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, OneToMany, } from 'typeorm';
 import { Category } from '../category/category.entity';
+import { Post } from '../post/post.entity';
 
 export enum UserRole {
     ADMIN = 'admin',
@@ -38,6 +39,9 @@ export class User {
     @ManyToMany(type => Category)
     @JoinTable()
     subscribed: Category[];
+
+    @OneToMany(type => Post, post => post.user)
+    posts: Post[];
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;
