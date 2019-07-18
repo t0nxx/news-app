@@ -46,6 +46,13 @@ export class PostController {
         return this.postService.createNewPost(id, post);
     }
 
+    @ApiImplicitHeader({ name: 'authorization', required: true })
+    @Get('/mySubscriptions')
+    async getPostsOfMySubscription(
+        @User('id') id,
+        @Query() paginate: PaginationDto) {
+        return this.postService.getPostsOfMySubscription(id, paginate);
+    }
     // @ApiImplicitHeader({ name: 'authorization', required: true })
     // @ApiImplicitParam({ name: 'id' })
     // @Put('/update/:id')

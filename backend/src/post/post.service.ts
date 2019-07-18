@@ -46,6 +46,26 @@ export class PostService {
         return { data, count };
     }
 
+
+    /* get my Subscription */
+    async getPostsOfMySubscription(userId: number, paginate: any): Promise<any> {
+        const findOne = await this.userRepository.findOne({ id: userId }, { relations: ['subscribed'] });
+        if (!findOne) {
+            throw new NotFoundException('invalid id');
+        }
+        // destruct categories id in one array
+        const ids = findOne.subscribed.map(cate => cate.id);
+
+        const q = this.PostRepository.createQueryBuilder('post');
+        q.leftJoinAndSelect('post.categories', 'categories', `categories.id IN (${ids})`)
+            .orderBy('post_id', 'DESC');
+
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['content']);
+        const [data, count] = await qAfterFormat.getManyAndCount();
+        return { data, count };
+    }
+
+
     /* get one Post */
     async getOnePost(id: number) {
         const findOne = await this.PostRepository.findOne(id);
