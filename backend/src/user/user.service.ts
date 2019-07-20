@@ -21,9 +21,9 @@ export class UserService {
 
     /* get all users */
     async getAllUsers(paginate: PaginationDto): Promise<any> {
-        const q = this.userRepository.createQueryBuilder();
-        q.addSelect(['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt']);
-        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['email', 'role', 'number', 'firstName']);
+        const q = this.userRepository.createQueryBuilder('user');
+        q.select(['user.id', 'user.fullName', 'user.email', 'user.number', 'user.role', 'user.createdAt', 'user.updatedAt']);
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['email', 'role', 'number', 'fullName']);
         const [data, count] = await qAfterFormat.getManyAndCount();
         return { data, count };
     }
@@ -34,12 +34,11 @@ export class UserService {
         if (!findOne) {
             throw new NotFoundException('invalid id');
         }
-        const { id, firstName, lastName, email, number, role, subscribed } = findOne;
+        const { id, fullName, email, number, role, subscribed } = findOne;
         return {
             data: {
                 id,
-                firstName,
-                lastName,
+                fullName,
                 email,
                 number,
                 joined: findOne.createdAt,
@@ -63,8 +62,7 @@ export class UserService {
             return {
                 data: {
                     id: saveUser.id,
-                    firstName: saveUser.firstName,
-                    lastName: saveUser.lastName,
+                    fullName: saveUser.fullName,
                     email: saveUser.email,
                     number: saveUser.number,
                     joined: saveUser.createdAt,
@@ -101,12 +99,11 @@ export class UserService {
 
             await this.userRepository.update({ id: findOne.id }, updateUser);
             const updated = await this.userRepository.findOne(id);
-            const { firstName, lastName, email, number, changePassCode } = updated;
+            const { fullName, email, number, changePassCode } = updated;
 
             return {
                 data: {
-                    firstName,
-                    lastName,
+                    fullName,
                     email,
                     number,
                     joined: findOne.createdAt,

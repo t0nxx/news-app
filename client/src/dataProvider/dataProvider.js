@@ -8,8 +8,8 @@ import {
     GET_MANY_REFERENCE,
 } from 'react-admin';
 
-// const apiUrl = 'http://localhost:3001';
-const apiUrl = 'http://ec2-35-168-9-164.compute-1.amazonaws.com:3001';
+const apiUrl = 'http://localhost:3001';
+// const apiUrl = 'http://ec2-35-168-9-164.compute-1.amazonaws.com:3001';
 
 export default (type, resource, params) => {
     let url = '';

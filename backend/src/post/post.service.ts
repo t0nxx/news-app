@@ -26,8 +26,8 @@ export class PostService {
         q.leftJoinAndSelect('post.categories', 'categories');
         q.leftJoinAndSelect('post.tags', 'tags');
         q.innerJoin('post.user', 'user');
-        q.addSelect(['user.id', 'user.firstName', 'user.lastName']);
-        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['content']);
+        q.addSelect(['user.id', 'user.fullName']);
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['content'], 'post');
 
         /* http ****** ?tag= */
         if (paginate.tag) {

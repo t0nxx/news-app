@@ -17,6 +17,7 @@ import authProvider from './auth/authProvider';
 import { CategoryList, CategoryCreate, CategoryEdit } from './category/categories';
 import { HashTagList, HashTagCreate, HashTagEdit } from './hashTag/hashTags';
 import { UserList, UserEdit, UserCreate } from './user/user';
+import { PostList, PostCreate, PostEdit } from './post/post';
 /* dashboard modules end */
 
 const App = () => (
@@ -27,7 +28,7 @@ const App = () => (
         : null,
       <Resource name="categories" list={CategoryList} create={CategoryCreate} edit={CategoryEdit} />,
       <Resource name="hashTags" list={HashTagList} create={HashTagCreate} edit={HashTagEdit} icon={ListIcon} />,
-      <Resource name="posts" icon={PostIcon} />,
+      <Resource name="posts" list={PostList} create={PostCreate} edit={PostEdit} icon={PostIcon} />,
       <Resource name="comments" icon={CommentIcon} />,
       <Resource name="reports" icon={ReportIcon} />
 

@@ -1,6 +1,6 @@
 import { PaginationDto } from './pagination.filter';
 
-export const FormatQueryOrderAndPagination = (paginate: PaginationDto, q: any, searchIn: string[]) => {
+export const FormatQueryOrderAndPagination = (paginate: PaginationDto, q: any, searchIn: string[], prefix?: string) => {
     if (!paginate.page) { paginate.page = 1; }
     if (!paginate.limit) { paginate.limit = 10; }
     q.take(paginate.limit);
@@ -13,8 +13,14 @@ export const FormatQueryOrderAndPagination = (paginate: PaginationDto, q: any, s
         });
 
     }
+    /* add prefix for post_id , user_name ...etc in joining*/
     if (paginate.order) {
-        q.addOrderBy(paginate.sortField, paginate.order);
+        if (prefix) {
+            q.addOrderBy(`${prefix}_${paginate.sortField}`, paginate.order);
+        } else {
+            q.addOrderBy(paginate.sortField, paginate.order);
+        }
+
     }
     return q;
 };

@@ -6,12 +6,7 @@ export class UserDto {
     @ApiModelProperty()
     @IsNotEmpty()
     @IsAlpha()
-    firstName: string;
-
-    @ApiModelProperty()
-    @IsNotEmpty()
-    @IsAlpha()
-    lastName: string;
+    fullName: string;
 
     @ApiModelProperty()
     @IsNotEmpty()
