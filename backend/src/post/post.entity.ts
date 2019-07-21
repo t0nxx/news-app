@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn, Index, OneToMany } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Category } from '../category/category.entity';
 import { HashTag } from '../hashtag/hashtage.entity';
+import { Comment } from '../comment/comment.entity';
 
 @Entity()
 export class Post {
@@ -20,6 +21,9 @@ export class Post {
     @Column({ type: 'simple-array' })
     photos: string[];
 
+    @Column({ default: 0 })
+    reactionsCount: number;
+
     /* start relations */
 
     @ManyToOne(type => User, user => user.posts)
@@ -33,6 +37,9 @@ export class Post {
     @ManyToMany(type => HashTag, { eager: true })
     @JoinTable()
     tags: HashTag[];
+
+    @OneToMany(type => Comment, comment => comment.post)
+    comments: Comment[];
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;

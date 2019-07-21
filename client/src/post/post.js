@@ -9,10 +9,10 @@ export const PostList = props => (
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="title" sortable={false} />
+            <TextField source="reactionsCount" sortable={false} />
             <DateField source="createdAt" sortable={false} />
             <DateField source="updatedAt" sortable={false} />
             <EditButton basePath="/posts" />
-            {/* <DeleteButton basePath="/posts" />  */}
         </Datagrid>
     </List>
 );
@@ -23,10 +23,10 @@ const PostTitle = ({ record }) => {
 export const PostCreate = (props) => (
     <Create title="Create a Post" {...props}>
         <SimpleForm>
-            <TextInput source="title" required />
+            <TextInput source="title" validate={required()} />
             {/* editor */}
 
-            <RichTextInput source="body" required toolbar={[
+            <RichTextInput source="body" toolbar={[
                 [{ 'size': ['small', false, 'large', 'huge'] }],
                 [{ 'font': [] }],
                 [{ 'direction': 'rtl' }],
@@ -38,13 +38,13 @@ export const PostCreate = (props) => (
                 <ImageField source="src" title="title" />
             </ImageInput>
 
-            <ReferenceArrayInput label="categories" reference="categories" source="categories" perPage={100}>
+            <ReferenceArrayInput label="categories" reference="categories" source="categories" perPage={100} validate={required()}>
                 <SelectArrayInput >
                     <ChipField source="name" />
                 </SelectArrayInput>
             </ReferenceArrayInput>
 
-            <ReferenceArrayInput label="tags" reference="hashTags" source="tags" perPage={100}>
+            <ReferenceArrayInput label="tags" reference="hashTags" source="tags" perPage={100} validate={required()}>
                 <SelectArrayInput >
                     <ChipField source="name" />
                 </SelectArrayInput>
@@ -55,12 +55,14 @@ export const PostCreate = (props) => (
 
 export const PostEdit = (props) => (
     <Edit title={<PostTitle />} {...props}>
-        {/* <SimpleForm> */}
+
         <TabbedForm>
             <FormTab label="summary">
                 <DisabledInput source="id" />
                 <DisabledInput source="title" />
+                <DisabledInput source="reactionsCount" />
                 <RichTextField source="body" />
+                <ImageField source="backgroundImage" title="backgroundImage" />
 
                 <ArrayField source="categories">
                     <SingleFieldList>
@@ -84,9 +86,18 @@ export const PostEdit = (props) => (
                     [{ 'align': [] }],
                     ['bold', 'italic', 'underline', 'link', 'blockquote', 'video']]
                 } />
+                <ReferenceArrayInput label="categories" reference="categories" source="categories" perPage={100} validate={required()}>
+                    <SelectArrayInput source="name" >
+                        <ChipField source="name" />
+                    </SelectArrayInput>
+                </ReferenceArrayInput>
+
+                <ReferenceArrayInput label="tags" reference="hashTags" source="tags" perPage={100} validate={required()}>
+                    <SelectArrayInput >
+                        <ChipField source="name" />
+                    </SelectArrayInput>
+                </ReferenceArrayInput>
             </FormTab>
         </TabbedForm>
-        {/* <TextInput source="content" /> */}
-        {/* </SimpleForm> */}
     </Edit>
 );

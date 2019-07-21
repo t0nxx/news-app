@@ -46,24 +46,34 @@ export default (type, resource, params) => {
             url = `${apiUrl}/${resource}/getOne/${params.id}`;
             break;
         case CREATE:
-            console.log(params.data);
+            /* post controll */
             if (resource == 'posts') {
-                const { title, body, files } = params.data;
-                console.log(`t ${title}, f ${files}`)
+                const { title, body, files, categories, tags } = params.data;
+
                 const payload = new FormData();
                 payload.append('title', title);
                 payload.append('body', body);
+                if (categories) {
+                    for (let i = 0; i < categories.length; i++) {
+                        payload.append('categories', categories[i]);
+                    }
+                }
+                if (tags) {
+                    for (let i = 0; i < tags.length; i++) {
+                        payload.append('tags', tags[i]);
+                    }
+                }
                 if (files) {
                     for (let i = 0; i < files.length; i++) {
                         payload.append('files', files[i].rawFile);
                     }
                 }
-                console.log(payload);
                 url = `${apiUrl}/${resource}/new`;
                 options.headers.delete('Content-Type');
                 options.method = 'POST';
-                options.body = payload
+                options.body = payload;
             } else {
+                /* any not post controll */
                 url = `${apiUrl}/${resource}/new`;
                 options.method = 'POST';
                 options.body = JSON.stringify(params.data);
@@ -89,7 +99,6 @@ export default (type, resource, params) => {
     // let headers;
     return fetch(url, options)
         .then(res => {
-            // headers = res.headers;
             return res.json();
         })
         .then(json => {

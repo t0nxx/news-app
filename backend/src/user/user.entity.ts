@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, OneToMany, } from 'typeorm';
 import { Category } from '../category/category.entity';
 import { Post } from '../post/post.entity';
+import { Comment } from '../comment/comment.entity';
 
 export enum UserRole {
     ADMIN = 'admin',
@@ -39,6 +40,9 @@ export class User {
 
     @OneToMany(type => Post, post => post.user)
     posts: Post[];
+
+    @OneToMany(type => Comment, comment => comment.user)
+    comments: Comment[];
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;

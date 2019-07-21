@@ -7,11 +7,17 @@ export class PostUpdateDto {
 
     @ApiModelPropertyOptional()
     @IsString()
-    content: string;
+    title: string;
+
+    @ApiModelPropertyOptional()
+    body: string;
+
+    photos: string[];
 
     @ApiModelPropertyOptional()
     categories: Category[];
 
     @ApiModelPropertyOptional()
     tags: HashTag[];
+
 }

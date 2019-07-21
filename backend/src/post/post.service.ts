@@ -8,12 +8,18 @@ import { PostDto } from './post.dto';
 import { User } from '../user/user.entity';
 import { PostUpdateDto } from './post.update.dto';
 import { PostReactions, reactionEnum } from '../relationsEntities/postReactions.entity';
+import { Category } from '../category/category.entity';
+import { HashTag } from '../hashtag/hashtage.entity';
 
 @Injectable()
 export class PostService {
     constructor(
         @InjectRepository(Post)
         private readonly PostRepository: Repository<Post>,
+        @InjectRepository(HashTag)
+        private readonly tagRepository: Repository<HashTag>,
+        @InjectRepository(Category)
+        private readonly categoryRepository: Repository<Category>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(PostReactions)
@@ -27,6 +33,8 @@ export class PostService {
         q.leftJoinAndSelect('post.tags', 'tags');
         q.innerJoin('post.user', 'user');
         q.addSelect(['user.id', 'user.fullName']);
+        // q.innerJoin('post_reactions', 'react', 'react.post = post.id');
+        // q.addSelect(['react.reaction'])
         const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
 
         /* http ****** ?tag= */
@@ -40,6 +48,7 @@ export class PostService {
         /* http ****** ?userID= */
         if (paginate.userID) {
             q.where(`user.id  = ${paginate.userID}`);
+            // q.getRawAndEntities
         }
 
         const [data, count] = await qAfterFormat.getManyAndCount();
@@ -72,7 +81,10 @@ export class PostService {
         if (!findOne) {
             throw new NotFoundException('invalid id');
         }
-        return { data: findOne };
+        const reactionsCount = await this.postReationsRepository.createQueryBuilder()
+            .getCount();
+
+        return { data: findOne, reactionsCount };
 
     }
 
@@ -87,6 +99,7 @@ export class PostService {
 
         if (isReacted) {
             if (isReacted.reaction === reaction) {
+                await this.PostRepository.decrement({ id: postId }, 'reactionsCount', 1);
                 return await this.postReationsRepository.remove(isReacted);
             } else {
                 newReaction.id = isReacted.id;
@@ -121,6 +134,8 @@ export class PostService {
         newReaction.post = postId;
 
         const save = await this.postReationsRepository.save(newReaction);
+        await this.PostRepository.increment({ id: postId }, 'reactionsCount', 1);
+
         return { data: 'done . reacted to post' };
 
     }
@@ -133,19 +148,21 @@ export class PostService {
         }
         const newPost = new Post();
         Object.assign(newPost, PostDto);
+
+        const [tags, categories] = await Promise.all([
+            this.tagRepository.findByIds(newPost.tags),
+            this.categoryRepository.findByIds(newPost.categories),
+        ]);
         newPost.user = user;
+        newPost.tags = []; newPost.categories = [];
+
+        newPost.tags.push(...tags);
+        newPost.categories.push(...categories);
         const create = await this.PostRepository.save(newPost);
+
         const savePost = await this.PostRepository.findOne({ id: create.id });
         return { data: savePost };
 
-        // const findOne = await this.userRepository.findOne(id, { relations: ['subscribed'] });
-        // if (!findOne) {
-        //     throw new NotFoundException('invalid id');
-        // }
-        // const result = await this.categoryRepository.findByIds(categories);
-        // findOne.subscribed.push(...result);
-        // const subDone = await this.userRepository.save(findOne);
-        // return { data: 'subscribe Done' };
 
     }
 

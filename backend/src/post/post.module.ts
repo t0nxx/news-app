@@ -10,10 +10,12 @@ import { PostReactions } from '../relationsEntities/postReactions.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import * as path from 'path';
 import * as multer from 'multer';
+import { Category } from '../category/category.entity';
+import { HashTag } from '../hashtag/hashtage.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Post, User, PostReactions]), UserModule,
+    TypeOrmModule.forFeature([Post, User, PostReactions, Category, HashTag]), UserModule,
     MulterModule.register({
 
       storage: multer.diskStorage({

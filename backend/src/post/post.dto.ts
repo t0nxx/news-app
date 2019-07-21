@@ -11,8 +11,6 @@ export class PostDto {
     title: string;
 
     @ApiModelProperty()
-    @IsNotEmpty()
-    @IsString()
     body: string;
 
     backgroundImage: string;
