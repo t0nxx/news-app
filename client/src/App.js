@@ -16,7 +16,7 @@ import authProvider from './auth/authProvider';
 /* dashboard modules start */
 import { CategoryList, CategoryCreate, CategoryEdit } from './category/categories';
 import { HashTagList, HashTagCreate, HashTagEdit } from './hashTag/hashTags';
-import { UserList, UserEdit, UserCreate } from './user/user';
+import { UserList, UserEdit } from './user/user';
 import { PostList, PostCreate, PostEdit } from './post/post';
 /* dashboard modules end */
 
@@ -24,7 +24,7 @@ const App = () => (
   <Admin authProvider={authProvider} dataProvider={dataProvider}>
     {permissions => [
       permissions === 'admin'
-        ? <Resource name="users" list={UserList} create={UserCreate} edit={UserEdit} icon={UserIcon} />
+        ? <Resource name="users" list={UserList} edit={UserEdit} icon={UserIcon} />
         : null,
       <Resource name="categories" list={CategoryList} create={CategoryCreate} edit={CategoryEdit} />,
       <Resource name="hashTags" list={HashTagList} create={HashTagCreate} edit={HashTagEdit} icon={ListIcon} />,

@@ -10,7 +10,6 @@ export const HashTagList = props => (
             <DateField source="createdAt" />
             <DateField source="updatedAt" />
             <EditButton basePath="/hashTags" />
-            <DeleteButton basePath="/hashTags" />
         </Datagrid>
     </List>
 );

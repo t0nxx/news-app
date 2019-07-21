@@ -1,6 +1,7 @@
-import { Controller, Get, Query, Param, ParseIntPipe, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Query, Param, ParseIntPipe, Post, Body, Put, Delete, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { PostService } from './post.service';
 import { PaginationDto } from '../shared/pagination.filter';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiImplicitParam, ApiImplicitHeader, ApiUseTags, ApiImplicitQuery } from '@nestjs/swagger';
 import { PostDto } from './post.dto';
 import { User } from '../user/user.decorator';
@@ -40,9 +41,27 @@ export class PostController {
 
     @ApiImplicitHeader({ name: 'authorization', required: true })
     @Post('/new')
+    @UseInterceptors(FilesInterceptor('files'))
     async createNewPost(
         @User('id') id,
-        @Body() post: PostDto) {
+        @Body() post: PostDto,
+        @UploadedFiles() files: any[],
+    ) {
+        let updir = 'http://localhost:3001/';
+        /* prod */
+        // let updir = 'http://localhost:3001/'
+
+        post = JSON.parse(JSON.stringify(post));
+        post.photos = [];
+
+        if (files) {
+            if (files.length > 0) {
+                post.backgroundImage = `${updir}${files[0].filename}`;
+                files.forEach(photo => {
+                    post.photos.push(`${updir}${photo.filename}`);
+                });
+            }
+        }
         return this.postService.createNewPost(id, post);
     }
 

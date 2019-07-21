@@ -6,6 +6,7 @@ import {
     UPDATE,
     DELETE,
     GET_MANY_REFERENCE,
+    GET_MANY
 } from 'react-admin';
 
 const apiUrl = 'http://localhost:3001';
@@ -14,7 +15,7 @@ const apiUrl = 'http://localhost:3001';
 export default (type, resource, params) => {
     let url = '';
     const token = localStorage.getItem('token');
-    const options = {
+    let options = {
         headers: new Headers({
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -36,13 +37,38 @@ export default (type, resource, params) => {
             url = `${apiUrl}/${resource}?${stringify(query)}`;
             break;
         }
+        case GET_MANY:
+            console.log(params);
+            url = `${apiUrl}/${resource}`;
+            break;
+
         case GET_ONE:
             url = `${apiUrl}/${resource}/getOne/${params.id}`;
             break;
         case CREATE:
-            url = `${apiUrl}/${resource}/new`;
-            options.method = 'POST';
-            options.body = JSON.stringify(params.data);
+            console.log(params.data);
+            if (resource == 'posts') {
+                const { title, body, files } = params.data;
+                console.log(`t ${title}, f ${files}`)
+                const payload = new FormData();
+                payload.append('title', title);
+                payload.append('body', body);
+                if (files) {
+                    for (let i = 0; i < files.length; i++) {
+                        payload.append('files', files[i].rawFile);
+                    }
+                }
+                console.log(payload);
+                url = `${apiUrl}/${resource}/new`;
+                options.headers.delete('Content-Type');
+                options.method = 'POST';
+                options.body = payload
+            } else {
+                url = `${apiUrl}/${resource}/new`;
+                options.method = 'POST';
+                options.body = JSON.stringify(params.data);
+
+            }
             break;
         case UPDATE:
             url = `${apiUrl}/${resource}/update/${params.id}`;

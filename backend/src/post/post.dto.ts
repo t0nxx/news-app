@@ -8,7 +8,16 @@ export class PostDto {
     @ApiModelProperty()
     @IsNotEmpty()
     @IsString()
-    content: string;
+    title: string;
+
+    @ApiModelProperty()
+    @IsNotEmpty()
+    @IsString()
+    body: string;
+
+    backgroundImage: string;
+
+    photos: string[];
 
     @ApiModelPropertyOptional()
     categories: Category[];

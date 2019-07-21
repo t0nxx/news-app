@@ -39,8 +39,8 @@ export default (type, params) => {
         //const status = params.status;
        // console.log(params);
        // if (status === 401 || status === 403) {
-            localStorage.removeItem('token');
-            return Promise.reject();
+            // localStorage.removeItem('token');
+            // return Promise.reject();
        // }
         //return Promise.resolve();
     }

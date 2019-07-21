@@ -8,9 +8,17 @@ export class Post {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Index()
     @Column()
-    content: string;
+    title: string;
+
+    @Column({ type: 'longtext' })
+    body: string;
+
+    @Column({ default: 'hhh' })
+    backgroundImage: string;
+
+    @Column({ type: 'simple-array' })
+    photos: string[];
 
     /* start relations */
 

@@ -10,7 +10,6 @@ export const CategoryList = props => (
             <DateField source="createdAt" />
             <DateField source="updatedAt" />
             <EditButton basePath="/categories" />
-            <DeleteButton basePath="/categories" />
         </Datagrid>
     </List>
 );

@@ -7,9 +7,25 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserAuthMiddleware } from '../auth/user.auth.middleware';
 import { User } from '../user/user.entity';
 import { PostReactions } from '../relationsEntities/postReactions.entity';
+import { MulterModule } from '@nestjs/platform-express';
+import * as path from 'path';
+import * as multer from 'multer';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post, User,PostReactions]), UserModule],
+  imports: [
+    TypeOrmModule.forFeature([Post, User, PostReactions]), UserModule,
+    MulterModule.register({
+
+      storage: multer.diskStorage({
+        destination(req, file, cb) {
+          cb(null, 'uploads');
+        },
+        filename(req, file, cb) {
+          cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
+        },
+      }),
+    }),
+  ],
   providers: [PostService],
   controllers: [PostController],
 })

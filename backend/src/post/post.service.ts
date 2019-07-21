@@ -27,7 +27,7 @@ export class PostService {
         q.leftJoinAndSelect('post.tags', 'tags');
         q.innerJoin('post.user', 'user');
         q.addSelect(['user.id', 'user.fullName']);
-        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['content'], 'post');
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
 
         /* http ****** ?tag= */
         if (paginate.tag) {
@@ -60,7 +60,7 @@ export class PostService {
         q.leftJoinAndSelect('post.categories', 'categories', `categories.id IN (${ids})`)
             .orderBy('post_id', 'DESC');
 
-        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['content']);
+        const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['title', 'body']);
         const [data, count] = await qAfterFormat.getManyAndCount();
         return { data, count };
     }
