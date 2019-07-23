@@ -14,7 +14,7 @@ const jwt_1 = require("../config/jwt");
 dotenv_1.config();
 function generateJwtToken(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield jsonwebtoken_1.sign(args, jwt_1.JWTSECRET, { expiresIn: '1h' });
+        return yield jsonwebtoken_1.sign(args, jwt_1.JWTSECRET, { expiresIn: '9h' });
     });
 }
 exports.generateJwtToken = generateJwtToken;

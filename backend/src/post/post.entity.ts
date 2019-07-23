@@ -30,11 +30,11 @@ export class Post {
     @JoinTable()
     user: User;
 
-    @ManyToMany(type => Category, { eager: true })
+    @ManyToMany(type => Category, { eager: true, onDelete: 'CASCADE' })
     @JoinTable()
     categories: Category[];
 
-    @ManyToMany(type => HashTag, { eager: true })
+    @ManyToMany(type => HashTag, { eager: true, onDelete: 'CASCADE' })
     @JoinTable()
     tags: HashTag[];
 

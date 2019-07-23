@@ -24,7 +24,7 @@ export const UserList = props => (
     </List>
 );
 const UserTitle = ({ record }) => {
-    return <span>User {record ? `"${record.name}"` : ''}</span>;
+    return <span>User {record ? `"${record.fullName}"` : ''}</span>;
 };
 
 // export const UserCreate = (props) => (

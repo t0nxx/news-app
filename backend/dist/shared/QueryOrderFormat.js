@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FormatQueryOrderAndPagination = (paginate, q, searchIn) => {
+exports.FormatQueryOrderAndPagination = (paginate, q, searchIn, prefix) => {
     if (!paginate.page) {
         paginate.page = 1;
     }
@@ -15,7 +15,12 @@ exports.FormatQueryOrderAndPagination = (paginate, q, searchIn) => {
         });
     }
     if (paginate.order) {
-        q.addOrderBy(paginate.sortField, paginate.order);
+        if (prefix) {
+            q.addOrderBy(`${prefix}_${paginate.sortField}`, paginate.order);
+        }
+        else {
+            q.addOrderBy(paginate.sortField, paginate.order);
+        }
     }
     return q;
 };

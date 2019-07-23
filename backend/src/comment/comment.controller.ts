@@ -3,6 +3,7 @@ import { ApiUseTags, ApiImplicitParam, ApiImplicitHeader, ApiImplicitQuery } fro
 import { CommentService } from './comment.service';
 import { PaginationDto } from '../shared/pagination.filter';
 import { CommentDto } from './comment.dto';
+import { User } from '../user/user.decorator';
 
 @ApiUseTags('comments')
 @Controller('comments')
@@ -10,17 +11,17 @@ export class CommentController {
     constructor(private commentService: CommentService) { }
 
     @Get()
-    @ApiImplicitQuery({ name: 'postId', type: 'number', required: true })
+    @ApiImplicitQuery({ name: 'postId', type: 'number', required: false })
+    @ApiImplicitQuery({ name: 'parentId', type: 'number', required: false })
     async getAllComments(@Query() paginate: PaginationDto) {
         return this.commentService.getAllComments(paginate);
     }
 
-    @Get('/replies')
-    @ApiImplicitQuery({ name: 'parentId', type: 'number', required: true })
-    async getReplies(@Query() paginate: PaginationDto) {
-        console.log(paginate);
-        return this.commentService.getRepliesOfComments(paginate);
-    }
+    // @Get('/replies')
+    // @ApiImplicitQuery({ name: 'parentId', type: 'number', required: true })
+    // async getReplies(@Query() paginate: PaginationDto) {
+    //     return this.commentService.getRepliesOfComments(paginate);
+    // }
 
     @Get('/getOne/:id')
     @ApiImplicitParam({ name: 'id' })
@@ -32,9 +33,11 @@ export class CommentController {
 
     @ApiImplicitHeader({ name: 'authorization', required: true })
     @Post('/new')
-    async createNewUser(@Body() comment: CommentDto) {
-        // console.log(cate);
-        // return this.CommentService.createNewComment(cate);
+    async createNewUser(
+        @User('id') id,
+        @Body() comment: CommentDto,
+    ) {
+        return this.commentService.CreateNewComment(id, comment);
     }
 
     @ApiImplicitHeader({ name: 'authorization', required: true })

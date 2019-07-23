@@ -43,8 +43,7 @@ let AuthService = class AuthService {
             return {
                 data: {
                     id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    firstName: user.fullName,
                     email: user.email,
                     number: user.number,
                     role: user.role,
@@ -73,8 +72,7 @@ let AuthService = class AuthService {
             return {
                 data: {
                     id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    fullName: user.fullName,
                     email: user.email,
                     number: user.number,
                     role: user.role,

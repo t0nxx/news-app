@@ -38,10 +38,19 @@ export default (type, resource, params) => {
             break;
         }
         case GET_MANY:
+            console.log('many');
             console.log(params);
             url = `${apiUrl}/${resource}`;
             break;
-
+        case GET_MANY_REFERENCE:
+            console.log('refre');
+            console.log(params);
+            if (params.target == 'parentId') { /* refrence is itself */
+                url = `${apiUrl}/${resource}?parentId=${params.id}`;
+            } else {
+                url = `${apiUrl}/${resource}?postId=${params.id}`;
+            }
+            break;
         case GET_ONE:
             url = `${apiUrl}/${resource}/getOne/${params.id}`;
             break;

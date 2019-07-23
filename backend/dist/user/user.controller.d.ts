@@ -10,8 +10,7 @@ export declare class UserController {
     getOneUser(id: any): Promise<{
         data: {
             id: number;
-            firstName: string;
-            lastName: string;
+            fullName: string;
             email: string;
             number: string;
             joined: Date;
@@ -22,8 +21,7 @@ export declare class UserController {
     getMe(id: any): Promise<{
         data: {
             id: number;
-            firstName: string;
-            lastName: string;
+            fullName: string;
             email: string;
             number: string;
             joined: Date;
@@ -34,8 +32,7 @@ export declare class UserController {
     createNewUser(userDto: UserDto): Promise<{
         data: {
             id: number;
-            firstName: string;
-            lastName: string;
+            fullName: string;
             email: string;
             number: string;
             joined: Date;

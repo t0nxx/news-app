@@ -12,6 +12,7 @@ import * as path from 'path';
 import * as multer from 'multer';
 import { Category } from '../category/category.entity';
 import { HashTag } from '../hashtag/hashtage.entity';
+import { MaintainerOrAdminMiddleAuth } from '../auth/maintainerOrAdmin.auth';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { HashTag } from '../hashtag/hashtage.entity';
 export class PostModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(UserAuthMiddleware)
+      .apply(UserAuthMiddleware, MaintainerOrAdminMiddleAuth)
       .exclude(
         { path: 'posts', method: RequestMethod.GET },
         { path: 'posts/getOne/:id', method: RequestMethod.GET },

@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const category_entity_1 = require("../category/category.entity");
+const post_entity_1 = require("../post/post.entity");
+const comment_entity_1 = require("../comment/comment.entity");
 var UserRole;
 (function (UserRole) {
     UserRole["ADMIN"] = "admin";
@@ -26,11 +28,7 @@ __decorate([
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
+], User.prototype, "fullName", void 0);
 __decorate([
     typeorm_1.Column({ unique: true }),
     __metadata("design:type", String)
@@ -56,6 +54,14 @@ __decorate([
     typeorm_1.JoinTable(),
     __metadata("design:type", Array)
 ], User.prototype, "subscribed", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => post_entity_1.Post, post => post.user),
+    __metadata("design:type", Array)
+], User.prototype, "posts", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => comment_entity_1.Comment, comment => comment.user),
+    __metadata("design:type", Array)
+], User.prototype, "comments", void 0);
 __decorate([
     typeorm_1.CreateDateColumn({ type: 'timestamp' }),
     __metadata("design:type", Date)

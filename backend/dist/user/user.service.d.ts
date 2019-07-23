@@ -12,8 +12,7 @@ export declare class UserService {
     getOneUser(userId: number): Promise<{
         data: {
             id: number;
-            firstName: string;
-            lastName: string;
+            fullName: string;
             email: string;
             number: string;
             joined: Date;
@@ -24,8 +23,7 @@ export declare class UserService {
     createNewUser(userDto: UserDto): Promise<{
         data: {
             id: number;
-            firstName: string;
-            lastName: string;
+            fullName: string;
             email: string;
             number: string;
             joined: Date;

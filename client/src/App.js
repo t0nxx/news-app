@@ -18,6 +18,7 @@ import { CategoryList, CategoryCreate, CategoryEdit } from './category/categorie
 import { HashTagList, HashTagCreate, HashTagEdit } from './hashTag/hashTags';
 import { UserList, UserEdit } from './user/user';
 import { PostList, PostCreate, PostEdit } from './post/post';
+import { CommentList, CommentEdit, CommentCreate } from './comment/comment';
 /* dashboard modules end */
 
 const App = () => (
@@ -29,7 +30,7 @@ const App = () => (
       <Resource name="categories" list={CategoryList} create={CategoryCreate} edit={CategoryEdit} />,
       <Resource name="hashTags" list={HashTagList} create={HashTagCreate} edit={HashTagEdit} icon={ListIcon} />,
       <Resource name="posts" list={PostList} create={PostCreate} edit={PostEdit} icon={PostIcon} />,
-      <Resource name="comments" icon={CommentIcon} />,
+      <Resource name="comments" list={CommentList} create={CommentCreate} edit={CommentEdit} icon={CommentIcon} />,
       <Resource name="reports" icon={ReportIcon} />
 
     ]}

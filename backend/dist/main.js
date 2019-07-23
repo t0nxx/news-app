@@ -14,11 +14,14 @@ const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = yield core_1.NestFactory.create(app_module_1.AppModule);
         app.useGlobalPipes(new common_1.ValidationPipe());
         app.use(express.static(path.resolve(__dirname, '../uploads')));
+        app.use(bodyParser.json({ limit: '50mb' }));
+        app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
         app.enableCors();
         const options = new swagger_1.DocumentBuilder()
             .setTitle('News App Doc')

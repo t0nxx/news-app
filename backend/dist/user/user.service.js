@@ -35,9 +35,9 @@ let UserService = class UserService {
     }
     getAllUsers(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            const q = this.userRepository.createQueryBuilder();
-            q.addSelect(['id', 'firstName', 'lastName', 'email', 'number', 'role', 'createdAt', 'updatedAt']);
-            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['email', 'role', 'number', 'firstName']);
+            const q = this.userRepository.createQueryBuilder('user');
+            q.select(['user.id', 'user.fullName', 'user.email', 'user.number', 'user.role', 'user.createdAt', 'user.updatedAt']);
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['email', 'role', 'number', 'fullName']);
             const [data, count] = yield qAfterFormat.getManyAndCount();
             return { data, count };
         });
@@ -48,12 +48,11 @@ let UserService = class UserService {
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
-            const { id, firstName, lastName, email, number, role, subscribed } = findOne;
+            const { id, fullName, email, number, role, subscribed } = findOne;
             return {
                 data: {
                     id,
-                    firstName,
-                    lastName,
+                    fullName,
                     email,
                     number,
                     joined: findOne.createdAt,
@@ -73,8 +72,7 @@ let UserService = class UserService {
                 return {
                     data: {
                         id: saveUser.id,
-                        firstName: saveUser.firstName,
-                        lastName: saveUser.lastName,
+                        fullName: saveUser.fullName,
                         email: saveUser.email,
                         number: saveUser.number,
                         joined: saveUser.createdAt,
@@ -110,11 +108,10 @@ let UserService = class UserService {
                 }
                 yield this.userRepository.update({ id: findOne.id }, updateUser);
                 const updated = yield this.userRepository.findOne(id);
-                const { firstName, lastName, email, number, changePassCode } = updated;
+                const { fullName, email, number, changePassCode } = updated;
                 return {
                     data: {
-                        firstName,
-                        lastName,
+                        fullName,
                         email,
                         number,
                         joined: findOne.createdAt,

@@ -15,10 +15,10 @@ export class PostReactions {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(type => User, user => user.id)
+    @ManyToOne(type => User, user => user.id, { onDelete: 'CASCADE' })
     user: number;
 
-    @ManyToOne(type => Post, post => post.id)
+    @ManyToOne(type => Post, post => post.id, { onDelete: 'CASCADE' })
     post: number;
     /*reactions count */
     @Column({ type: 'enum', enum: reactionEnum })

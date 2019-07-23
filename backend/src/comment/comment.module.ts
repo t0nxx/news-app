@@ -4,10 +4,12 @@ import { CommentController } from './comment.controller';
 import { UserModule } from '../user/user.module';
 import { Comment } from './comment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserAuthMiddleware } from 'src/auth/user.auth.middleware';
+import { UserAuthMiddleware } from '../auth/user.auth.middleware';
+import { Post } from '../post/post.entity';
+import { User } from '../user/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Comment]), UserModule],
+  imports: [TypeOrmModule.forFeature([Comment,Post,User]), UserModule],
   providers: [CommentService],
   controllers: [CommentController]
 })
@@ -17,7 +19,6 @@ export class CommentModule implements NestModule {
       .apply(UserAuthMiddleware)
       .exclude(
         { path: 'comments', method: RequestMethod.GET },
-        { path: 'comments/replies', method: RequestMethod.GET },
         { path: 'comments/getOne/:id', method: RequestMethod.GET },
       )
       .forRoutes(CommentController);
