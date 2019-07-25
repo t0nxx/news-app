@@ -48,7 +48,7 @@ let PostController = class PostController {
     }
     createNewPost(id, post, files) {
         return __awaiter(this, void 0, void 0, function* () {
-            let updir = 'http://localhost:3001/';
+            let updir = 'http://18.194.127.99:3001/';
             post = JSON.parse(JSON.stringify(post));
             post.photos = [];
             if (files) {
