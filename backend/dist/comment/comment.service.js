@@ -39,13 +39,13 @@ let CommentService = class CommentService {
                 .createQueryBuilder('comment')
                 .innerJoin('comment.post', 'post')
                 .innerJoin('comment.user', 'user')
-                .addSelect(['post.id', 'user.id', 'user.fullName', 'comment.parentId']);
+                .addSelect(['post.id', 'user.id', 'user.fullName']);
             if (paginate.postId) {
-                q.where(`comment.parent IS NULL`);
+                q.where(`comment.parentId IS NULL`);
                 q.andWhere(`comment.post = ${paginate.postId}`);
             }
             if (paginate.parentId) {
-                q.where(`comment.parent = ${paginate.parentId}`);
+                q.where(`comment.parentId = ${paginate.parentId}`);
             }
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['comment.body'], 'comment');
             const [data, count] = yield qAfterFormat.getManyAndCount();
@@ -56,7 +56,7 @@ let CommentService = class CommentService {
         return __awaiter(this, void 0, void 0, function* () {
             const q = this.commentRepository
                 .createQueryBuilder('comment')
-                .where(`comment.parent = ${id}`)
+                .where(`comment.parentId = ${id}`)
                 .innerJoin('comment.post', 'post')
                 .innerJoin('comment.user', 'user')
                 .addSelect(['post.id', 'user.id', 'user.fullName']);
@@ -80,7 +80,6 @@ let CommentService = class CommentService {
     CreateNewComment(userId, commentDto) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield this.postRepository.findOne({ id: commentDto.postId });
-            console.log(commentDto);
             if (!post) {
                 throw new common_1.NotFoundException('invalid post id');
             }
@@ -94,11 +93,64 @@ let CommentService = class CommentService {
             comment.body = commentDto.body;
             if (commentDto.parentId) {
                 const parent = yield this.commentRepository.findOne({ id: commentDto.parentId });
-                comment.parent = parent;
+                comment.parentId = parent.id;
             }
             const save = yield this.commentRepository.save(comment);
             const { id, body, createdAt, updatedAt, reports } = save;
             return { data: { id, body, reports, createdAt, updatedAt } };
+        });
+    }
+    updateComment(userId, id, comm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.commentRepository
+                .createQueryBuilder('comment')
+                .where(`comment.id = ${id}`)
+                .innerJoin('comment.user', 'user')
+                .addSelect(['user.id', 'user.fullName'])
+                .getOne();
+            if (!findOne) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            const user = yield this.userRepository.findOne({ id: userId });
+            if (findOne.user.id == user.id) {
+                findOne.body = comm.body;
+                yield this.commentRepository.save(findOne);
+                return { data: findOne };
+            }
+            else {
+                return { data: 'not allowed' };
+            }
+        });
+    }
+    deletComment(userId, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.commentRepository
+                .createQueryBuilder('comment')
+                .where(`comment.id = ${id}`)
+                .innerJoin('comment.user', 'user')
+                .addSelect(['user.id', 'user.fullName'])
+                .getOne();
+            if (!findOne) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            const user = yield this.userRepository.findOne({ id: userId });
+            if (findOne.user.id == user.id || user.role == 'admin' || user.role == 'maintainer') {
+                yield this.commentRepository.delete(id);
+                return { data: findOne };
+            }
+            else {
+                return { data: 'not allowed' };
+            }
+        });
+    }
+    ReportComment(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.commentRepository.findOne(id);
+            if (!findOne) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            yield this.commentRepository.increment({ id }, 'reports', 1);
+            return { data: 'done comment reported' };
         });
     }
 };
@@ -107,7 +159,7 @@ CommentService = __decorate([
     __param(0, typeorm_2.InjectRepository(comment_entity_1.Comment)),
     __param(1, typeorm_2.InjectRepository(user_entity_1.User)),
     __param(2, typeorm_2.InjectRepository(post_entity_1.Post)),
-    __metadata("design:paramtypes", [typeorm_1.TreeRepository,
+    __metadata("design:paramtypes", [typeorm_1.Repository,
         typeorm_1.Repository,
         typeorm_1.Repository])
 ], CommentService);

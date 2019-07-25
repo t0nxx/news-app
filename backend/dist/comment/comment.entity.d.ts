@@ -4,8 +4,7 @@ export declare class Comment {
     id: number;
     body: string;
     reports: number;
-    children: Comment[];
-    parent: Comment;
+    parentId: number;
     user: User;
     post: Post;
     createdAt: Date;

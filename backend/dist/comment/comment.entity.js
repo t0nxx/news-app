@@ -27,13 +27,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Comment.prototype, "reports", void 0);
 __decorate([
-    typeorm_1.TreeChildren({ cascade: true }),
-    __metadata("design:type", Array)
-], Comment.prototype, "children", void 0);
-__decorate([
-    typeorm_1.TreeParent(),
-    __metadata("design:type", Comment)
-], Comment.prototype, "parent", void 0);
+    typeorm_1.Column({ default: null }),
+    __metadata("design:type", Number)
+], Comment.prototype, "parentId", void 0);
 __decorate([
     typeorm_1.ManyToOne(type => user_entity_1.User, user => user.comments, { onDelete: 'CASCADE' }),
     __metadata("design:type", user_entity_1.User)
@@ -51,8 +47,7 @@ __decorate([
     __metadata("design:type", Date)
 ], Comment.prototype, "updatedAt", void 0);
 Comment = __decorate([
-    typeorm_1.Entity(),
-    typeorm_1.Tree('closure-table')
+    typeorm_1.Entity()
 ], Comment);
 exports.Comment = Comment;
 //# sourceMappingURL=comment.entity.js.map

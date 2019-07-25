@@ -6,8 +6,20 @@ export declare class PostController {
     constructor(postService: PostService);
     getAllPosts(paginate: PaginationDto): Promise<any>;
     getOnepost(id: any): Promise<{
-        data: import("./post.entity").Post;
-        reactionsCount: number;
+        data: {
+            id: number;
+            title: string;
+            body: string;
+            backgroundImage: string;
+            photos: {
+                url: string;
+            }[];
+            categories: import("../category/category.entity").Category[];
+            tags: import("../hashtag/hashtage.entity").HashTag[];
+            reactionsCount: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     reactToPost(userid: any, postid: any, reaction: any): Promise<import("../relationsEntities/postReactions.entity").PostReactions | {
         data: string;

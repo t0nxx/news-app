@@ -73,15 +73,17 @@ let PostService = class PostService {
             return { data, count };
         });
     }
-    getOnePost(id) {
+    getOnePost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findOne = yield this.PostRepository.findOne(id);
+            const findOne = yield this.PostRepository.findOne({ id: postId });
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
-            const reactionsCount = yield this.postReationsRepository.createQueryBuilder()
-                .getCount();
-            return { data: findOne, reactionsCount };
+            const { id, title, body, categories, tags, backgroundImage, reactionsCount, createdAt, updatedAt } = findOne;
+            const arrangedPhotos = findOne.photos.map(el => {
+                return { url: el };
+            });
+            return { data: { id, title, body, backgroundImage, photos: arrangedPhotos, categories, tags, reactionsCount, createdAt, updatedAt } };
         });
     }
     reactToPost(postId, userId, reaction) {
@@ -161,7 +163,7 @@ let PostService = class PostService {
                 throw new common_1.NotFoundException('invalid id');
             }
             yield this.PostRepository.delete(id);
-            return { data: 'done . Post deleted' };
+            return { data: findOne };
         });
     }
 };

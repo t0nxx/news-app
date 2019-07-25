@@ -14,9 +14,21 @@ export declare class PostService {
     constructor(PostRepository: Repository<Post>, tagRepository: Repository<HashTag>, categoryRepository: Repository<Category>, userRepository: Repository<User>, postReationsRepository: Repository<PostReactions>);
     getAllPosts(paginate: any): Promise<any>;
     getPostsOfMySubscription(userId: number, paginate: any): Promise<any>;
-    getOnePost(id: number): Promise<{
-        data: Post;
-        reactionsCount: number;
+    getOnePost(postId: number): Promise<{
+        data: {
+            id: number;
+            title: string;
+            body: string;
+            backgroundImage: string;
+            photos: {
+                url: string;
+            }[];
+            categories: Category[];
+            tags: HashTag[];
+            reactionsCount: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     reactToPost(postId: number, userId: any, reaction: any): Promise<PostReactions | {
         data: string;
