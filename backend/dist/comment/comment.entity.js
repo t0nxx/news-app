@@ -27,7 +27,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Comment.prototype, "reports", void 0);
 __decorate([
-    typeorm_1.TreeChildren(),
+    typeorm_1.TreeChildren({ cascade: true }),
     __metadata("design:type", Array)
 ], Comment.prototype, "children", void 0);
 __decorate([
