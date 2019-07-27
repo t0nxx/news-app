@@ -28,6 +28,7 @@ const swagger_1 = require("@nestjs/swagger");
 const post_dto_1 = require("./post.dto");
 const user_decorator_1 = require("../user/user.decorator");
 const base64ToFile_1 = require("../shared/base64ToFile");
+const awsUploader_1 = require("../shared/awsUploader");
 let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
@@ -49,12 +50,11 @@ let PostController = class PostController {
     }
     createNewPost(id, post, files) {
         return __awaiter(this, void 0, void 0, function* () {
-            let updir = 'http://18.194.127.99:3001/';
             post = JSON.parse(JSON.stringify(post));
-            post.body = base64ToFile_1.extractBase64FromBody(post.body);
+            post.body = yield base64ToFile_1.extractBase64FromBody(post.body);
             if (files) {
                 if (files.length > 0) {
-                    post.backgroundImage = `${updir}${files[0].filename}`;
+                    post.backgroundImage = yield awsUploader_1.UploadToS3(files[0]);
                 }
             }
             return this.postService.createNewPost(id, post);

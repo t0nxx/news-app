@@ -25,6 +25,7 @@ const uploader_service_1 = require("./uploader.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const uploader_entity_1 = require("./uploader.entity");
 const pagination_filter_1 = require("../shared/pagination.filter");
+const awsUploader_1 = require("../shared/awsUploader");
 let UploaderController = class UploaderController {
     constructor(uploadService) {
         this.uploadService = uploadService;
@@ -41,11 +42,10 @@ let UploaderController = class UploaderController {
     }
     createNewPost(files) {
         return __awaiter(this, void 0, void 0, function* () {
-            let updir = 'http://18.194.127.99:3001/';
             let upload = new uploader_entity_1.Uploader();
             if (files) {
                 if (files.length > 0) {
-                    upload.url = `${updir}${files[0].filename}`;
+                    upload.url = yield awsUploader_1.UploadToS3(files[0]);
                 }
             }
             return this.uploadService.createNewUpload(upload);

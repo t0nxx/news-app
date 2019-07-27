@@ -27,6 +27,7 @@ const category_dto_1 = require("./category.dto");
 const pagination_filter_1 = require("../shared/pagination.filter");
 const category_update_dto_1 = require("./category.update.dto");
 const platform_express_1 = require("@nestjs/platform-express");
+const awsUploader_1 = require("../shared/awsUploader");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -43,10 +44,9 @@ let CategoryController = class CategoryController {
     }
     createNewUser(cate, files) {
         return __awaiter(this, void 0, void 0, function* () {
-            let updir = 'http://18.194.127.99:3001/';
             if (files) {
                 if (files.length > 0) {
-                    cate.backgroundImage = `${updir}${files[0].filename}`;
+                    cate.backgroundImage = yield awsUploader_1.UploadToS3(files[0]);
                 }
             }
             return this.categoryService.createNewcategory(cate);

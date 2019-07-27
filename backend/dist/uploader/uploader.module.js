@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const platform_express_1 = require("@nestjs/platform-express");
-const path = require("path");
-const multer = require("multer");
 const user_module_1 = require("../user/user.module");
 const user_auth_middleware_1 = require("../auth/user.auth.middleware");
 const maintainerOrAdmin_auth_1 = require("../auth/maintainerOrAdmin.auth");
@@ -28,16 +25,6 @@ UploaderModule = __decorate([
     common_1.Module({
         imports: [
             typeorm_1.TypeOrmModule.forFeature([uploader_entity_1.Uploader]), user_module_1.UserModule,
-            platform_express_1.MulterModule.register({
-                storage: multer.diskStorage({
-                    destination(req, file, cb) {
-                        cb(null, 'uploads');
-                    },
-                    filename(req, file, cb) {
-                        cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
-                    },
-                }),
-            }),
         ],
         providers: [uploader_service_1.UploaderService],
         controllers: [uploader_controller_1.UploaderController],
