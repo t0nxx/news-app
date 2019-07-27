@@ -27,7 +27,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
 const post_dto_1 = require("./post.dto");
 const user_decorator_1 = require("../user/user.decorator");
-const base64ToFile_1 = require("src/shared/base64ToFile");
+const base64ToFile_1 = require("../shared/base64ToFile");
 let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
