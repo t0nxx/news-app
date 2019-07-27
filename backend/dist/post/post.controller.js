@@ -27,6 +27,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
 const post_dto_1 = require("./post.dto");
 const user_decorator_1 = require("../user/user.decorator");
+const base64ToFile_1 = require("src/shared/base64ToFile");
 let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
@@ -50,13 +51,10 @@ let PostController = class PostController {
         return __awaiter(this, void 0, void 0, function* () {
             let updir = 'http://18.194.127.99:3001/';
             post = JSON.parse(JSON.stringify(post));
-            post.photos = [];
+            post.body = base64ToFile_1.extractBase64FromBody(post.body);
             if (files) {
                 if (files.length > 0) {
                     post.backgroundImage = `${updir}${files[0].filename}`;
-                    files.forEach(photo => {
-                        post.photos.push(`${updir}${photo.filename}`);
-                    });
                 }
             }
             return this.postService.createNewPost(id, post);

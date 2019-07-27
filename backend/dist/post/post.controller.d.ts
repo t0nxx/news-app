@@ -11,9 +11,6 @@ export declare class PostController {
             title: string;
             body: string;
             backgroundImage: string;
-            photos: {
-                url: string;
-            }[];
             categories: import("../category/category.entity").Category[];
             tags: import("../hashtag/hashtage.entity").HashTag[];
             reactionsCount: number;

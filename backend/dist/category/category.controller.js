@@ -26,6 +26,7 @@ const category_service_1 = require("./category.service");
 const category_dto_1 = require("./category.dto");
 const pagination_filter_1 = require("../shared/pagination.filter");
 const category_update_dto_1 = require("./category.update.dto");
+const platform_express_1 = require("@nestjs/platform-express");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -40,15 +41,19 @@ let CategoryController = class CategoryController {
             return this.categoryService.getOnecategory(id);
         });
     }
-    createNewUser(cate) {
+    createNewUser(cate, files) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(cate);
+            let updir = 'http://18.194.127.99:3001/';
+            if (files) {
+                if (files.length > 0) {
+                    cate.backgroundImage = `${updir}${files[0].filename}`;
+                }
+            }
             return this.categoryService.createNewcategory(cate);
         });
     }
     updateCategory(id, cate) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(cate);
             return this.categoryService.updatecategory(id, cate);
         });
     }
@@ -76,9 +81,10 @@ __decorate([
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     common_1.Post('/new'),
-    __param(0, common_1.Body()),
+    common_1.UseInterceptors(platform_express_1.FilesInterceptor('files')),
+    __param(0, common_1.Body()), __param(1, common_1.UploadedFiles()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [category_dto_1.CategoryDto]),
+    __metadata("design:paramtypes", [category_dto_1.CategoryDto, Array]),
     __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "createNewUser", null);
 __decorate([

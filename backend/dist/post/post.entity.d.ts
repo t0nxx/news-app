@@ -7,7 +7,6 @@ export declare class Post {
     title: string;
     body: string;
     backgroundImage: string;
-    photos: string[];
     reactionsCount: number;
     user: User;
     categories: Category[];

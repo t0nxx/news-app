@@ -150,7 +150,7 @@ let CommentService = class CommentService {
                 throw new common_1.NotFoundException('invalid id');
             }
             yield this.commentRepository.increment({ id }, 'reports', 1);
-            return { data: 'done comment reported' };
+            return { data: findOne };
         });
     }
 };

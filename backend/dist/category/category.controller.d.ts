@@ -9,7 +9,7 @@ export declare class CategoryController {
     getOneCategory(id: any): Promise<{
         data: import("./category.entity").Category;
     }>;
-    createNewUser(cate: CategoryDto): Promise<{
+    createNewUser(cate: CategoryDto, files: any[]): Promise<{
         data: import("./category.entity").Category;
     }>;
     updateCategory(id: any, cate: CategoryUpdateDto): Promise<any>;

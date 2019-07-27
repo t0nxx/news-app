@@ -14,6 +14,9 @@ const typeorm_1 = require("@nestjs/typeorm");
 const user_auth_middleware_1 = require("../auth/user.auth.middleware");
 const maintainerOrAdmin_auth_1 = require("../auth/maintainerOrAdmin.auth");
 const user_module_1 = require("../user/user.module");
+const platform_express_1 = require("@nestjs/platform-express");
+const path = require("path");
+const multer = require("multer");
 let CategoryModule = class CategoryModule {
     configure(consumer) {
         consumer
@@ -24,7 +27,19 @@ let CategoryModule = class CategoryModule {
 };
 CategoryModule = __decorate([
     common_1.Module({
-        imports: [typeorm_1.TypeOrmModule.forFeature([category_entity_1.Category]), user_module_1.UserModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([category_entity_1.Category]), user_module_1.UserModule,
+            platform_express_1.MulterModule.register({
+                storage: multer.diskStorage({
+                    destination(req, file, cb) {
+                        cb(null, 'uploads');
+                    },
+                    filename(req, file, cb) {
+                        cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
+                    },
+                }),
+            }),
+        ],
         providers: [category_service_1.CategoryService],
         controllers: [category_controller_1.CategoryController]
     })

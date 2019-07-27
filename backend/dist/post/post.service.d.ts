@@ -20,9 +20,6 @@ export declare class PostService {
             title: string;
             body: string;
             backgroundImage: string;
-            photos: {
-                url: string;
-            }[];
             categories: Category[];
             tags: HashTag[];
             reactionsCount: number;

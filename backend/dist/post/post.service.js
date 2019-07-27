@@ -80,10 +80,7 @@ let PostService = class PostService {
                 throw new common_1.NotFoundException('invalid id');
             }
             const { id, title, body, categories, tags, backgroundImage, reactionsCount, createdAt, updatedAt } = findOne;
-            const arrangedPhotos = findOne.photos.map(el => {
-                return { url: el };
-            });
-            return { data: { id, title, body, backgroundImage, photos: arrangedPhotos, categories, tags, reactionsCount, createdAt, updatedAt } };
+            return { data: { id, title, body, backgroundImage, categories, tags, reactionsCount, createdAt, updatedAt } };
         });
     }
     reactToPost(postId, userId, reaction) {

@@ -4,7 +4,6 @@ export declare class PostDto {
     title: string;
     body: string;
     backgroundImage: string;
-    photos: string[];
     categories: Category[];
     tags: HashTag[];
 }

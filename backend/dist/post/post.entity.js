@@ -29,13 +29,9 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "body", void 0);
 __decorate([
-    typeorm_1.Column({ default: 'hhh' }),
+    typeorm_1.Column({ default: 'no image' }),
     __metadata("design:type", String)
 ], Post.prototype, "backgroundImage", void 0);
-__decorate([
-    typeorm_1.Column({ type: 'simple-array' }),
-    __metadata("design:type", Array)
-], Post.prototype, "photos", void 0);
 __decorate([
     typeorm_1.Column({ default: 0 }),
     __metadata("design:type", Number)

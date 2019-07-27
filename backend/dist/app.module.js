@@ -16,6 +16,7 @@ const category_module_1 = require("./category/category.module");
 const hashtag_module_1 = require("./hashtag/hashtag.module");
 const comment_module_1 = require("./comment/comment.module");
 const typeorm_1 = require("@nestjs/typeorm");
+const uploader_module_1 = require("./uploader/uploader.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -27,6 +28,7 @@ AppModule = __decorate([
             category_module_1.CategoryModule,
             hashtag_module_1.HashtagModule,
             comment_module_1.CommentModule,
+            uploader_module_1.UploaderModule,
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
                 host: 'localhost',
