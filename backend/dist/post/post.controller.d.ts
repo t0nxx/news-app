@@ -25,5 +25,6 @@ export declare class PostController {
         data: import("./post.entity").Post;
     }>;
     getPostsOfMySubscription(id: any, paginate: PaginationDto): Promise<any>;
+    updatepost(id: any, post: PostDto): Promise<any>;
     deletepost(id: any): Promise<any>;
 }

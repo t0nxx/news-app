@@ -16,7 +16,7 @@ exports.FormatQueryOrderAndPagination = (paginate, q, searchIn, prefix) => {
     }
     if (paginate.order) {
         if (prefix) {
-            q.addOrderBy(`'${prefix}_${paginate.sortField}'`, paginate.order);
+            q.addOrderBy(`${prefix}.${paginate.sortField}`, paginate.order);
         }
         else {
             q.addOrderBy(paginate.sortField, paginate.order);

@@ -65,10 +65,12 @@ let PostService = class PostService {
                 throw new common_1.NotFoundException('invalid id');
             }
             const ids = findOne.subscribed.map(cate => cate.id);
-            const q = this.PostRepository.createQueryBuilder('post');
-            q.leftJoinAndSelect('post.categories', 'categories', `categories.id IN (${ids})`)
+            const q = this.PostRepository.createQueryBuilder('post')
+                .leftJoinAndSelect('post.categories', 'categories')
+                .leftJoinAndSelect('post.tags', 'tags')
+                .where(`categories.id IN (${ids})`)
                 .orderBy('post_id', 'DESC');
-            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body']);
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
             const [data, count] = yield qAfterFormat.getManyAndCount();
             return { data, count };
         });
@@ -151,6 +153,30 @@ let PostService = class PostService {
             const create = yield this.PostRepository.save(newPost);
             const savePost = yield this.PostRepository.findOne({ id: create.id });
             return { data: savePost };
+        });
+    }
+    updatePost(id, updatePost) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.PostRepository.findOne(id);
+            if (!findOne) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            if (Object.keys(updatePost).length <= 0) {
+                throw new common_1.BadRequestException('no data provided');
+            }
+            const [tags, categories] = yield Promise.all([
+                this.tagRepository.findByIds(updatePost.tags),
+                this.categoryRepository.findByIds(updatePost.categories),
+            ]);
+            findOne.title = updatePost.title;
+            findOne.body = updatePost.body;
+            findOne.tags = [];
+            findOne.categories = [];
+            findOne.tags.push(...tags);
+            findOne.categories.push(...categories);
+            yield this.PostRepository.save(findOne);
+            const updated = yield this.PostRepository.findOne(id);
+            return { data: updated };
         });
     }
     deletPost(id) {

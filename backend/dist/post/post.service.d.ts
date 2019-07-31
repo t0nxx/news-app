@@ -33,5 +33,6 @@ export declare class PostService {
     createNewPost(userId: any, PostDto: PostDto): Promise<{
         data: Post;
     }>;
+    updatePost(id: number, updatePost: PostDto): Promise<any>;
     deletPost(id: number): Promise<any>;
 }

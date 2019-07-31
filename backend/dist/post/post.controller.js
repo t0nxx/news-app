@@ -65,6 +65,12 @@ let PostController = class PostController {
             return this.postService.getPostsOfMySubscription(id, paginate);
         });
     }
+    updatepost(id, post) {
+        return __awaiter(this, void 0, void 0, function* () {
+            post.body = yield base64ToFile_1.extractBase64FromBody(post.body);
+            return this.postService.updatePost(id, post);
+        });
+    }
     deletepost(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.postService.deletPost(id);
@@ -121,6 +127,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, pagination_filter_1.PaginationDto]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getPostsOfMySubscription", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    common_1.Put('/update/:id'),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, post_dto_1.PostDto]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "updatepost", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),

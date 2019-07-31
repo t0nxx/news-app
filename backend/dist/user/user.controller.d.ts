@@ -44,10 +44,10 @@ export declare class UserController {
     promoteUserLevel(id: any, role: string): Promise<{
         data: import("./user.entity").User;
     }>;
-    subscribeToCategories(id: any, categories: Category[]): Promise<{
+    subscribeToCategories(id: any, categories: number[]): Promise<{
         data: string;
     }>;
-    UnsubscribeFromCategories(id: any, categories: Category[]): Promise<{
+    UnsubscribeFromCategories(id: any, categories: number[]): Promise<{
         data: string;
     }>;
 }

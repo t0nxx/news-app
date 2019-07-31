@@ -15,13 +15,14 @@ exports.extractBase64FromBody = (body) => __awaiter(this, void 0, void 0, functi
     if (found) {
         yield Promise.all(found.map((e) => __awaiter(this, void 0, void 0, function* () {
             const rmvData = e.replace(/data:image\/\w+;base64,/, '');
+            const mimetype = e.split(';')[0];
             const type = e.split(';')[0].split('/')[1];
             const buff = Buffer.from(rmvData, 'base64');
-            const imgName = Math.floor(Math.random() * 100) + '-' + Date.now();
+            const imgName = Math.floor(Math.random() * 100) + '-' + Date.now() + '.' + type;
             const file = {
                 buffer: buff,
                 originalname: imgName,
-                mimetype: type,
+                mimetype,
             };
             const upLink = yield awsUploader_1.UploadToS3(file);
             body = body.replace(e, `${upLink}`);

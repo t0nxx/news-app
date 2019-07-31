@@ -35,10 +35,10 @@ export declare class UserService {
     promoteUserLevel(id: number, newRole: string): Promise<{
         data: User;
     }>;
-    subscribeToCategories(id: number, categories: Category[]): Promise<{
+    subscribeToCategories(id: number, categories: any): Promise<{
         data: string;
     }>;
-    UnsubscribeFromCategories(id: number, categories: Category[]): Promise<{
+    UnsubscribeFromCategories(id: number, categories: any): Promise<{
         data: string;
     }>;
 }
