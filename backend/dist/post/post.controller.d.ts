@@ -5,18 +5,23 @@ export declare class PostController {
     private postService;
     constructor(postService: PostService);
     getAllPosts(paginate: PaginationDto): Promise<any>;
-    getOnepost(id: any): Promise<{
+    getOnepostDashBoard(id: any): Promise<{
         data: {
             id: number;
             title: string;
             body: string;
             backgroundImage: string;
-            categories: import("../category/category.entity").Category[];
-            tags: import("../hashtag/hashtage.entity").HashTag[];
+            comments: import("../comment/comment.entity").Comment[];
             reactionsCount: number;
+            source: import("../source/source.entity").Source;
             createdAt: Date;
             updatedAt: Date;
+            categories: number[];
+            tags: number[];
         };
+    }>;
+    getOnepost(id: any): Promise<{
+        data: import("./post.entity").Post;
     }>;
     reactToPost(userid: any, postid: any, reaction: any): Promise<import("../relationsEntities/postReactions.entity").PostReactions | {
         data: string;
@@ -25,6 +30,6 @@ export declare class PostController {
         data: import("./post.entity").Post;
     }>;
     getPostsOfMySubscription(id: any, paginate: PaginationDto): Promise<any>;
-    updatepost(id: any, post: PostDto): Promise<any>;
+    updatepost(id: any, post: PostDto, files: any[]): Promise<any>;
     deletepost(id: any): Promise<any>;
 }

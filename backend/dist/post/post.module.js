@@ -18,11 +18,12 @@ const postReactions_entity_1 = require("../relationsEntities/postReactions.entit
 const category_entity_1 = require("../category/category.entity");
 const hashtage_entity_1 = require("../hashtag/hashtage.entity");
 const maintainerOrAdmin_auth_1 = require("../auth/maintainerOrAdmin.auth");
+const source_entity_1 = require("../source/source.entity");
 let PostModule = class PostModule {
     configure(consumer) {
         consumer
             .apply(user_auth_middleware_1.UserAuthMiddleware, maintainerOrAdmin_auth_1.MaintainerOrAdminMiddleAuth)
-            .exclude({ path: 'posts', method: common_1.RequestMethod.GET }, { path: 'posts/getOne/:id', method: common_1.RequestMethod.GET }, { path: 'posts/mySubscriptions', method: common_1.RequestMethod.GET })
+            .exclude({ path: 'posts', method: common_1.RequestMethod.GET }, { path: 'posts/getOne/:id', method: common_1.RequestMethod.GET }, { path: 'posts/getOne/mobile/:id', method: common_1.RequestMethod.GET }, { path: 'posts/mySubscriptions', method: common_1.RequestMethod.GET })
             .forRoutes(post_controller_1.PostController)
             .apply(user_auth_middleware_1.UserAuthMiddleware)
             .forRoutes({ path: 'posts/mySubscriptions', method: common_1.RequestMethod.GET });
@@ -31,7 +32,7 @@ let PostModule = class PostModule {
 PostModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([post_entity_1.Post, user_entity_1.User, postReactions_entity_1.PostReactions, category_entity_1.Category, hashtage_entity_1.HashTag]), user_module_1.UserModule,
+            typeorm_1.TypeOrmModule.forFeature([post_entity_1.Post, user_entity_1.User, postReactions_entity_1.PostReactions, category_entity_1.Category, hashtage_entity_1.HashTag, source_entity_1.Source]), user_module_1.UserModule,
         ],
         providers: [post_service_1.PostService],
         controllers: [post_controller_1.PostController],

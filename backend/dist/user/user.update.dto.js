@@ -53,6 +53,11 @@ __decorate([
     class_validator_1.MinLength(6),
     __metadata("design:type", String)
 ], UserUpdateDto.prototype, "password", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], UserUpdateDto.prototype, "fcmToken", void 0);
 exports.UserUpdateDto = UserUpdateDto;
 ;
 function hashUpdatePass(pass) {

@@ -108,13 +108,14 @@ let UserService = class UserService {
                 }
                 yield this.userRepository.update({ id: findOne.id }, updateUser);
                 const updated = yield this.userRepository.findOne(id);
-                const { fullName, email, number, changePassCode } = updated;
+                const { fullName, email, number, changePassCode, fcmToken } = updated;
                 return {
                     data: {
                         fullName,
                         email,
                         number,
                         joined: findOne.createdAt,
+                        fcmToken,
                     },
                     token: yield generate_jwt_1.generateJwtToken({
                         id,

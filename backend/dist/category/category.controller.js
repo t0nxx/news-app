@@ -25,7 +25,6 @@ const swagger_1 = require("@nestjs/swagger");
 const category_service_1 = require("./category.service");
 const category_dto_1 = require("./category.dto");
 const pagination_filter_1 = require("../shared/pagination.filter");
-const category_update_dto_1 = require("./category.update.dto");
 const platform_express_1 = require("@nestjs/platform-express");
 const awsUploader_1 = require("../shared/awsUploader");
 let CategoryController = class CategoryController {
@@ -52,8 +51,13 @@ let CategoryController = class CategoryController {
             return this.categoryService.createNewcategory(cate);
         });
     }
-    updateCategory(id, cate) {
+    updateCategory(id, cate, files) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (files) {
+                if (files.length > 0) {
+                    cate.backgroundImage = yield awsUploader_1.UploadToS3(files[0]);
+                }
+            }
             return this.categoryService.updatecategory(id, cate);
         });
     }
@@ -91,10 +95,12 @@ __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),
     common_1.Put('/update/:id'),
+    common_1.UseInterceptors(platform_express_1.FilesInterceptor('files')),
     __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
     __param(1, common_1.Body()),
+    __param(2, common_1.UploadedFiles()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, category_update_dto_1.CategoryUpdateDto]),
+    __metadata("design:paramtypes", [Object, category_dto_1.CategoryDto, Array]),
     __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "updateCategory", null);
 __decorate([

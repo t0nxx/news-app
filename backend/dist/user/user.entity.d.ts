@@ -13,6 +13,7 @@ export declare class User {
     number: string;
     password: string;
     changePassCode: number;
+    fcmToken: string;
     role: UserRole;
     subscribed: Category[];
     posts: Post[];

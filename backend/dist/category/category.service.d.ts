@@ -2,7 +2,6 @@ import { Category } from './category.entity';
 import { Repository } from 'typeorm';
 import { PaginationDto } from '../shared/pagination.filter';
 import { CategoryDto } from './category.dto';
-import { CategoryUpdateDto } from './category.update.dto';
 export declare class CategoryService {
     private readonly categoryRepository;
     constructor(categoryRepository: Repository<Category>);
@@ -13,6 +12,6 @@ export declare class CategoryService {
     createNewcategory(categoryDto: CategoryDto): Promise<{
         data: Category;
     }>;
-    updatecategory(id: number, updatecategory: CategoryUpdateDto): Promise<any>;
+    updatecategory(id: number, updatecategory: CategoryDto): Promise<any>;
     deletcategory(id: number): Promise<any>;
 }

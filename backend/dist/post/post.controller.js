@@ -38,6 +38,11 @@ let PostController = class PostController {
             return this.postService.getAllPosts(paginate);
         });
     }
+    getOnepostDashBoard(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.postService.getOnePostDashBoard(id);
+        });
+    }
     getOnepost(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.postService.getOnePost(id);
@@ -51,6 +56,7 @@ let PostController = class PostController {
     createNewPost(id, post, files) {
         return __awaiter(this, void 0, void 0, function* () {
             post = JSON.parse(JSON.stringify(post));
+            console.log(post);
             post.body = yield base64ToFile_1.extractBase64FromBody(post.body);
             if (files) {
                 if (files.length > 0) {
@@ -65,9 +71,14 @@ let PostController = class PostController {
             return this.postService.getPostsOfMySubscription(id, paginate);
         });
     }
-    updatepost(id, post) {
+    updatepost(id, post, files) {
         return __awaiter(this, void 0, void 0, function* () {
             post.body = yield base64ToFile_1.extractBase64FromBody(post.body);
+            if (files) {
+                if (files.length > 0) {
+                    post.backgroundImage = yield awsUploader_1.UploadToS3(files[0]);
+                }
+            }
             return this.postService.updatePost(id, post);
         });
     }
@@ -89,6 +100,15 @@ __decorate([
 ], PostController.prototype, "getAllPosts", null);
 __decorate([
     common_1.Get('/getOne/:id'),
+    swagger_1.ApiExcludeEndpoint(),
+    swagger_1.ApiImplicitParam({ name: 'id', required: true }),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getOnepostDashBoard", null);
+__decorate([
+    common_1.Get('/getOne/mobile/:id'),
     swagger_1.ApiImplicitParam({ name: 'id', required: true }),
     __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
     __metadata("design:type", Function),
@@ -131,10 +151,12 @@ __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),
     common_1.Put('/update/:id'),
+    common_1.UseInterceptors(platform_express_1.FilesInterceptor('files')),
     __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
     __param(1, common_1.Body()),
+    __param(2, common_1.UploadedFiles()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, post_dto_1.PostDto]),
+    __metadata("design:paramtypes", [Object, post_dto_1.PostDto, Array]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "updatepost", null);
 __decorate([

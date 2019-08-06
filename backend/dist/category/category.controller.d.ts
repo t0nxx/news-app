@@ -1,7 +1,6 @@
 import { CategoryService } from './category.service';
 import { CategoryDto } from './category.dto';
 import { PaginationDto } from '../shared/pagination.filter';
-import { CategoryUpdateDto } from './category.update.dto';
 export declare class CategoryController {
     private categoryService;
     constructor(categoryService: CategoryService);
@@ -12,6 +11,6 @@ export declare class CategoryController {
     createNewUser(cate: CategoryDto, files: any[]): Promise<{
         data: import("./category.entity").Category;
     }>;
-    updateCategory(id: any, cate: CategoryUpdateDto): Promise<any>;
+    updateCategory(id: any, cate: CategoryDto, files: any[]): Promise<any>;
     deleteCategory(id: any): Promise<any>;
 }

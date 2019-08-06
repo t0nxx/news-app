@@ -63,7 +63,9 @@ let CategoryService = class CategoryService {
             if (Object.keys(updatecategory).length <= 0) {
                 throw new common_1.BadRequestException('no data provided');
             }
-            yield this.categoryRepository.update({ id: findOne.id }, updatecategory);
+            findOne.name = updatecategory.name;
+            findOne.backgroundImage = updatecategory.backgroundImage;
+            yield this.categoryRepository.save(findOne);
             const updated = yield this.categoryRepository.findOne(id);
             return { data: updated };
         });

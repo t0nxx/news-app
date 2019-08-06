@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 class PostDto {
 }
 __decorate([
@@ -23,6 +24,11 @@ __decorate([
     swagger_1.ApiModelProperty(),
     __metadata("design:type", String)
 ], PostDto.prototype, "body", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    class_transformer_1.Transform(id => parseInt(id)),
+    __metadata("design:type", Number)
+], PostDto.prototype, "source", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     __metadata("design:type", Array)

@@ -14,6 +14,7 @@ const user_entity_1 = require("../user/user.entity");
 const category_entity_1 = require("../category/category.entity");
 const hashtage_entity_1 = require("../hashtag/hashtage.entity");
 const comment_entity_1 = require("../comment/comment.entity");
+const source_entity_1 = require("../source/source.entity");
 let Post = class Post {
 };
 __decorate([
@@ -41,6 +42,11 @@ __decorate([
     typeorm_1.JoinTable(),
     __metadata("design:type", user_entity_1.User)
 ], Post.prototype, "user", void 0);
+__decorate([
+    typeorm_1.ManyToOne(type => source_entity_1.Source, source => source.posts),
+    typeorm_1.JoinTable(),
+    __metadata("design:type", source_entity_1.Source)
+], Post.prototype, "source", void 0);
 __decorate([
     typeorm_1.ManyToMany(type => category_entity_1.Category, { eager: true, onDelete: 'CASCADE' }),
     typeorm_1.JoinTable(),

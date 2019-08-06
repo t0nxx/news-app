@@ -29,12 +29,14 @@ const user_entity_1 = require("../user/user.entity");
 const postReactions_entity_1 = require("../relationsEntities/postReactions.entity");
 const category_entity_1 = require("../category/category.entity");
 const hashtage_entity_1 = require("../hashtag/hashtage.entity");
+const source_entity_1 = require("../source/source.entity");
 let PostService = class PostService {
-    constructor(PostRepository, tagRepository, categoryRepository, userRepository, postReationsRepository) {
+    constructor(PostRepository, tagRepository, categoryRepository, userRepository, sourceRepository, postReationsRepository) {
         this.PostRepository = PostRepository;
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
+        this.sourceRepository = sourceRepository;
         this.postReationsRepository = postReationsRepository;
     }
     getAllPosts(paginate) {
@@ -42,6 +44,7 @@ let PostService = class PostService {
             const q = this.PostRepository.createQueryBuilder('post');
             q.leftJoinAndSelect('post.categories', 'categories');
             q.leftJoinAndSelect('post.tags', 'tags');
+            q.leftJoinAndSelect('post.source', 'source');
             q.innerJoin('post.user', 'user');
             q.addSelect(['user.id', 'user.fullName']);
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
@@ -68,6 +71,7 @@ let PostService = class PostService {
             const q = this.PostRepository.createQueryBuilder('post')
                 .leftJoinAndSelect('post.categories', 'categories')
                 .leftJoinAndSelect('post.tags', 'tags')
+                .leftJoinAndSelect('post.source', 'source')
                 .where(`categories.id IN (${ids})`)
                 .orderBy('post_id', 'DESC');
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
@@ -77,12 +81,29 @@ let PostService = class PostService {
     }
     getOnePost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findOne = yield this.PostRepository.findOne({ id: postId });
+            const findOne = yield this.PostRepository.findOne({ id: postId }, { relations: ['source'] });
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
-            const { id, title, body, categories, tags, backgroundImage, reactionsCount, createdAt, updatedAt } = findOne;
-            return { data: { id, title, body, backgroundImage, categories, tags, reactionsCount, createdAt, updatedAt } };
+            return { data: findOne };
+        });
+    }
+    getOnePostDashBoard(postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.PostRepository.findOne({ id: postId }, { relations: ['source'] });
+            if (!findOne) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            const tagArrayIds = findOne.tags.map(e => e.id);
+            const cateArrayIds = findOne.categories.map(e => e.id);
+            const { id, title, body, backgroundImage, comments, reactionsCount, source, createdAt, updatedAt } = findOne;
+            return {
+                data: {
+                    id, title, body, backgroundImage, comments,
+                    reactionsCount, source, createdAt, updatedAt, categories: cateArrayIds,
+                    tags: tagArrayIds,
+                },
+            };
         });
     }
     reactToPost(postId, userId, reaction) {
@@ -141,15 +162,17 @@ let PostService = class PostService {
             }
             const newPost = new post_entity_1.Post();
             Object.assign(newPost, PostDto);
-            const [tags, categories] = yield Promise.all([
+            const [tags, categories, source] = yield Promise.all([
                 this.tagRepository.findByIds(newPost.tags),
                 this.categoryRepository.findByIds(newPost.categories),
+                this.sourceRepository.findOne({ id: PostDto.source }),
             ]);
             newPost.user = user;
             newPost.tags = [];
             newPost.categories = [];
             newPost.tags.push(...tags);
             newPost.categories.push(...categories);
+            newPost.source = source;
             const create = yield this.PostRepository.save(newPost);
             const savePost = yield this.PostRepository.findOne({ id: create.id });
             return { data: savePost };
@@ -170,10 +193,12 @@ let PostService = class PostService {
             ]);
             findOne.title = updatePost.title;
             findOne.body = updatePost.body;
+            findOne.backgroundImage = updatePost.backgroundImage;
             findOne.tags = [];
             findOne.categories = [];
             findOne.tags.push(...tags);
             findOne.categories.push(...categories);
+            findOne.source = updatePost.source.id;
             yield this.PostRepository.save(findOne);
             const updated = yield this.PostRepository.findOne(id);
             return { data: updated };
@@ -196,8 +221,10 @@ PostService = __decorate([
     __param(1, typeorm_1.InjectRepository(hashtage_entity_1.HashTag)),
     __param(2, typeorm_1.InjectRepository(category_entity_1.Category)),
     __param(3, typeorm_1.InjectRepository(user_entity_1.User)),
-    __param(4, typeorm_1.InjectRepository(postReactions_entity_1.PostReactions)),
+    __param(4, typeorm_1.InjectRepository(source_entity_1.Source)),
+    __param(5, typeorm_1.InjectRepository(postReactions_entity_1.PostReactions)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

@@ -46,6 +46,10 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "changePassCode", void 0);
 __decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], User.prototype, "fcmToken", void 0);
+__decorate([
     typeorm_1.Column({ type: 'enum', enum: UserRole, default: UserRole.USER }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
