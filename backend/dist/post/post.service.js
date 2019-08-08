@@ -85,7 +85,12 @@ let PostService = class PostService {
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
-            return { data: findOne };
+            const reactions = yield this.postReationsRepository.createQueryBuilder()
+                .select('reaction , Count(*) as count')
+                .where(`postId = ${postId}`)
+                .groupBy('reaction')
+                .getRawMany();
+            return { data: Object.assign({}, findOne, { reactions }) };
         });
     }
     getOnePostDashBoard(postId) {
@@ -212,6 +217,36 @@ let PostService = class PostService {
             }
             yield this.PostRepository.delete(id);
             return { data: findOne };
+        });
+    }
+    bookmarkPost(userId, postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findPost = yield this.PostRepository.findOne({ id: postId });
+            if (!findPost) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            const user = yield this.userRepository.findOne({ id: userId }, { relations: ['bookmarks'] });
+            if (!user) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            user.bookmarks = [...user.bookmarks, findPost];
+            yield this.userRepository.save(user);
+            return { data: 'done . post bookmarked' };
+        });
+    }
+    unBookmarkPost(userId, postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findPost = yield this.PostRepository.findOne({ id: postId });
+            if (!findPost) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            const user = yield this.userRepository.findOne({ id: userId }, { relations: ['bookmarks'] });
+            if (!user) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            user.bookmarks = user.bookmarks.filter((p) => p.id !== postId);
+            yield this.userRepository.save(user);
+            return { data: 'done . post unbookmarked' };
         });
     }
 };

@@ -87,12 +87,21 @@ let PostController = class PostController {
             return this.postService.deletPost(id);
         });
     }
+    bookmarkPost(id, postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.postService.bookmarkPost(id, postId);
+        });
+    }
+    unBookmarkPost(id, postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.postService.unBookmarkPost(id, postId);
+        });
+    }
 };
 __decorate([
     common_1.Get(),
     swagger_1.ApiImplicitQuery({ name: 'tag', required: false }),
     swagger_1.ApiImplicitQuery({ name: 'category', required: false }),
-    swagger_1.ApiImplicitQuery({ name: 'userID', required: false }),
     __param(0, common_1.Query()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
@@ -168,6 +177,26 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "deletepost", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    common_1.Put('/bookmark/:id'),
+    __param(0, user_decorator_1.User('id')),
+    __param(1, common_1.Param('id', new common_1.ParseIntPipe())),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "bookmarkPost", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    common_1.Put('/unbookmark/:id'),
+    __param(0, user_decorator_1.User('id')),
+    __param(1, common_1.Param('id', new common_1.ParseIntPipe())),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "unBookmarkPost", null);
 PostController = __decorate([
     swagger_1.ApiUseTags('posts'),
     common_1.Controller('posts'),

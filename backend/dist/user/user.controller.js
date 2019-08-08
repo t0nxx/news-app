@@ -27,6 +27,9 @@ const user_dto_1 = require("./user.dto");
 const user_update_dto_1 = require("./user.update.dto");
 const user_decorator_1 = require("./user.decorator");
 const pagination_filter_1 = require("../shared/pagination.filter");
+const platform_express_1 = require("@nestjs/platform-express");
+const awsUploader_1 = require("../shared/awsUploader");
+const notiToken_dto_1 = require("./notiToken.dto");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -46,19 +49,35 @@ let UserController = class UserController {
             return this.userService.getOneUser(id);
         });
     }
-    createNewUser(userDto) {
+    createNewUser(userDto, image) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (image) {
+                userDto.profileImage = yield awsUploader_1.UploadToS3(image);
+            }
             return this.userService.createNewUser(userDto);
         });
     }
-    updateUser(id, updateUserDto) {
+    updateUser(id, updateUserDto, image) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (image) {
+                updateUserDto.profileImage = yield awsUploader_1.UploadToS3(image);
+            }
             return yield this.userService.updateUser(id, updateUserDto);
+        });
+    }
+    updateUserNotificationToken(id, updateUserNotiTokenDto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userService.addNotificationToken(id, updateUserNotiTokenDto);
         });
     }
     deletPie(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.userService.deletUser(id);
+        });
+    }
+    deletUserDashboard(id, UserId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.userService.deletUser(UserId);
         });
     }
     promoteUserLevel(id, role) {
@@ -103,20 +122,32 @@ __decorate([
 ], UserController.prototype, "getMe", null);
 __decorate([
     common_1.Post('/new'),
-    __param(0, common_1.Body()),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('image')),
+    __param(0, common_1.Body()), __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.UserDto]),
+    __metadata("design:paramtypes", [user_dto_1.UserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createNewUser", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     common_1.Put('/update/me'),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('image')),
+    __param(0, user_decorator_1.User('id')),
+    __param(1, common_1.Body()),
+    __param(2, common_1.UploadedFile()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, user_update_dto_1.UserUpdateDto, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateUser", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    common_1.Put('/update/me/addNotificationToken'),
     __param(0, user_decorator_1.User('id')),
     __param(1, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, user_update_dto_1.UserUpdateDto]),
+    __metadata("design:paramtypes", [Object, notiToken_dto_1.NotiTokenDto]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "updateUser", null);
+], UserController.prototype, "updateUserNotificationToken", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     common_1.Delete('/delete/me'),
@@ -126,6 +157,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deletPie", null);
+__decorate([
+    common_1.Delete('/delete/:id'),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    __param(0, user_decorator_1.User('id')), __param(1, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "deletUserDashboard", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitQuery({ name: 'id', type: 'number', required: true }),

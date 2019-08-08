@@ -75,6 +75,7 @@ let UserService = class UserService {
                         fullName: saveUser.fullName,
                         email: saveUser.email,
                         number: saveUser.number,
+                        profileImage: saveUser.profileImage,
                         joined: saveUser.createdAt,
                     },
                     token: yield generate_jwt_1.generateJwtToken({
@@ -108,14 +109,14 @@ let UserService = class UserService {
                 }
                 yield this.userRepository.update({ id: findOne.id }, updateUser);
                 const updated = yield this.userRepository.findOne(id);
-                const { fullName, email, number, changePassCode, fcmToken } = updated;
+                const { fullName, email, number, changePassCode, profileImage } = updated;
                 return {
                     data: {
                         fullName,
                         email,
                         number,
                         joined: findOne.createdAt,
-                        fcmToken,
+                        profileImage,
                     },
                     token: yield generate_jwt_1.generateJwtToken({
                         id,
@@ -131,14 +132,32 @@ let UserService = class UserService {
             }
         });
     }
-    deletUser(id) {
+    addNotificationToken(id, token) {
         return __awaiter(this, void 0, void 0, function* () {
             const findOne = yield this.userRepository.findOne(id);
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
+            if (token.oldToken) {
+                findOne.fcmTokens.splice(findOne.fcmTokens.indexOf(token.oldToken, 1));
+            }
+            if (findOne.fcmTokens == null) {
+                findOne.fcmTokens = [];
+            }
+            findOne.fcmTokens.push(token.newToken);
+            yield this.userRepository.save(findOne);
+            return 'done . token added';
+        });
+    }
+    deletUser(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.userRepository.findOne({ id: userId });
+            if (!findOne) {
+                throw new common_1.NotFoundException('invalid id');
+            }
+            const { id } = findOne;
             yield this.userRepository.delete(id);
-            return 'done . user deleted';
+            return { data: { id } };
         });
     }
     promoteUserLevel(id, newRole) {

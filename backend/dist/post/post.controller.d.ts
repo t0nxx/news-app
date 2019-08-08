@@ -21,7 +21,21 @@ export declare class PostController {
         };
     }>;
     getOnepost(id: any): Promise<{
-        data: import("./post.entity").Post;
+        data: {
+            reactions: any[];
+            id: number;
+            title: string;
+            body: string;
+            backgroundImage: string;
+            reactionsCount: number;
+            user: import("../user/user.entity").User;
+            source: import("../source/source.entity").Source;
+            categories: import("../category/category.entity").Category[];
+            tags: import("../hashtag/hashtage.entity").HashTag[];
+            comments: import("../comment/comment.entity").Comment[];
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     reactToPost(userid: any, postid: any, reaction: any): Promise<import("../relationsEntities/postReactions.entity").PostReactions | {
         data: string;
@@ -32,4 +46,6 @@ export declare class PostController {
     getPostsOfMySubscription(id: any, paginate: PaginationDto): Promise<any>;
     updatepost(id: any, post: PostDto, files: any[]): Promise<any>;
     deletepost(id: any): Promise<any>;
+    bookmarkPost(id: any, postId: any): Promise<any>;
+    unBookmarkPost(id: any, postId: any): Promise<any>;
 }

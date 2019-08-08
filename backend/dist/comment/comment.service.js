@@ -39,7 +39,7 @@ let CommentService = class CommentService {
                 .createQueryBuilder('comment')
                 .innerJoin('comment.post', 'post')
                 .innerJoin('comment.user', 'user')
-                .addSelect(['post.id', 'user.id', 'user.fullName']);
+                .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage']);
             if (paginate.postId) {
                 q.where(`comment.parentId IS NULL`);
                 q.andWhere(`comment.post = ${paginate.postId}`);
@@ -59,7 +59,7 @@ let CommentService = class CommentService {
                 .where(`comment.parentId = ${id}`)
                 .innerJoin('comment.post', 'post')
                 .innerJoin('comment.user', 'user')
-                .addSelect(['post.id', 'user.id', 'user.fullName']);
+                .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage']);
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['comment.body']);
             const [data, count] = yield qAfterFormat.getManyAndCount();
             return { data, count };
@@ -72,7 +72,7 @@ let CommentService = class CommentService {
                 .where(`comment.id = ${id}`)
                 .innerJoin('comment.post', 'post')
                 .innerJoin('comment.user', 'user')
-                .addSelect(['post.id', 'user.id', 'user.fullName'])
+                .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage'])
                 .getOne();
             return { data: q };
         });
@@ -106,7 +106,7 @@ let CommentService = class CommentService {
                 .createQueryBuilder('comment')
                 .where(`comment.id = ${id}`)
                 .innerJoin('comment.user', 'user')
-                .addSelect(['user.id', 'user.fullName'])
+                .addSelect(['user.id', 'user.fullName', 'user.profileImage'])
                 .getOne();
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
@@ -128,7 +128,7 @@ let CommentService = class CommentService {
                 .createQueryBuilder('comment')
                 .where(`comment.id = ${id}`)
                 .innerJoin('comment.user', 'user')
-                .addSelect(['user.id', 'user.fullName'])
+                .addSelect(['user.id', 'user.fullName', 'user.profileImage'])
                 .getOne();
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');

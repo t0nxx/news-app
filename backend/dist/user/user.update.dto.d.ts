@@ -4,6 +4,6 @@ export declare class UserUpdateDto {
     email: string;
     number: string;
     password: string;
-    fcmToken: string;
+    profileImage: string;
 }
 export declare function hashUpdatePass(pass: any): Promise<string>;

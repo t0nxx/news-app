@@ -17,7 +17,21 @@ export declare class PostService {
     getAllPosts(paginate: any): Promise<any>;
     getPostsOfMySubscription(userId: number, paginate: any): Promise<any>;
     getOnePost(postId: number): Promise<{
-        data: Post;
+        data: {
+            reactions: any[];
+            id: number;
+            title: string;
+            body: string;
+            backgroundImage: string;
+            reactionsCount: number;
+            user: User;
+            source: Source;
+            categories: Category[];
+            tags: HashTag[];
+            comments: import("../comment/comment.entity").Comment[];
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     getOnePostDashBoard(postId: number): Promise<{
         data: {
@@ -42,4 +56,6 @@ export declare class PostService {
     }>;
     updatePost(id: number, updatePost: any): Promise<any>;
     deletPost(id: number): Promise<any>;
+    bookmarkPost(userId: any, postId: any): Promise<any>;
+    unBookmarkPost(userId: any, postId: any): Promise<any>;
 }

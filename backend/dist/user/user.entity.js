@@ -46,18 +46,27 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "changePassCode", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], User.prototype, "fcmToken", void 0);
+    typeorm_1.Column({ type: 'simple-array', default: null }),
+    __metadata("design:type", Array)
+], User.prototype, "fcmTokens", void 0);
 __decorate([
     typeorm_1.Column({ type: 'enum', enum: UserRole, default: UserRole.USER }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
+    typeorm_1.Column({ default: 'no image' }),
+    __metadata("design:type", String)
+], User.prototype, "profileImage", void 0);
+__decorate([
     typeorm_1.ManyToMany(type => category_entity_1.Category),
     typeorm_1.JoinTable(),
     __metadata("design:type", Array)
 ], User.prototype, "subscribed", void 0);
+__decorate([
+    typeorm_1.ManyToMany(type => post_entity_1.Post),
+    typeorm_1.JoinTable(),
+    __metadata("design:type", Array)
+], User.prototype, "bookmarks", void 0);
 __decorate([
     typeorm_1.OneToMany(type => post_entity_1.Post, post => post.user),
     __metadata("design:type", Array)

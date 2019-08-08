@@ -4,6 +4,7 @@ import { UserDto } from './user.dto';
 import { UserUpdateDto } from './user.update.dto';
 import { PaginationDto } from '../shared/pagination.filter';
 import { Category } from '../category/category.entity';
+import { NotiTokenDto } from './notiToken.dto';
 export declare class UserService {
     private readonly userRepository;
     private readonly categoryRepository;
@@ -26,12 +27,18 @@ export declare class UserService {
             fullName: string;
             email: string;
             number: string;
+            profileImage: string;
             joined: Date;
         };
         token: string;
     }>;
     updateUser(id: number, updateUser: UserUpdateDto): Promise<any>;
-    deletUser(id: number): Promise<string>;
+    addNotificationToken(id: number, token: NotiTokenDto): Promise<any>;
+    deletUser(userId: number): Promise<{
+        data: {
+            id: number;
+        };
+    }>;
     promoteUserLevel(id: number, newRole: string): Promise<{
         data: User;
     }>;

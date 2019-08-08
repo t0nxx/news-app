@@ -55,10 +55,11 @@ let NotificationService = class NotificationService {
             const users = yield this.userRepository.createQueryBuilder('user')
                 .innerJoinAndSelect('user.subscribed', 'categories')
                 .where(`categories.id IN (${noti.categories})`)
-                .select(['user.fcmToken'])
+                .select(['user.fcmTokens'])
                 .getMany();
-            const tokens = users.map(e => e.fcmToken);
-            const splited = lodash_1.chunk(tokens, 99);
+            const tokens = users.map(e => e.fcmTokens);
+            const flatArr = lodash_1.flatten(tokens);
+            const splited = lodash_1.chunk(flatArr, 99);
             splited.forEach(arr => {
                 arr = arr.filter(e => e.length);
                 const message = {

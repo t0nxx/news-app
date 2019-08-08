@@ -3,6 +3,7 @@ import { UserDto } from './user.dto';
 import { UserUpdateDto } from './user.update.dto';
 import { PaginationDto } from '../shared/pagination.filter';
 import { Category } from '../category/category.entity';
+import { NotiTokenDto } from './notiToken.dto';
 export declare class UserController {
     private userService;
     constructor(userService: UserService);
@@ -29,18 +30,29 @@ export declare class UserController {
             subscribed: Category[];
         };
     }>;
-    createNewUser(userDto: UserDto): Promise<{
+    createNewUser(userDto: UserDto, image: any): Promise<{
         data: {
             id: number;
             fullName: string;
             email: string;
             number: string;
+            profileImage: string;
             joined: Date;
         };
         token: string;
     }>;
-    updateUser(id: any, updateUserDto: UserUpdateDto): Promise<any>;
-    deletPie(id: any): Promise<string>;
+    updateUser(id: any, updateUserDto: UserUpdateDto, image: any): Promise<any>;
+    updateUserNotificationToken(id: any, updateUserNotiTokenDto: NotiTokenDto): Promise<any>;
+    deletPie(id: any): Promise<{
+        data: {
+            id: number;
+        };
+    }>;
+    deletUserDashboard(id: any, UserId: any): Promise<{
+        data: {
+            id: number;
+        };
+    }>;
     promoteUserLevel(id: any, role: string): Promise<{
         data: import("./user.entity").User;
     }>;

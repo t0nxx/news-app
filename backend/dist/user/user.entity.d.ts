@@ -13,9 +13,11 @@ export declare class User {
     number: string;
     password: string;
     changePassCode: number;
-    fcmToken: string;
+    fcmTokens: string[];
     role: UserRole;
+    profileImage: string;
     subscribed: Category[];
+    bookmarks: Post[];
     posts: Post[];
     comments: Comment[];
     createdAt: Date;
