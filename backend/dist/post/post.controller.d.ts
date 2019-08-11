@@ -48,4 +48,16 @@ export declare class PostController {
     deletepost(id: any): Promise<any>;
     bookmarkPost(id: any, postId: any): Promise<any>;
     unBookmarkPost(id: any, postId: any): Promise<any>;
+    getStatistics(): Promise<{
+        commentsCount: number;
+        usersCount: number;
+        postsCount: number;
+        reactionsCount: number;
+        tagsCount: number;
+        categoriesCount: number;
+        mostLiked: any;
+        mostLoved: any;
+        mostAngry: any;
+        mostCommented: any;
+    }>;
 }

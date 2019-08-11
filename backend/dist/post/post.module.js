@@ -19,6 +19,7 @@ const category_entity_1 = require("../category/category.entity");
 const hashtage_entity_1 = require("../hashtag/hashtage.entity");
 const maintainerOrAdmin_auth_1 = require("../auth/maintainerOrAdmin.auth");
 const source_entity_1 = require("../source/source.entity");
+const comment_entity_1 = require("../comment/comment.entity");
 let PostModule = class PostModule {
     configure(consumer) {
         consumer
@@ -32,7 +33,7 @@ let PostModule = class PostModule {
 PostModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([post_entity_1.Post, user_entity_1.User, postReactions_entity_1.PostReactions, category_entity_1.Category, hashtage_entity_1.HashTag, source_entity_1.Source]), user_module_1.UserModule,
+            typeorm_1.TypeOrmModule.forFeature([post_entity_1.Post, user_entity_1.User, postReactions_entity_1.PostReactions, category_entity_1.Category, hashtage_entity_1.HashTag, source_entity_1.Source, comment_entity_1.Comment]), user_module_1.UserModule,
         ],
         providers: [post_service_1.PostService],
         controllers: [post_controller_1.PostController],

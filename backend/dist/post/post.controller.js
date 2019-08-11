@@ -97,6 +97,11 @@ let PostController = class PostController {
             return this.postService.unBookmarkPost(id, postId);
         });
     }
+    getStatistics() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.postService.getStatistics();
+        });
+    }
 };
 __decorate([
     common_1.Get(),
@@ -197,6 +202,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "unBookmarkPost", null);
+__decorate([
+    common_1.Get('statistics'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getStatistics", null);
 PostController = __decorate([
     swagger_1.ApiUseTags('posts'),
     common_1.Controller('posts'),

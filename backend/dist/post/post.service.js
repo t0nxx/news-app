@@ -30,14 +30,16 @@ const postReactions_entity_1 = require("../relationsEntities/postReactions.entit
 const category_entity_1 = require("../category/category.entity");
 const hashtage_entity_1 = require("../hashtag/hashtage.entity");
 const source_entity_1 = require("../source/source.entity");
+const comment_entity_1 = require("../comment/comment.entity");
 let PostService = class PostService {
-    constructor(PostRepository, tagRepository, categoryRepository, userRepository, sourceRepository, postReationsRepository) {
+    constructor(PostRepository, tagRepository, categoryRepository, userRepository, sourceRepository, postReationsRepository, commentRepository) {
         this.PostRepository = PostRepository;
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.sourceRepository = sourceRepository;
         this.postReationsRepository = postReationsRepository;
+        this.commentRepository = commentRepository;
     }
     getAllPosts(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -249,6 +251,53 @@ let PostService = class PostService {
             return { data: 'done . post unbookmarked' };
         });
     }
+    getStatistics() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [comments, users, posts, reactions, tags, categories, mostLiked, mostLoved, mostAngry, mostCommented] = yield Promise.all([
+                this.commentRepository.count(),
+                this.userRepository.count(),
+                this.PostRepository.count(),
+                this.postReationsRepository.count(),
+                this.tagRepository.count(),
+                this.categoryRepository.count(),
+                this.postReationsRepository.createQueryBuilder()
+                    .select('postId , Count(*) as count')
+                    .where(`reaction like 'like'`)
+                    .groupBy('postId')
+                    .orderBy('count', 'DESC')
+                    .getRawOne(),
+                this.postReationsRepository.createQueryBuilder()
+                    .select('postId , Count(*) as count')
+                    .where(`reaction like 'love'`)
+                    .groupBy('postId')
+                    .orderBy('count', 'DESC')
+                    .getRawOne(),
+                this.postReationsRepository.createQueryBuilder()
+                    .select('postId , Count(*) as count')
+                    .where(`reaction like 'angry'`)
+                    .groupBy('postId')
+                    .orderBy('count', 'DESC')
+                    .getRawOne(),
+                this.commentRepository.createQueryBuilder()
+                    .select('postId , Count(*) as count')
+                    .groupBy('postId')
+                    .orderBy('count', 'DESC')
+                    .getRawOne(),
+            ]);
+            return {
+                commentsCount: comments,
+                usersCount: users,
+                postsCount: posts,
+                reactionsCount: reactions,
+                tagsCount: tags,
+                categoriesCount: categories,
+                mostLiked,
+                mostLoved,
+                mostAngry,
+                mostCommented,
+            };
+        });
+    }
 };
 PostService = __decorate([
     common_1.Injectable(),
@@ -258,7 +307,9 @@ PostService = __decorate([
     __param(3, typeorm_1.InjectRepository(user_entity_1.User)),
     __param(4, typeorm_1.InjectRepository(source_entity_1.Source)),
     __param(5, typeorm_1.InjectRepository(postReactions_entity_1.PostReactions)),
+    __param(6, typeorm_1.InjectRepository(comment_entity_1.Comment)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
