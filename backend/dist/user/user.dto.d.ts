@@ -5,3 +5,12 @@ export declare class UserDto {
     password: string;
     profileImage: string;
 }
+export declare class resetDTo {
+    email: string;
+    resetCode: string;
+}
+export declare class resetDToAnddPass {
+    email: string;
+    password: string;
+    resetCode: string;
+}

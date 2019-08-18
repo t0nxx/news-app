@@ -1,5 +1,5 @@
 import { UserService } from './user.service';
-import { UserDto } from './user.dto';
+import { UserDto, resetDTo, resetDToAnddPass } from './user.dto';
 import { UserUpdateDto } from './user.update.dto';
 import { PaginationDto } from '../shared/pagination.filter';
 import { Category } from '../category/category.entity';
@@ -60,6 +60,15 @@ export declare class UserController {
         data: string;
     }>;
     UnsubscribeFromCategories(id: any, categories: number[]): Promise<{
+        data: string;
+    }>;
+    forgetPassword(body: any): Promise<{
+        data: string;
+    }>;
+    validResetCode(resDto: resetDTo): Promise<{
+        data: string;
+    }>;
+    changePasswordAfterResetode(resAndPAss: resetDToAnddPass): Promise<{
         data: string;
     }>;
 }

@@ -39,4 +39,38 @@ __decorate([
     __metadata("design:type", String)
 ], UserDto.prototype, "password", void 0);
 exports.UserDto = UserDto;
+class resetDTo {
+}
+__decorate([
+    swagger_1.ApiModelProperty(),
+    class_validator_1.IsNotEmpty(),
+    class_validator_1.IsEmail(),
+    __metadata("design:type", String)
+], resetDTo.prototype, "email", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    class_validator_1.IsNotEmpty(),
+    __metadata("design:type", String)
+], resetDTo.prototype, "resetCode", void 0);
+exports.resetDTo = resetDTo;
+class resetDToAnddPass {
+}
+__decorate([
+    swagger_1.ApiModelProperty(),
+    class_validator_1.IsNotEmpty(),
+    class_validator_1.IsEmail(),
+    __metadata("design:type", String)
+], resetDToAnddPass.prototype, "email", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    class_validator_1.IsNotEmpty(),
+    class_validator_1.MinLength(6),
+    __metadata("design:type", String)
+], resetDToAnddPass.prototype, "password", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    class_validator_1.IsNotEmpty(),
+    __metadata("design:type", String)
+], resetDToAnddPass.prototype, "resetCode", void 0);
+exports.resetDToAnddPass = resetDToAnddPass;
 //# sourceMappingURL=user.dto.js.map

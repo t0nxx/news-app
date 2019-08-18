@@ -28,6 +28,7 @@ const bcryptjs_1 = require("bcryptjs");
 const generate_jwt_1 = require("../shared/generate.jwt");
 const category_entity_1 = require("../category/category.entity");
 const QueryOrderFormat_1 = require("../shared/QueryOrderFormat");
+const sendMail_1 = require("../shared/sendMail");
 let UserService = class UserService {
     constructor(userRepository, categoryRepository) {
         this.userRepository = userRepository;
@@ -206,6 +207,48 @@ let UserService = class UserService {
             findOne.subscribed = filtered;
             const UnsubDone = yield this.userRepository.save(findOne);
             return { data: 'Unsubscribe Done' };
+        });
+    }
+    forgetPassword(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.userRepository.findOne({ email: body.email });
+            if (!findOne) {
+                throw new common_1.BadRequestException('email not found');
+            }
+            findOne.changePassCode = Math.floor(100000 + Math.random() * 900000);
+            yield this.userRepository.save(findOne);
+            sendMail_1.sendMail(findOne.email, findOne.changePassCode);
+            return { data: 'Done. reset code was sent to your email' };
+        });
+    }
+    validResetCode(resDto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.userRepository.findOne({ email: resDto.email });
+            if (!findOne) {
+                throw new common_1.BadRequestException('email not found');
+            }
+            if (findOne.changePassCode !== parseInt(resDto.resetCode)) {
+                {
+                    throw new common_1.BadRequestException('bad reset code ');
+                }
+            }
+            return { data: 'Good Code' };
+        });
+    }
+    changePasswordAfterResetode(resAndPAss) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const findOne = yield this.userRepository.findOne({ email: resAndPAss.email });
+            if (!findOne) {
+                throw new common_1.BadRequestException('email not found');
+            }
+            if (findOne.changePassCode !== parseInt(resAndPAss.resetCode)) {
+                {
+                    throw new common_1.BadRequestException('bad reset code ');
+                }
+            }
+            findOne.password = yield bcryptjs_1.hashSync(resAndPAss.password, 10);
+            yield this.userRepository.save(findOne);
+            return { data: 'Done . Password changed , please login again' };
         });
     }
 };

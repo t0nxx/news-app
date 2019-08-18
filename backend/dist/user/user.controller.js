@@ -95,6 +95,21 @@ let UserController = class UserController {
             return yield this.userService.UnsubscribeFromCategories(id, categories);
         });
     }
+    forgetPassword(body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userService.forgetPassword(body);
+        });
+    }
+    validResetCode(resDto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userService.validResetCode(resDto);
+        });
+    }
+    changePasswordAfterResetode(resAndPAss) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.userService.changePasswordAfterResetode(resAndPAss);
+        });
+    }
 };
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
@@ -194,6 +209,27 @@ __decorate([
     __metadata("design:paramtypes", [Object, Array]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "UnsubscribeFromCategories", null);
+__decorate([
+    common_1.Post('/forgetpassword'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "forgetPassword", null);
+__decorate([
+    common_1.Post('/forgetpassword/resetcode'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.resetDTo]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "validResetCode", null);
+__decorate([
+    common_1.Post('/forgetpassword/resetcode/changepassword'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.resetDToAnddPass]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "changePasswordAfterResetode", null);
 UserController = __decorate([
     swagger_1.ApiUseTags('users'),
     common_1.Controller('users'),
