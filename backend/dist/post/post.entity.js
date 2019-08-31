@@ -38,6 +38,14 @@ __decorate([
     __metadata("design:type", Number)
 ], Post.prototype, "reactionsCount", void 0);
 __decorate([
+    typeorm_1.Column({ default: 0 }),
+    __metadata("design:type", Number)
+], Post.prototype, "readCount", void 0);
+__decorate([
+    typeorm_1.Column({ default: 0 }),
+    __metadata("design:type", Number)
+], Post.prototype, "commentsCount", void 0);
+__decorate([
     typeorm_1.ManyToOne(type => user_entity_1.User, user => user.posts),
     typeorm_1.JoinTable(),
     __metadata("design:type", user_entity_1.User)

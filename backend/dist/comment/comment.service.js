@@ -95,6 +95,8 @@ let CommentService = class CommentService {
                 const parent = yield this.commentRepository.findOne({ id: commentDto.parentId });
                 comment.parentId = parent.id;
             }
+            post.commentsCount = post.commentsCount + 1;
+            yield this.postRepository.save(post);
             const save = yield this.commentRepository.save(comment);
             const { id, body, createdAt, updatedAt, reports } = save;
             return { data: { id, body, reports, createdAt, updatedAt } };

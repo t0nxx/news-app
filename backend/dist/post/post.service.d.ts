@@ -26,6 +26,8 @@ export declare class PostService {
             body: string;
             backgroundImage: string;
             reactionsCount: number;
+            readCount: number;
+            commentsCount: number;
             user: User;
             source: Source;
             categories: Category[];

@@ -28,6 +28,8 @@ export declare class PostController {
             body: string;
             backgroundImage: string;
             reactionsCount: number;
+            readCount: number;
+            commentsCount: number;
             user: import("../user/user.entity").User;
             source: import("../source/source.entity").Source;
             categories: import("../category/category.entity").Category[];

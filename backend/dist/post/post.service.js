@@ -49,12 +49,18 @@ let PostService = class PostService {
             q.leftJoinAndSelect('post.source', 'source');
             q.innerJoin('post.user', 'user');
             q.addSelect(['user.id', 'user.fullName']);
+            q.orderBy('post.id', 'DESC');
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
             if (paginate.tag) {
                 q.where(`tags.name like '%${paginate.tag}%'`);
             }
-            if (paginate.category) {
-                q.where(`categories.name like '%${paginate.category}%'`);
+            if (paginate.kind) {
+                if (paginate.kind === 'mostComment') {
+                    q.orderBy('post.commentsCount', 'DESC');
+                }
+                if (paginate.kind === 'mostRead') {
+                    q.orderBy('post.readCount', 'DESC');
+                }
             }
             if (paginate.userID) {
                 q.where(`user.id  = ${paginate.userID}`);
@@ -87,11 +93,13 @@ let PostService = class PostService {
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
+            findOne.readCount = findOne.readCount + 1;
             const reactions = yield this.postReationsRepository.createQueryBuilder()
                 .select('reaction , Count(*) as count')
                 .where(`postId = ${postId}`)
                 .groupBy('reaction')
                 .getRawMany();
+            yield this.PostRepository.save(findOne);
             return { data: Object.assign({}, findOne, { reactions }) };
         });
     }

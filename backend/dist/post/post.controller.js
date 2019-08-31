@@ -106,7 +106,7 @@ let PostController = class PostController {
 __decorate([
     common_1.Get(),
     swagger_1.ApiImplicitQuery({ name: 'tag', required: false }),
-    swagger_1.ApiImplicitQuery({ name: 'category', required: false }),
+    swagger_1.ApiImplicitQuery({ name: 'kind', required: false, description: 'mostComment , mostRead' }),
     __param(0, common_1.Query()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
