@@ -54,7 +54,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
-    typeorm_1.Column({ default: 'no image' }),
+    typeorm_1.Column({ default: 'https://news-app-uploads.s3.eu-central-1.amazonaws.com/1567899027453%20-%20download.png' }),
     __metadata("design:type", String)
 ], User.prototype, "profileImage", void 0);
 __decorate([

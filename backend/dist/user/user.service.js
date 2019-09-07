@@ -49,7 +49,7 @@ let UserService = class UserService {
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
-            const { id, fullName, email, number, role, subscribed } = findOne;
+            const { id, fullName, email, number, role, profileImage, subscribed } = findOne;
             return {
                 data: {
                     id,
@@ -58,6 +58,7 @@ let UserService = class UserService {
                     number,
                     joined: findOne.createdAt,
                     role,
+                    profileImage,
                     subscribed,
                 },
             };

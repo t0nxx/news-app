@@ -16,6 +16,7 @@ export declare class UserController {
             number: string;
             joined: Date;
             role: import("./user.entity").UserRole;
+            profileImage: string;
             subscribed: Category[];
         };
     }>;
@@ -27,6 +28,7 @@ export declare class UserController {
             number: string;
             joined: Date;
             role: import("./user.entity").UserRole;
+            profileImage: string;
             subscribed: Category[];
         };
     }>;

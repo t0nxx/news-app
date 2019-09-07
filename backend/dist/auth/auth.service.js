@@ -46,6 +46,7 @@ let AuthService = class AuthService {
                     firstName: user.fullName,
                     email: user.email,
                     number: user.number,
+                    profileImage: user.profileImage,
                     role: user.role,
                 },
                 token: yield generate_jwt_1.generateJwtToken({
