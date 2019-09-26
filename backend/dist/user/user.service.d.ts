@@ -19,6 +19,7 @@ export declare class UserService {
             joined: Date;
             role: UserRole;
             profileImage: string;
+            receiveNotification: boolean;
             subscribed: Category[];
         };
     }>;

@@ -48,6 +48,7 @@ let AuthService = class AuthService {
                     number: user.number,
                     profileImage: user.profileImage,
                     role: user.role,
+                    receiveNotification: user.receiveNotification,
                 },
                 token: yield generate_jwt_1.generateJwtToken({
                     id: user.id,

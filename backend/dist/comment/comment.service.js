@@ -52,6 +52,19 @@ let CommentService = class CommentService {
             return { data, count };
         });
     }
+    getMyComments(id, paginate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = this.commentRepository
+                .createQueryBuilder('comment')
+                .innerJoin('comment.post', 'post')
+                .innerJoin('comment.user', 'user')
+                .where(`user.id = ${id}`)
+                .addSelect(['post.id']);
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['comment.body'], 'comment');
+            const [data, count] = yield qAfterFormat.getManyAndCount();
+            return { data, count };
+        });
+    }
     getRepliesOfComments(id, paginate) {
         return __awaiter(this, void 0, void 0, function* () {
             const q = this.commentRepository

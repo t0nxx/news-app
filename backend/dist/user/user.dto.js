@@ -16,7 +16,6 @@ class UserDto {
 __decorate([
     swagger_1.ApiModelProperty(),
     class_validator_1.IsNotEmpty(),
-    class_validator_1.IsAlpha(),
     __metadata("design:type", String)
 ], UserDto.prototype, "fullName", void 0);
 __decorate([

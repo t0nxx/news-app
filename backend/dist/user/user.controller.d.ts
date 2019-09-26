@@ -17,6 +17,7 @@ export declare class UserController {
             joined: Date;
             role: import("./user.entity").UserRole;
             profileImage: string;
+            receiveNotification: boolean;
             subscribed: Category[];
         };
     }>;
@@ -29,6 +30,7 @@ export declare class UserController {
             joined: Date;
             role: import("./user.entity").UserRole;
             profileImage: string;
+            receiveNotification: boolean;
             subscribed: Category[];
         };
     }>;

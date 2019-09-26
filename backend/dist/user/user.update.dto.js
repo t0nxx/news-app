@@ -24,16 +24,8 @@ class UserUpdateDto {
 }
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
-    class_validator_1.IsOptional(),
-    class_validator_1.IsAlpha(),
     __metadata("design:type", String)
-], UserUpdateDto.prototype, "firstName", void 0);
-__decorate([
-    swagger_1.ApiModelPropertyOptional(),
-    class_validator_1.IsOptional(),
-    class_validator_1.IsAlpha(),
-    __metadata("design:type", String)
-], UserUpdateDto.prototype, "lastName", void 0);
+], UserUpdateDto.prototype, "fullName", void 0);
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     class_validator_1.IsOptional(),
@@ -53,6 +45,11 @@ __decorate([
     class_validator_1.MinLength(6),
     __metadata("design:type", String)
 ], UserUpdateDto.prototype, "password", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", Boolean)
+], UserUpdateDto.prototype, "receiveNotification", void 0);
 exports.UserUpdateDto = UserUpdateDto;
 ;
 function hashUpdatePass(pass) {

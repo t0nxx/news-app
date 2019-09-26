@@ -10,6 +10,10 @@ export declare class CommentService {
     private readonly postRepository;
     constructor(commentRepository: Repository<Comment>, userRepository: Repository<User>, postRepository: Repository<Post>);
     getAllComments(paginate: any): Promise<any>;
+    getMyComments(id: number, paginate: any): Promise<{
+        data: any;
+        count: any;
+    }>;
     getRepliesOfComments(id: number, paginate: any): Promise<any>;
     getOneComment(id: number): Promise<any>;
     CreateNewComment(userId: number, commentDto: CommentDto): Promise<any>;

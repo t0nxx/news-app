@@ -49,7 +49,7 @@ let UserService = class UserService {
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
-            const { id, fullName, email, number, role, profileImage, subscribed } = findOne;
+            const { id, fullName, email, number, role, profileImage, subscribed, receiveNotification } = findOne;
             return {
                 data: {
                     id,
@@ -59,6 +59,7 @@ let UserService = class UserService {
                     joined: findOne.createdAt,
                     role,
                     profileImage,
+                    receiveNotification,
                     subscribed,
                 },
             };
@@ -111,7 +112,7 @@ let UserService = class UserService {
                 }
                 yield this.userRepository.update({ id: findOne.id }, updateUser);
                 const updated = yield this.userRepository.findOne(id);
-                const { fullName, email, number, changePassCode, profileImage } = updated;
+                const { fullName, email, number, changePassCode, profileImage, receiveNotification } = updated;
                 return {
                     data: {
                         fullName,
@@ -119,6 +120,7 @@ let UserService = class UserService {
                         number,
                         joined: findOne.createdAt,
                         profileImage,
+                        receiveNotification,
                     },
                     token: yield generate_jwt_1.generateJwtToken({
                         id,

@@ -22,119 +22,87 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const comment_service_1 = require("./comment.service");
+const helpMe_service_1 = require("./helpMe.service");
 const pagination_filter_1 = require("../shared/pagination.filter");
-const comment_dto_1 = require("./comment.dto");
-const user_decorator_1 = require("../user/user.decorator");
-const comment_update_dto_1 = require("./comment.update.dto");
-let CommentController = class CommentController {
-    constructor(commentService) {
-        this.commentService = commentService;
+const helpMe_dto_1 = require("./helpMe.dto");
+const helpMe_update_dto_1 = require("./helpMe.update.dto");
+let HelpMeController = class HelpMeController {
+    constructor(helpMeervice) {
+        this.helpMeervice = helpMeervice;
     }
-    getAllComments(paginate) {
+    getAllhelpMe(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.getAllComments(paginate);
+            return this.helpMeervice.getAllhelpMes(paginate);
         });
     }
-    getAllMyComments(paginate, id) {
+    getOnehelpMe(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.getMyComments(id, paginate);
+            return this.helpMeervice.getOnehelpMe(id);
         });
     }
-    getOneComment(id) {
+    createNewUser(cate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.getOneComment(id);
+            return this.helpMeervice.createNewhelpMe(cate);
         });
     }
-    createNewUser(id, comment) {
+    updatehelpMe(id, cate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.CreateNewComment(id, comment);
+            return this.helpMeervice.updatehelpMe(id, cate);
         });
     }
-    updateComment(userId, id, cate) {
+    deletehelpMe(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.updateComment(userId, id, cate);
-        });
-    }
-    deleteComment(userId, id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.deletComment(userId, id);
-        });
-    }
-    reportComment(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.ReportComment(id);
+            return this.helpMeervice.delethelpMe(id);
         });
     }
 };
 __decorate([
     common_1.Get(),
-    swagger_1.ApiImplicitQuery({ name: 'postId', type: 'number', required: false }),
-    swagger_1.ApiImplicitQuery({ name: 'parentId', type: 'number', required: false }),
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     __param(0, common_1.Query()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "getAllComments", null);
-__decorate([
-    common_1.Get('/me'),
-    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
-    __param(0, common_1.Query()), __param(1, user_decorator_1.User('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto, Object]),
-    __metadata("design:returntype", Promise)
-], CommentController.prototype, "getAllMyComments", null);
+], HelpMeController.prototype, "getAllhelpMe", null);
 __decorate([
     common_1.Get('/getOne/:id'),
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),
     __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "getOneComment", null);
+], HelpMeController.prototype, "getOnehelpMe", null);
 __decorate([
-    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     common_1.Post('/new'),
-    __param(0, user_decorator_1.User('id')),
-    __param(1, common_1.Body()),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, comment_dto_1.CommentDto]),
+    __metadata("design:paramtypes", [helpMe_dto_1.HelpMeDto]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "createNewUser", null);
+], HelpMeController.prototype, "createNewUser", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),
     common_1.Put('/update/:id'),
-    __param(0, user_decorator_1.User('id')),
-    __param(1, common_1.Param('id', new common_1.ParseIntPipe())),
-    __param(2, common_1.Body()),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(1, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, comment_update_dto_1.CommentUpdateDto]),
+    __metadata("design:paramtypes", [Object, helpMe_update_dto_1.HelpMeUpdateDto]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "updateComment", null);
+], HelpMeController.prototype, "updatehelpMe", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),
     common_1.Delete('/delete/:id'),
-    __param(0, user_decorator_1.User('id')),
-    __param(1, common_1.Param('id', new common_1.ParseIntPipe())),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], CommentController.prototype, "deleteComment", null);
-__decorate([
-    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
-    swagger_1.ApiImplicitParam({ name: 'id' }),
-    common_1.Get('/report/:id'),
     __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "reportComment", null);
-CommentController = __decorate([
-    swagger_1.ApiUseTags('comments'),
-    common_1.Controller('comments'),
-    __metadata("design:paramtypes", [comment_service_1.CommentService])
-], CommentController);
-exports.CommentController = CommentController;
-//# sourceMappingURL=comment.controller.js.map
+], HelpMeController.prototype, "deletehelpMe", null);
+HelpMeController = __decorate([
+    swagger_1.ApiUseTags('helpMe'),
+    common_1.Controller('helpMe'),
+    __metadata("design:paramtypes", [helpMe_service_1.HelpMeService])
+], HelpMeController);
+exports.HelpMeController = HelpMeController;
+//# sourceMappingURL=helpMe.controller.js.map

@@ -22,68 +22,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const comment_service_1 = require("./comment.service");
+const aboutUs_service_1 = require("./aboutUs.service");
 const pagination_filter_1 = require("../shared/pagination.filter");
-const comment_dto_1 = require("./comment.dto");
-const user_decorator_1 = require("../user/user.decorator");
-const comment_update_dto_1 = require("./comment.update.dto");
-let CommentController = class CommentController {
-    constructor(commentService) {
-        this.commentService = commentService;
+const aboutUs_dto_1 = require("./aboutUs.dto");
+const aboutUs_update_dto_1 = require("./aboutUs.update.dto");
+let AboutUsController = class AboutUsController {
+    constructor(aboutUservice) {
+        this.aboutUservice = aboutUservice;
     }
-    getAllComments(paginate) {
+    getAllaboutUs(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.getAllComments(paginate);
+            return this.aboutUservice.getAllAboutUss(paginate);
         });
     }
-    getAllMyComments(paginate, id) {
+    getOneAboutUs(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.getMyComments(id, paginate);
+            return this.aboutUservice.getOneAboutUs(id);
         });
     }
-    getOneComment(id) {
+    createNewUser(cate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.getOneComment(id);
+            return this.aboutUservice.createNewAboutUs(cate);
         });
     }
-    createNewUser(id, comment) {
+    updateAboutUs(id, cate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.CreateNewComment(id, comment);
+            return this.aboutUservice.updateAboutUs(id, cate);
         });
     }
-    updateComment(userId, id, cate) {
+    deleteAboutUs(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.updateComment(userId, id, cate);
-        });
-    }
-    deleteComment(userId, id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.deletComment(userId, id);
-        });
-    }
-    reportComment(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.ReportComment(id);
+            return this.aboutUservice.deletAboutUs(id);
         });
     }
 };
 __decorate([
     common_1.Get(),
-    swagger_1.ApiImplicitQuery({ name: 'postId', type: 'number', required: false }),
-    swagger_1.ApiImplicitQuery({ name: 'parentId', type: 'number', required: false }),
     __param(0, common_1.Query()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "getAllComments", null);
-__decorate([
-    common_1.Get('/me'),
-    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
-    __param(0, common_1.Query()), __param(1, user_decorator_1.User('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto, Object]),
-    __metadata("design:returntype", Promise)
-], CommentController.prototype, "getAllMyComments", null);
+], AboutUsController.prototype, "getAllaboutUs", null);
 __decorate([
     common_1.Get('/getOne/:id'),
     swagger_1.ApiImplicitParam({ name: 'id' }),
@@ -91,50 +70,38 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "getOneComment", null);
+], AboutUsController.prototype, "getOneAboutUs", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     common_1.Post('/new'),
-    __param(0, user_decorator_1.User('id')),
-    __param(1, common_1.Body()),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, comment_dto_1.CommentDto]),
+    __metadata("design:paramtypes", [aboutUs_dto_1.AboutUsDto]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "createNewUser", null);
+], AboutUsController.prototype, "createNewUser", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),
     common_1.Put('/update/:id'),
-    __param(0, user_decorator_1.User('id')),
-    __param(1, common_1.Param('id', new common_1.ParseIntPipe())),
-    __param(2, common_1.Body()),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(1, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, comment_update_dto_1.CommentUpdateDto]),
+    __metadata("design:paramtypes", [Object, aboutUs_update_dto_1.AboutUsUpdateDto]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "updateComment", null);
+], AboutUsController.prototype, "updateAboutUs", null);
 __decorate([
     swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
     swagger_1.ApiImplicitParam({ name: 'id' }),
     common_1.Delete('/delete/:id'),
-    __param(0, user_decorator_1.User('id')),
-    __param(1, common_1.Param('id', new common_1.ParseIntPipe())),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], CommentController.prototype, "deleteComment", null);
-__decorate([
-    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
-    swagger_1.ApiImplicitParam({ name: 'id' }),
-    common_1.Get('/report/:id'),
     __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], CommentController.prototype, "reportComment", null);
-CommentController = __decorate([
-    swagger_1.ApiUseTags('comments'),
-    common_1.Controller('comments'),
-    __metadata("design:paramtypes", [comment_service_1.CommentService])
-], CommentController);
-exports.CommentController = CommentController;
-//# sourceMappingURL=comment.controller.js.map
+], AboutUsController.prototype, "deleteAboutUs", null);
+AboutUsController = __decorate([
+    swagger_1.ApiUseTags('aboutUs'),
+    common_1.Controller('aboutUs'),
+    __metadata("design:paramtypes", [aboutUs_service_1.AboutUsService])
+], AboutUsController);
+exports.AboutUsController = AboutUsController;
+//# sourceMappingURL=aboutUs.controller.js.map

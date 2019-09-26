@@ -6,6 +6,10 @@ export declare class CommentController {
     private commentService;
     constructor(commentService: CommentService);
     getAllComments(paginate: PaginationDto): Promise<any>;
+    getAllMyComments(paginate: PaginationDto, id: any): Promise<{
+        data: any;
+        count: any;
+    }>;
     getOneComment(id: any): Promise<any>;
     createNewUser(id: any, comment: CommentDto): Promise<any>;
     updateComment(userId: any, id: any, cate: CommentUpdateDto): Promise<{

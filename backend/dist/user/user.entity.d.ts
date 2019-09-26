@@ -11,6 +11,7 @@ export declare class User {
     fullName: string;
     email: string;
     number: string;
+    receiveNotification: boolean;
     password: string;
     changePassCode: number;
     fcmTokens: string[];

@@ -19,6 +19,8 @@ const typeorm_1 = require("@nestjs/typeorm");
 const uploader_module_1 = require("./uploader/uploader.module");
 const noti_module_1 = require("./notification/noti.module");
 const source_module_1 = require("./source/source.module");
+const aboutUs_module_1 = require("./aboutUs/aboutUs.module");
+const helpMe_module_1 = require("./helpMe/helpMe.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -33,6 +35,8 @@ AppModule = __decorate([
             uploader_module_1.UploaderModule,
             noti_module_1.NotificationModule,
             source_module_1.SourceModule,
+            helpMe_module_1.HelpMeModule,
+            aboutUs_module_1.AboutUsModule,
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
                 host: 'localhost',
