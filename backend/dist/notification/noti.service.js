@@ -67,6 +67,16 @@ let NotificationService = class NotificationService {
                         title: noti.title,
                         body: noti.body,
                     },
+                    android: {
+                        notification: {
+                            sound: "default"
+                        }
+                    },
+                    apns: {
+                        payload: {
+                            sound: "default"
+                        }
+                    },
                     tokens: arr,
                 };
                 fcm_1.sendNotification(message);
