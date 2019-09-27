@@ -4,7 +4,7 @@ import { PostDto } from './post.dto';
 export declare class PostController {
     private postService;
     constructor(postService: PostService);
-    getAllPosts(paginate: PaginationDto): Promise<any>;
+    getAllPosts(paginate: PaginationDto, userid: any): Promise<any>;
     getOnepostDashBoard(id: any): Promise<{
         data: {
             id: number;

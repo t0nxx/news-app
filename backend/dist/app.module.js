@@ -48,7 +48,7 @@ AppModule = __decorate([
                 database: 'news_app',
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: true,
-                logging: true,
+                logging: false,
                 charset: 'UTF8_GENERAL_CI',
             }),
         ],

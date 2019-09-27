@@ -41,14 +41,14 @@ let PostService = class PostService {
         this.postReationsRepository = postReationsRepository;
         this.commentRepository = commentRepository;
     }
-    getAllPosts(paginate) {
+    getAllPosts(paginate, userid) {
         return __awaiter(this, void 0, void 0, function* () {
             const q = this.PostRepository.createQueryBuilder('post');
             q.leftJoinAndSelect('post.categories', 'categories');
             q.leftJoinAndSelect('post.tags', 'tags');
             q.leftJoinAndSelect('post.source', 'source');
             q.innerJoin('post.user', 'user');
-            q.addSelect(['user.id', 'user.fullName']);
+            q.addSelect(['user.id', 'user.fullName', 'user.profileImage']);
             q.orderBy('post.id', 'DESC');
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
             if (paginate.tag) {
@@ -71,7 +71,7 @@ let PostService = class PostService {
     }
     getPostsOfMySubscription(userId, paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findOne = yield this.userRepository.findOne({ id: userId }, { relations: ['subscribed'] });
+            const findOne = yield this.userRepository.findOne({ id: userId }, { relations: ['subscribed', 'bookmarks'] });
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
@@ -80,6 +80,8 @@ let PostService = class PostService {
                 .leftJoinAndSelect('post.categories', 'categories')
                 .leftJoinAndSelect('post.tags', 'tags')
                 .leftJoinAndSelect('post.source', 'source')
+                .innerJoin('post.user', 'user')
+                .addSelect(['user.id', 'user.fullName', 'user.profileImage'])
                 .where(`categories.id IN (${ids})`)
                 .orderBy('post_id', 'DESC');
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
@@ -89,7 +91,14 @@ let PostService = class PostService {
     }
     getOnePost(postId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findOne = yield this.PostRepository.findOne({ id: postId }, { relations: ['source'] });
+            const q = this.PostRepository.createQueryBuilder('post')
+                .leftJoinAndSelect('post.categories', 'categories')
+                .leftJoinAndSelect('post.tags', 'tags')
+                .leftJoinAndSelect('post.source', 'source')
+                .innerJoin('post.user', 'user')
+                .addSelect(['user.id', 'user.fullName', 'user.profileImage'])
+                .where(`post.id =  (${postId})`);
+            const findOne = yield q.getOne();
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }

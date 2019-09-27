@@ -16,7 +16,7 @@ export declare class PostService {
     private readonly postReationsRepository;
     private readonly commentRepository;
     constructor(PostRepository: Repository<Post>, tagRepository: Repository<HashTag>, categoryRepository: Repository<Category>, userRepository: Repository<User>, sourceRepository: Repository<Source>, postReationsRepository: Repository<PostReactions>, commentRepository: Repository<Comment>);
-    getAllPosts(paginate: any): Promise<any>;
+    getAllPosts(paginate: any, userid?: any): Promise<any>;
     getPostsOfMySubscription(userId: number, paginate: any): Promise<any>;
     getOnePost(postId: number): Promise<{
         data: {

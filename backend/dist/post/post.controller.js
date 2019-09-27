@@ -33,9 +33,9 @@ let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
     }
-    getAllPosts(paginate) {
+    getAllPosts(paginate, userid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.postService.getAllPosts(paginate);
+            return this.postService.getAllPosts(paginate, userid);
         });
     }
     getOnepostDashBoard(id) {
@@ -106,10 +106,11 @@ let PostController = class PostController {
 __decorate([
     common_1.Get(),
     swagger_1.ApiImplicitQuery({ name: 'tag', required: false }),
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: false }),
     swagger_1.ApiImplicitQuery({ name: 'kind', required: false, description: 'mostComment , mostRead' }),
-    __param(0, common_1.Query()),
+    __param(0, common_1.Query()), __param(1, user_decorator_1.User('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
+    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto, Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getAllPosts", null);
 __decorate([
