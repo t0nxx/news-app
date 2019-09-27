@@ -68,13 +68,9 @@ let NotificationService = class NotificationService {
                         body: noti.body,
                     },
                     android: {
+                        priority: 'high',
                         notification: {
-                            sound: "default"
-                        }
-                    },
-                    apns: {
-                        payload: {
-                            sound: "default"
+                            sound: 'default',
                         }
                     },
                     tokens: arr,
