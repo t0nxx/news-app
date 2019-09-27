@@ -42,7 +42,7 @@ let PostService = class PostService {
         this.postReationsRepository = postReationsRepository;
         this.commentRepository = commentRepository;
     }
-    getAllPosts(paginate, userid) {
+    getAllPosts(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
             const q = this.PostRepository.createQueryBuilder('post');
             q.leftJoinAndSelect('post.categories', 'categories');
@@ -63,11 +63,18 @@ let PostService = class PostService {
                     q.orderBy('post.readCount', 'DESC');
                 }
             }
-            if (paginate.userID) {
-                q.where(`user.id  = ${paginate.userID}`);
-            }
             const [data, count] = yield qAfterFormat.getManyAndCount();
-            if (userid) {
+            if (paginate.userId) {
+                const findOne = yield this.userRepository.findOne({ id: paginate.userId }, { relations: ['bookmarks'] });
+                data.forEach(element => {
+                    let isExist = lodash_1.some(findOne.bookmarks, { id: element.id });
+                    if (isExist) {
+                        element.isBookmarked = true;
+                    }
+                    else {
+                        element.isBookmarked = false;
+                    }
+                });
             }
             else {
                 data.forEach(element => {
@@ -106,7 +113,7 @@ let PostService = class PostService {
             return { data, count };
         });
     }
-    getOnePost(postId) {
+    getOnePost(postId, paginate) {
         return __awaiter(this, void 0, void 0, function* () {
             const q = this.PostRepository.createQueryBuilder('post')
                 .leftJoinAndSelect('post.categories', 'categories')
@@ -128,7 +135,19 @@ let PostService = class PostService {
                 .groupBy('reaction')
                 .getRawMany();
             yield this.PostRepository.save(findOne);
-            data['isBookmarked'] = false;
+            if (paginate.userId) {
+                const user = yield this.userRepository.findOne({ id: paginate.userId }, { relations: ['bookmarks'] });
+                let isExist = lodash_1.some(user.bookmarks, { id: findOne.id });
+                if (isExist) {
+                    data['isBookmarked'] = true;
+                }
+                else {
+                    data['isBookmarked'] = false;
+                }
+            }
+            else {
+                data['isBookmarked'] = false;
+            }
             return { data: Object.assign({}, data, { reactions }) };
         });
     }

@@ -33,9 +33,9 @@ let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
     }
-    getAllPosts(paginate, userid) {
+    getAllPosts(paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.postService.getAllPosts(paginate, userid);
+            return this.postService.getAllPosts(paginate);
         });
     }
     getOnepostDashBoard(id) {
@@ -43,9 +43,9 @@ let PostController = class PostController {
             return this.postService.getOnePostDashBoard(id);
         });
     }
-    getOnepost(id) {
+    getOnepost(id, paginate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.postService.getOnePost(id);
+            return this.postService.getOnePost(id, paginate);
         });
     }
     reactToPost(userid, postid, reaction) {
@@ -106,11 +106,11 @@ let PostController = class PostController {
 __decorate([
     common_1.Get(),
     swagger_1.ApiImplicitQuery({ name: 'tag', required: false }),
-    swagger_1.ApiImplicitHeader({ name: 'authorization', required: false }),
+    swagger_1.ApiImplicitQuery({ name: 'userId', required: false }),
     swagger_1.ApiImplicitQuery({ name: 'kind', required: false, description: 'mostComment , mostRead' }),
-    __param(0, common_1.Query()), __param(1, user_decorator_1.User('id')),
+    __param(0, common_1.Query()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto, Object]),
+    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getAllPosts", null);
 __decorate([
@@ -124,10 +124,12 @@ __decorate([
 ], PostController.prototype, "getOnepostDashBoard", null);
 __decorate([
     common_1.Get('/getOne/mobile/:id'),
+    swagger_1.ApiImplicitQuery({ name: 'userId', required: false }),
     swagger_1.ApiImplicitParam({ name: 'id', required: true }),
     __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(1, common_1.Query()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getOnepost", null);
 __decorate([
