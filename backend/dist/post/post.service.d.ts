@@ -21,20 +21,6 @@ export declare class PostService {
     getOnePost(postId: number): Promise<{
         data: {
             reactions: any[];
-            id: number;
-            title: string;
-            body: string;
-            backgroundImage: string;
-            reactionsCount: number;
-            readCount: number;
-            commentsCount: number;
-            user: User;
-            source: Source;
-            categories: Category[];
-            tags: HashTag[];
-            comments: Comment[];
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     getOnePostDashBoard(postId: number): Promise<{

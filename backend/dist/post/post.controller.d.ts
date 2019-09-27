@@ -23,20 +23,6 @@ export declare class PostController {
     getOnepost(id: any): Promise<{
         data: {
             reactions: any[];
-            id: number;
-            title: string;
-            body: string;
-            backgroundImage: string;
-            reactionsCount: number;
-            readCount: number;
-            commentsCount: number;
-            user: import("../user/user.entity").User;
-            source: import("../source/source.entity").Source;
-            categories: import("../category/category.entity").Category[];
-            tags: import("../hashtag/hashtage.entity").HashTag[];
-            comments: import("../comment/comment.entity").Comment[];
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     reactToPost(userid: any, postid: any, reaction: any): Promise<import("../relationsEntities/postReactions.entity").PostReactions | {

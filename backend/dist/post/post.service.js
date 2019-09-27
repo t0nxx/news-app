@@ -31,6 +31,7 @@ const category_entity_1 = require("../category/category.entity");
 const hashtage_entity_1 = require("../hashtag/hashtage.entity");
 const source_entity_1 = require("../source/source.entity");
 const comment_entity_1 = require("../comment/comment.entity");
+const lodash_1 = require("lodash");
 let PostService = class PostService {
     constructor(PostRepository, tagRepository, categoryRepository, userRepository, sourceRepository, postReationsRepository, commentRepository) {
         this.PostRepository = PostRepository;
@@ -66,6 +67,13 @@ let PostService = class PostService {
                 q.where(`user.id  = ${paginate.userID}`);
             }
             const [data, count] = yield qAfterFormat.getManyAndCount();
+            if (userid) {
+            }
+            else {
+                data.forEach(element => {
+                    element.isBookmarked = false;
+                });
+            }
             return { data, count };
         });
     }
@@ -86,6 +94,15 @@ let PostService = class PostService {
                 .orderBy('post_id', 'DESC');
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
             const [data, count] = yield qAfterFormat.getManyAndCount();
+            data.forEach(element => {
+                let isExist = lodash_1.some(findOne.bookmarks, { id: element.id });
+                if (isExist) {
+                    element.isBookmarked = true;
+                }
+                else {
+                    element.isBookmarked = false;
+                }
+            });
             return { data, count };
         });
     }
@@ -99,6 +116,8 @@ let PostService = class PostService {
                 .addSelect(['user.id', 'user.fullName', 'user.profileImage'])
                 .where(`post.id =  (${postId})`);
             const findOne = yield q.getOne();
+            let data = {};
+            Object.assign(data, findOne);
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
@@ -109,7 +128,8 @@ let PostService = class PostService {
                 .groupBy('reaction')
                 .getRawMany();
             yield this.PostRepository.save(findOne);
-            return { data: Object.assign({}, findOne, { reactions }) };
+            data['isBookmarked'] = false;
+            return { data: Object.assign({}, data, { reactions }) };
         });
     }
     getOnePostDashBoard(postId) {
