@@ -19,6 +19,7 @@ export declare class UserController {
             profileImage: string;
             receiveNotification: boolean;
             subscribed: Category[];
+            bookmarks: import("../post/post.entity").Post[];
         };
     }>;
     getMe(id: any): Promise<{
@@ -32,6 +33,7 @@ export declare class UserController {
             profileImage: string;
             receiveNotification: boolean;
             subscribed: Category[];
+            bookmarks: import("../post/post.entity").Post[];
         };
     }>;
     createNewUser(userDto: UserDto, image: any): Promise<{

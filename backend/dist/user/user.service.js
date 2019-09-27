@@ -45,11 +45,11 @@ let UserService = class UserService {
     }
     getOneUser(userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findOne = yield this.userRepository.findOne({ id: userId }, { relations: ['subscribed'] });
+            const findOne = yield this.userRepository.findOne({ id: userId }, { relations: ['subscribed', 'bookmarks'] });
             if (!findOne) {
                 throw new common_1.NotFoundException('invalid id');
             }
-            const { id, fullName, email, number, role, profileImage, subscribed, receiveNotification } = findOne;
+            const { id, fullName, email, number, role, profileImage, subscribed, receiveNotification, bookmarks } = findOne;
             return {
                 data: {
                     id,
@@ -61,6 +61,7 @@ let UserService = class UserService {
                     profileImage,
                     receiveNotification,
                     subscribed,
+                    bookmarks,
                 },
             };
         });

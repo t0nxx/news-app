@@ -21,6 +21,7 @@ export declare class UserService {
             profileImage: string;
             receiveNotification: boolean;
             subscribed: Category[];
+            bookmarks: import("../post/post.entity").Post[];
         };
     }>;
     createNewUser(userDto: UserDto): Promise<{

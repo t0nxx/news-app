@@ -4,7 +4,7 @@ const admin = require("firebase-admin");
 const serviceAccount = require('../config/fcmConfig.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://new-app-474e9.firebaseio.com'
+    databaseURL: 'https://hakaya-c75ca.firebaseio.com'
 });
 function sendNotification(message) {
     admin.messaging().sendMulticast(message)
