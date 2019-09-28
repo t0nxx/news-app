@@ -97,8 +97,10 @@ let PostService = class PostService {
                 .leftJoinAndSelect('post.source', 'source')
                 .innerJoin('post.user', 'user')
                 .addSelect(['user.id', 'user.fullName', 'user.profileImage'])
-                .where(`categories.id IN (${ids})`)
                 .orderBy('post_id', 'DESC');
+            if (ids.length > 0) {
+                q.where(`categories.id IN (${ids})`);
+            }
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
             const [data, count] = yield qAfterFormat.getManyAndCount();
             data.forEach(element => {
