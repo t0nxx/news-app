@@ -189,13 +189,13 @@ let PostService = class PostService {
             }
             const newReaction = new postReactions_entity_1.PostReactions();
             const isReacted = yield this.postReationsRepository.findOne({ user: userId, post: postId });
-            let user = {};
-            user['userId'] = userId;
+            let paginate = {};
+            paginate['userId'] = userId;
             if (isReacted) {
                 if (isReacted.reaction === reaction) {
                     yield this.PostRepository.decrement({ id: postId }, 'reactionsCount', 1);
                     yield this.postReationsRepository.remove(isReacted);
-                    return this.getOnePost(postId, user);
+                    return this.getOnePost(postId, paginate);
                 }
                 else {
                     newReaction.id = isReacted.id;
@@ -229,7 +229,7 @@ let PostService = class PostService {
             newReaction.post = postId;
             const save = yield this.postReationsRepository.save(newReaction);
             yield this.PostRepository.increment({ id: postId }, 'reactionsCount', 1);
-            return this.getOnePost(postId, user);
+            return this.getOnePost(postId, paginate);
         });
     }
     createNewPost(userId, PostDto) {
