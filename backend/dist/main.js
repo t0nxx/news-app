@@ -15,6 +15,9 @@ const swagger_1 = require("@nestjs/swagger");
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const fs = require("fs");
+const morgan = require("morgan");
+const accessLogStream = fs.createWriteStream(__dirname + '/logs.log', { flags: 'a' });
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = yield core_1.NestFactory.create(app_module_1.AppModule);
@@ -23,6 +26,7 @@ function bootstrap() {
         app.use(bodyParser.json({ limit: '50mb' }));
         app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
         app.enableCors();
+        app.use(morgan('combined', { stream: accessLogStream }));
         const options = new swagger_1.DocumentBuilder()
             .setTitle('News App Doc')
             .setDescription('The News API description')
