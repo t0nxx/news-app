@@ -23,10 +23,14 @@ export declare class PostController {
     getOnepost(id: any, paginate: any): Promise<{
         data: {
             reactions: any[];
+            comments: import("../comment/comment.entity").Comment[];
         };
     }>;
-    reactToPost(userid: any, postid: any, reaction: any): Promise<import("../relationsEntities/postReactions.entity").PostReactions | {
-        data: string;
+    reactToPost(userid: any, postid: any, reaction: any): Promise<{
+        data: {
+            reactions: any[];
+            comments: import("../comment/comment.entity").Comment[];
+        };
     }>;
     createNewPost(id: any, post: PostDto, files: any[]): Promise<{
         data: import("./post.entity").Post;

@@ -21,6 +21,7 @@ export declare class PostService {
     getOnePost(postId: number, paginate?: any): Promise<{
         data: {
             reactions: any[];
+            comments: Comment[];
         };
     }>;
     getOnePostDashBoard(postId: number): Promise<{
@@ -38,8 +39,11 @@ export declare class PostService {
             tags: number[];
         };
     }>;
-    reactToPost(postId: number, userId: any, reaction: any): Promise<PostReactions | {
-        data: string;
+    reactToPost(postId: number, userId: any, reaction: any): Promise<{
+        data: {
+            reactions: any[];
+            comments: Comment[];
+        };
     }>;
     createNewPost(userId: any, PostDto: PostDto): Promise<{
         data: Post;

@@ -24,10 +24,10 @@ let PostModule = class PostModule {
     configure(consumer) {
         consumer
             .apply(user_auth_middleware_1.UserAuthMiddleware, maintainerOrAdmin_auth_1.MaintainerOrAdminMiddleAuth)
-            .exclude({ path: 'posts', method: common_1.RequestMethod.GET }, { path: 'posts/getOne/:id', method: common_1.RequestMethod.GET }, { path: 'posts/getOne/mobile/:id', method: common_1.RequestMethod.GET }, { path: 'posts/mySubscriptions', method: common_1.RequestMethod.GET })
+            .exclude({ path: 'posts', method: common_1.RequestMethod.GET }, { path: 'posts/getOne/:id', method: common_1.RequestMethod.GET }, { path: 'posts/getOne/mobile/:id', method: common_1.RequestMethod.GET }, { path: 'posts/mySubscriptions', method: common_1.RequestMethod.GET }, { path: 'posts/bookmark/:id', method: common_1.RequestMethod.PUT }, { path: 'posts/unbookmark/:id', method: common_1.RequestMethod.PUT }, { path: 'posts/reactions/:id', method: common_1.RequestMethod.POST })
             .forRoutes(post_controller_1.PostController)
             .apply(user_auth_middleware_1.UserAuthMiddleware)
-            .forRoutes({ path: 'posts/mySubscriptions', method: common_1.RequestMethod.GET });
+            .forRoutes({ path: 'posts/mySubscriptions', method: common_1.RequestMethod.GET }, { path: 'posts/bookmark/:id', method: common_1.RequestMethod.PUT }, { path: 'posts/unbookmark/:id', method: common_1.RequestMethod.PUT }, { path: 'posts/reactions/:id', method: common_1.RequestMethod.POST });
     }
 };
 PostModule = __decorate([

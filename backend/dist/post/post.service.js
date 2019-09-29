@@ -139,18 +139,28 @@ let PostService = class PostService {
             yield this.PostRepository.save(findOne);
             if (paginate.userId) {
                 const user = yield this.userRepository.findOne({ id: paginate.userId }, { relations: ['bookmarks'] });
+                const isReacted = yield this.postReationsRepository.findOne({ user: paginate.userId, post: postId });
                 let isExist = lodash_1.some(user.bookmarks, { id: findOne.id });
                 if (isExist) {
+                    if (isReacted) {
+                        data['userReaction'] = isReacted.reaction;
+                    }
+                    else {
+                        data['userReaction'] = 'noReaction';
+                    }
                     data['isBookmarked'] = true;
                 }
                 else {
                     data['isBookmarked'] = false;
+                    data['userReaction'] = 'noReaction';
                 }
             }
             else {
                 data['isBookmarked'] = false;
+                data['userReaction'] = 'noReaction';
             }
-            return { data: Object.assign({}, data, { reactions }) };
+            const comments = yield this.commentRepository.find({ where: { post: findOne }, order: { id: 'DESC' }, take: 3 });
+            return { data: Object.assign({}, data, { reactions, comments }) };
         });
     }
     getOnePostDashBoard(postId) {
@@ -179,10 +189,13 @@ let PostService = class PostService {
             }
             const newReaction = new postReactions_entity_1.PostReactions();
             const isReacted = yield this.postReationsRepository.findOne({ user: userId, post: postId });
+            let user = {};
+            user['userId'] = userId;
             if (isReacted) {
                 if (isReacted.reaction === reaction) {
                     yield this.PostRepository.decrement({ id: postId }, 'reactionsCount', 1);
-                    return yield this.postReationsRepository.remove(isReacted);
+                    yield this.postReationsRepository.remove(isReacted);
+                    return this.getOnePost(postId, user);
                 }
                 else {
                     newReaction.id = isReacted.id;
@@ -216,7 +229,7 @@ let PostService = class PostService {
             newReaction.post = postId;
             const save = yield this.postReationsRepository.save(newReaction);
             yield this.PostRepository.increment({ id: postId }, 'reactionsCount', 1);
-            return { data: 'done . reacted to post' };
+            return this.getOnePost(postId, user);
         });
     }
     createNewPost(userId, PostDto) {
