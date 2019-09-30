@@ -15,7 +15,7 @@ export declare class CommentService {
         count: any;
     }>;
     getRepliesOfComments(id: number, paginate: any): Promise<any>;
-    getOneComment(id: number): Promise<any>;
+    getOneComment(id: number, paginate: any): Promise<any>;
     CreateNewComment(userId: number, commentDto: CommentDto): Promise<any>;
     updateComment(userId: any, id: number, comm: CommentUpdateDto): Promise<{
         data: Comment;

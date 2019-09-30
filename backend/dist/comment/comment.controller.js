@@ -41,9 +41,9 @@ let CommentController = class CommentController {
             return this.commentService.getMyComments(id, paginate);
         });
     }
-    getOneComment(id) {
+    getOneComment(paginate, id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.commentService.getOneComment(id);
+            return this.commentService.getOneComment(id, paginate);
         });
     }
     createNewUser(id, comment) {
@@ -87,9 +87,10 @@ __decorate([
 __decorate([
     common_1.Get('/getOne/:id'),
     swagger_1.ApiImplicitParam({ name: 'id' }),
-    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(0, common_1.Query()),
+    __param(1, common_1.Param('id', new common_1.ParseIntPipe())),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto, Object]),
     __metadata("design:returntype", Promise)
 ], CommentController.prototype, "getOneComment", null);
 __decorate([

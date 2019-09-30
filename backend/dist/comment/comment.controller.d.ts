@@ -10,7 +10,7 @@ export declare class CommentController {
         data: any;
         count: any;
     }>;
-    getOneComment(id: any): Promise<any>;
+    getOneComment(paginate: PaginationDto, id: any): Promise<any>;
     createNewUser(id: any, comment: CommentDto): Promise<any>;
     updateComment(userId: any, id: any, cate: CommentUpdateDto): Promise<{
         data: import("./comment.entity").Comment;

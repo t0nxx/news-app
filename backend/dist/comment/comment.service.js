@@ -78,7 +78,7 @@ let CommentService = class CommentService {
             return { data, count };
         });
     }
-    getOneComment(id) {
+    getOneComment(id, paginate) {
         return __awaiter(this, void 0, void 0, function* () {
             const q = yield this.commentRepository
                 .createQueryBuilder('comment')
@@ -87,7 +87,15 @@ let CommentService = class CommentService {
                 .innerJoin('comment.user', 'user')
                 .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage'])
                 .getOne();
-            return { data: q };
+            const replies = this.commentRepository
+                .createQueryBuilder('comment')
+                .where(`comment.parentId = ${id}`)
+                .innerJoin('comment.post', 'post')
+                .innerJoin('comment.user', 'user')
+                .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage']);
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, replies, ['comment.body']);
+            const [data, count] = yield qAfterFormat.getManyAndCount();
+            return { data: { comment: q, replies: { data, count } } };
         });
     }
     CreateNewComment(userId, commentDto) {
