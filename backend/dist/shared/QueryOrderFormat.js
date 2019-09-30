@@ -8,7 +8,7 @@ exports.FormatQueryOrderAndPagination = (paginate, q, searchIn, prefix) => {
         paginate.limit = 10;
     }
     q.take(paginate.limit);
-    q.skip(paginate.page * (paginate.page - 1));
+    q.skip(paginate.limit * (paginate.page - 1));
     if (paginate.query) {
         searchIn.forEach(e => {
             q.orWhere(`${e} like '%${paginate.query}%'`);
