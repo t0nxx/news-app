@@ -53,7 +53,7 @@ let PostService = class PostService {
             q.orderBy('post.id', 'DESC');
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['title', 'body'], 'post');
             if (paginate.tag) {
-                q.where(`tags.name like '%${paginate.tag}%'`);
+                q.orWhere(`tags.name like '%${paginate.tag}%'`);
             }
             if (paginate.kind) {
                 if (paginate.kind === 'mostComment') {
