@@ -51,8 +51,8 @@ let UserController = class UserController {
     }
     createNewUser(userDto, image) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (image) {
-                userDto.profileImage = yield awsUploader_1.UploadToS3(image);
+            if (userDto.img) {
+                userDto.profileImage = yield awsUploader_1.UploadToS3Base64(userDto.img);
             }
             return this.userService.createNewUser(userDto);
         });
@@ -140,7 +140,7 @@ __decorate([
     common_1.UseInterceptors(platform_express_1.FileInterceptor('image')),
     __param(0, common_1.Body()), __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.UserDto, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createNewUser", null);
 __decorate([
