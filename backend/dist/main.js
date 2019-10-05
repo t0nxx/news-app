@@ -32,7 +32,7 @@ function bootstrap() {
             .setDescription('The News API description')
             .setVersion('1.0')
             .addTag('News-App')
-            .setSchemes('https')
+            .setSchemes('http')
             .build();
         const document = swagger_1.SwaggerModule.createDocument(app, options);
         swagger_1.SwaggerModule.setup('docs', app, document);

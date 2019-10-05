@@ -14,4 +14,13 @@ export declare class TermsController {
     }>;
     updateterms(id: any, cate: TermsUpdateDto): Promise<any>;
     deleteterms(id: any): Promise<any>;
+    getAlltermsDash(paginate: PaginationDto): Promise<any>;
+    getOnetermsDash(id: any): Promise<{
+        data: import("./terms.entity").Terms;
+    }>;
+    createNewUserDash(cate: TermsDto): Promise<{
+        data: import("./terms.entity").Terms;
+    }>;
+    updatetermsDash(id: any, cate: TermsUpdateDto): Promise<any>;
+    deletetermsDash(id: any): Promise<any>;
 }

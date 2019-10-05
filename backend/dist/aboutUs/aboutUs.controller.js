@@ -55,6 +55,31 @@ let AboutUsController = class AboutUsController {
             return this.aboutUservice.deletAboutUs(id);
         });
     }
+    getAllaboutUsDash(paginate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.aboutUservice.getAllAboutUsDashboard(paginate);
+        });
+    }
+    getOneAboutUsDAsh(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.aboutUservice.getOneAboutUs(id);
+        });
+    }
+    createNewUserDAsh(cate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.aboutUservice.createNewAboutUs(cate);
+        });
+    }
+    updateAboutUsDAsh(id, cate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.aboutUservice.updateAboutUs(id, cate);
+        });
+    }
+    deleteAboutUsDash(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.aboutUservice.deletAboutUs(id);
+        });
+    }
 };
 __decorate([
     common_1.Get(),
@@ -98,6 +123,49 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AboutUsController.prototype, "deleteAboutUs", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    common_1.Get('/dashboard'),
+    __param(0, common_1.Query()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
+    __metadata("design:returntype", Promise)
+], AboutUsController.prototype, "getAllaboutUsDash", null);
+__decorate([
+    common_1.Get('/dashboard/getOne/:id'),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AboutUsController.prototype, "getOneAboutUsDAsh", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    common_1.Post('/dashboard/new'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [aboutUs_dto_1.AboutUsDto]),
+    __metadata("design:returntype", Promise)
+], AboutUsController.prototype, "createNewUserDAsh", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    common_1.Put('/dashboard/update/:id'),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, aboutUs_update_dto_1.AboutUsUpdateDto]),
+    __metadata("design:returntype", Promise)
+], AboutUsController.prototype, "updateAboutUsDAsh", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    common_1.Delete('/dashboard/delete/:id'),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AboutUsController.prototype, "deleteAboutUsDash", null);
 AboutUsController = __decorate([
     swagger_1.ApiUseTags('aboutUs'),
     common_1.Controller('aboutUs'),

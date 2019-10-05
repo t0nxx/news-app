@@ -37,6 +37,14 @@ let TermsService = class TermsService {
             return { data: data[0] };
         });
     }
+    getAlltermsDashboard(paginate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = this.termsRepository.createQueryBuilder();
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['body']);
+            const [data, count] = yield qAfterFormat.getManyAndCount();
+            return { data, count };
+        });
+    }
     getOneterms(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const findOne = yield this.termsRepository.findOne(id);

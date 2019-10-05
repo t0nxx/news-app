@@ -14,4 +14,13 @@ export declare class AboutUsController {
     }>;
     updateAboutUs(id: any, cate: AboutUsUpdateDto): Promise<any>;
     deleteAboutUs(id: any): Promise<any>;
+    getAllaboutUsDash(paginate: PaginationDto): Promise<any>;
+    getOneAboutUsDAsh(id: any): Promise<{
+        data: import("./aboutUs.entity").AboutUs;
+    }>;
+    createNewUserDAsh(cate: AboutUsDto): Promise<{
+        data: import("./aboutUs.entity").AboutUs;
+    }>;
+    updateAboutUsDAsh(id: any, cate: AboutUsUpdateDto): Promise<any>;
+    deleteAboutUsDash(id: any): Promise<any>;
 }

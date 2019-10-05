@@ -1,5 +1,5 @@
 import { UserService } from './user.service';
-import { resetDTo, resetDToAnddPass } from './user.dto';
+import { UserDto, resetDTo, resetDToAnddPass } from './user.dto';
 import { UserUpdateDto } from './user.update.dto';
 import { PaginationDto } from '../shared/pagination.filter';
 import { Category } from '../category/category.entity';
@@ -36,7 +36,7 @@ export declare class UserController {
             bookmarks: import("../post/post.entity").Post[];
         };
     }>;
-    createNewUser(userDto: any, image: any): Promise<{
+    createNewUser(userDto: UserDto, image: any): Promise<{
         data: {
             id: number;
             fullName: string;

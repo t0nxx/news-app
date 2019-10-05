@@ -16,7 +16,6 @@ class CategoryUpdateDto {
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     class_validator_1.IsOptional(),
-    class_validator_1.IsString(),
     __metadata("design:type", String)
 ], CategoryUpdateDto.prototype, "name", void 0);
 exports.CategoryUpdateDto = CategoryUpdateDto;

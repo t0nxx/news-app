@@ -4,6 +4,7 @@ export declare class UserDto {
     number: string;
     password: string;
     profileImage: string;
+    img: string;
 }
 export declare class resetDTo {
     email: string;

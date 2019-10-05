@@ -37,6 +37,10 @@ __decorate([
     class_validator_1.MinLength(6),
     __metadata("design:type", String)
 ], UserDto.prototype, "password", void 0);
+__decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UserDto.prototype, "img", void 0);
 exports.UserDto = UserDto;
 class resetDTo {
 }

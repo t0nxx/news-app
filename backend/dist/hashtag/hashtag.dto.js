@@ -16,7 +16,6 @@ class HashTagDto {
 __decorate([
     swagger_1.ApiModelProperty(),
     class_validator_1.IsNotEmpty(),
-    class_validator_1.IsAlphanumeric(),
     __metadata("design:type", String)
 ], HashTagDto.prototype, "name", void 0);
 exports.HashTagDto = HashTagDto;

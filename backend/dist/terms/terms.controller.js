@@ -55,6 +55,31 @@ let TermsController = class TermsController {
             return this.termservice.deletterms(id);
         });
     }
+    getAlltermsDash(paginate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.termservice.getAlltermsDashboard(paginate);
+        });
+    }
+    getOnetermsDash(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.termservice.getOneterms(id);
+        });
+    }
+    createNewUserDash(cate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.termservice.createNewterms(cate);
+        });
+    }
+    updatetermsDash(id, cate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.termservice.updateterms(id, cate);
+        });
+    }
+    deletetermsDash(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.termservice.deletterms(id);
+        });
+    }
 };
 __decorate([
     common_1.Get(),
@@ -98,6 +123,48 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TermsController.prototype, "deleteterms", null);
+__decorate([
+    common_1.Get('/dashboard'),
+    __param(0, common_1.Query()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [pagination_filter_1.PaginationDto]),
+    __metadata("design:returntype", Promise)
+], TermsController.prototype, "getAlltermsDash", null);
+__decorate([
+    common_1.Get('/dashboard/getOne/:id'),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], TermsController.prototype, "getOnetermsDash", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    common_1.Post('/dashboard/new'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [terms_dto_1.TermsDto]),
+    __metadata("design:returntype", Promise)
+], TermsController.prototype, "createNewUserDash", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    common_1.Put('/dashboard/update/:id'),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, terms_update_dto_1.TermsUpdateDto]),
+    __metadata("design:returntype", Promise)
+], TermsController.prototype, "updatetermsDash", null);
+__decorate([
+    swagger_1.ApiImplicitHeader({ name: 'authorization', required: true }),
+    swagger_1.ApiImplicitParam({ name: 'id' }),
+    common_1.Delete('/dashboard/delete/:id'),
+    __param(0, common_1.Param('id', new common_1.ParseIntPipe())),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], TermsController.prototype, "deletetermsDash", null);
 TermsController = __decorate([
     swagger_1.ApiUseTags('terms'),
     common_1.Controller('terms'),

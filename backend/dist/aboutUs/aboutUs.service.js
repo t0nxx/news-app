@@ -37,6 +37,14 @@ let AboutUsService = class AboutUsService {
             return { data: data[0] };
         });
     }
+    getAllAboutUsDashboard(paginate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = this.AboutUsRepository.createQueryBuilder();
+            const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['body']);
+            const [data, count] = yield qAfterFormat.getManyAndCount();
+            return { data, count };
+        });
+    }
     getOneAboutUs(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const findOne = yield this.AboutUsRepository.findOne(id);

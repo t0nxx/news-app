@@ -7,6 +7,7 @@ export declare class AboutUsService {
     private readonly AboutUsRepository;
     constructor(AboutUsRepository: Repository<AboutUs>);
     getAllAboutUss(paginate: PaginationDto): Promise<any>;
+    getAllAboutUsDashboard(paginate: PaginationDto): Promise<any>;
     getOneAboutUs(id: number): Promise<{
         data: AboutUs;
     }>;

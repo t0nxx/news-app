@@ -140,7 +140,7 @@ __decorate([
     common_1.UseInterceptors(platform_express_1.FileInterceptor('image')),
     __param(0, common_1.Body()), __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [user_dto_1.UserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createNewUser", null);
 __decorate([

@@ -7,6 +7,7 @@ export declare class TermsService {
     private readonly termsRepository;
     constructor(termsRepository: Repository<Terms>);
     getAlltermss(paginate: PaginationDto): Promise<any>;
+    getAlltermsDashboard(paginate: PaginationDto): Promise<any>;
     getOneterms(id: number): Promise<{
         data: Terms;
     }>;
