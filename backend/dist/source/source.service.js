@@ -64,7 +64,10 @@ let SourceService = class SourceService {
                 throw new common_1.BadRequestException('no data provided');
             }
             findOne.name = updateSource.name;
-            findOne.backgroundImage = updateSource.backgroundImage;
+            findOne.link = updateSource.link;
+            if (updateSource.backgroundImage) {
+                findOne.backgroundImage = updateSource.backgroundImage;
+            }
             yield this.SourceRepository.save(findOne);
             const updated = yield this.SourceRepository.findOne(id);
             return { data: updated };

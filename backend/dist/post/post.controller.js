@@ -173,7 +173,7 @@ __decorate([
     __param(1, common_1.Body()),
     __param(2, common_1.UploadedFiles()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, post_dto_1.PostDto, Array]),
+    __metadata("design:paramtypes", [Object, Object, Array]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "updatepost", null);
 __decorate([

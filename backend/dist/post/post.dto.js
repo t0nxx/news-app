@@ -17,7 +17,6 @@ class PostDto {
 __decorate([
     swagger_1.ApiModelProperty(),
     class_validator_1.IsNotEmpty(),
-    class_validator_1.IsString(),
     __metadata("design:type", String)
 ], PostDto.prototype, "title", void 0);
 __decorate([

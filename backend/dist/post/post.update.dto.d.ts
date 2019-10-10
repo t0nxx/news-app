@@ -6,4 +6,5 @@ export declare class PostUpdateDto {
     photos: string[];
     categories: Category[];
     tags: HashTag[];
+    source: number;
 }

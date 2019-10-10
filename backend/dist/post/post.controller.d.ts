@@ -18,6 +18,12 @@ export declare class PostController {
             updatedAt: Date;
             categories: number[];
             tags: number[];
+            like: string;
+            love: string;
+            haha: string;
+            wow: string;
+            sad: string;
+            angry: string;
         };
     }>;
     getOnepost(id: any, paginate: any): Promise<{
@@ -36,7 +42,7 @@ export declare class PostController {
         data: import("./post.entity").Post;
     }>;
     getPostsOfMySubscription(id: any, paginate: PaginationDto): Promise<any>;
-    updatepost(id: any, post: PostDto, files: any[]): Promise<any>;
+    updatepost(id: any, post: any, files: any[]): Promise<any>;
     deletepost(id: any): Promise<any>;
     bookmarkPost(id: any, postId: any): Promise<any>;
     unBookmarkPost(id: any, postId: any): Promise<any>;

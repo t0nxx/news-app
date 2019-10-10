@@ -172,11 +172,38 @@ let PostService = class PostService {
             const tagArrayIds = findOne.tags.map(e => e.id);
             const cateArrayIds = findOne.categories.map(e => e.id);
             const { id, title, body, backgroundImage, comments, reactionsCount, source, createdAt, updatedAt } = findOne;
+            const reactions = yield this.postReationsRepository.createQueryBuilder()
+                .select('reaction , Count(*) as count')
+                .where(`postId = ${postId}`)
+                .groupBy('reaction')
+                .getRawMany();
+            let like = '0', love = '0', wow = '0', haha = '0', angry = '0', sad = '0';
+            reactions.forEach(react => {
+                if (react.reaction == 'like') {
+                    like = react.count;
+                }
+                else if (react.reaction == 'love') {
+                    love = react.count;
+                }
+                else if (react.reaction == 'wow') {
+                    wow = react.count;
+                }
+                else if (react.reaction == 'haha') {
+                    haha = react.count;
+                }
+                else if (react.reaction == 'sad') {
+                    sad = react.count;
+                }
+                else if (react.reaction == 'angry') {
+                    angry = react.count;
+                }
+            });
             return {
                 data: {
                     id, title, body, backgroundImage, comments,
                     reactionsCount, source, createdAt, updatedAt, categories: cateArrayIds,
                     tags: tagArrayIds,
+                    like, love, haha, wow, sad, angry,
                 },
             };
         });
@@ -265,9 +292,10 @@ let PostService = class PostService {
             if (Object.keys(updatePost).length <= 0) {
                 throw new common_1.BadRequestException('no data provided');
             }
-            const [tags, categories] = yield Promise.all([
+            const [tags, categories, source] = yield Promise.all([
                 this.tagRepository.findByIds(updatePost.tags),
                 this.categoryRepository.findByIds(updatePost.categories),
+                this.sourceRepository.findOne({ id: updatePost.source }),
             ]);
             findOne.title = updatePost.title;
             findOne.body = updatePost.body;
@@ -276,7 +304,7 @@ let PostService = class PostService {
             findOne.categories = [];
             findOne.tags.push(...tags);
             findOne.categories.push(...categories);
-            findOne.source = updatePost.source.id;
+            findOne.source = source;
             yield this.PostRepository.save(findOne);
             const updated = yield this.PostRepository.findOne(id);
             return { data: updated };

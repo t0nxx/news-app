@@ -22,6 +22,10 @@ __decorate([
     __metadata("design:type", String)
 ], Source.prototype, "name", void 0);
 __decorate([
+    typeorm_1.Column({ default: 'https://www.google.com/' }),
+    __metadata("design:type", String)
+], Source.prototype, "link", void 0);
+__decorate([
     typeorm_1.Column({ default: 'no image' }),
     __metadata("design:type", String)
 ], Source.prototype, "backgroundImage", void 0);

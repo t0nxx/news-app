@@ -37,6 +37,12 @@ export declare class PostService {
             updatedAt: Date;
             categories: number[];
             tags: number[];
+            like: string;
+            love: string;
+            haha: string;
+            wow: string;
+            sad: string;
+            angry: string;
         };
     }>;
     reactToPost(postId: number, userId: any, reaction: any): Promise<{

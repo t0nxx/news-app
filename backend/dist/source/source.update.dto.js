@@ -16,8 +16,12 @@ class SourceUpdateDto {
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     class_validator_1.IsOptional(),
-    class_validator_1.IsString(),
     __metadata("design:type", String)
 ], SourceUpdateDto.prototype, "name", void 0);
+__decorate([
+    swagger_1.ApiModelPropertyOptional(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], SourceUpdateDto.prototype, "link", void 0);
 exports.SourceUpdateDto = SourceUpdateDto;
 //# sourceMappingURL=source.update.dto.js.map
