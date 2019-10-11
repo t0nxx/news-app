@@ -26,9 +26,6 @@ __decorate([
 ], UserDto.prototype, "email", void 0);
 __decorate([
     swagger_1.ApiModelProperty(),
-    class_validator_1.IsNotEmpty(),
-    class_validator_1.MinLength(5),
-    class_validator_1.MaxLength(20),
     __metadata("design:type", String)
 ], UserDto.prototype, "number", void 0);
 __decorate([

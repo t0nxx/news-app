@@ -34,7 +34,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ default: 'no number' }),
     __metadata("design:type", String)
 ], User.prototype, "number", void 0);
 __decorate([

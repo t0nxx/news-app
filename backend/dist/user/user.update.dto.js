@@ -35,8 +35,6 @@ __decorate([
 __decorate([
     swagger_1.ApiModelPropertyOptional(),
     class_validator_1.IsOptional(),
-    class_validator_1.MinLength(5),
-    class_validator_1.MaxLength(20),
     __metadata("design:type", String)
 ], UserUpdateDto.prototype, "number", void 0);
 __decorate([
