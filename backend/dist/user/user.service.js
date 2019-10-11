@@ -210,7 +210,7 @@ let UserService = class UserService {
             const filtered = findOne.subscribed.filter(element => !result.find(remove => remove.id == element.id));
             findOne.subscribed = filtered;
             const UnsubDone = yield this.userRepository.save(findOne);
-            return { data: 'Unsubscribe Done' };
+            return this.getOneUser(id);
         });
     }
     forgetPassword(body) {

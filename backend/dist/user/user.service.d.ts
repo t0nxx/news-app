@@ -49,7 +49,18 @@ export declare class UserService {
         data: string;
     }>;
     UnsubscribeFromCategories(id: number, categories: any): Promise<{
-        data: string;
+        data: {
+            id: number;
+            fullName: string;
+            email: string;
+            number: string;
+            joined: Date;
+            role: UserRole;
+            profileImage: string;
+            receiveNotification: boolean;
+            subscribed: Category[];
+            bookmarks: import("../post/post.entity").Post[];
+        };
     }>;
     forgetPassword(body: any): Promise<{
         data: string;

@@ -66,7 +66,18 @@ export declare class UserController {
         data: string;
     }>;
     UnsubscribeFromCategories(id: any, categories: number[]): Promise<{
-        data: string;
+        data: {
+            id: number;
+            fullName: string;
+            email: string;
+            number: string;
+            joined: Date;
+            role: import("./user.entity").UserRole;
+            profileImage: string;
+            receiveNotification: boolean;
+            subscribed: Category[];
+            bookmarks: import("../post/post.entity").Post[];
+        };
     }>;
     forgetPassword(body: any): Promise<{
         data: string;
