@@ -46,7 +46,18 @@ export declare class UserService {
         data: User;
     }>;
     subscribeToCategories(id: number, categories: any): Promise<{
-        data: string;
+        data: {
+            id: number;
+            fullName: string;
+            email: string;
+            number: string;
+            joined: Date;
+            role: UserRole;
+            profileImage: string;
+            receiveNotification: boolean;
+            subscribed: Category[];
+            bookmarks: import("../post/post.entity").Post[];
+        };
     }>;
     UnsubscribeFromCategories(id: number, categories: any): Promise<{
         data: {

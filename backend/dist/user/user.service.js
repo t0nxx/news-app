@@ -197,7 +197,7 @@ let UserService = class UserService {
             const result = yield this.categoryRepository.findByIds(categories);
             findOne.subscribed.push(...result);
             const subDone = yield this.userRepository.save(findOne);
-            return { data: 'subscribe Done' };
+            return this.getOneUser(id);
         });
     }
     UnsubscribeFromCategories(id, categories) {
