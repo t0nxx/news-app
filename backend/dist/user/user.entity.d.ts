@@ -1,6 +1,7 @@
 import { Category } from '../category/category.entity';
 import { Post } from '../post/post.entity';
 import { Comment } from '../comment/comment.entity';
+import { Report } from '../report/report.entity';
 export declare enum UserRole {
     ADMIN = "admin",
     MAINTAINER = "maintainer",
@@ -21,6 +22,7 @@ export declare class User {
     bookmarks: Post[];
     posts: Post[];
     comments: Comment[];
+    reports: Report[];
     createdAt: Date;
     updatedAt: Date;
 }

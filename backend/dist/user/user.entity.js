@@ -80,6 +80,10 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "comments", void 0);
 __decorate([
+    typeorm_1.OneToMany(type => comment_entity_1.Comment, comment => comment.user),
+    __metadata("design:type", Array)
+], User.prototype, "reports", void 0);
+__decorate([
     typeorm_1.CreateDateColumn({ type: 'timestamp' }),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);

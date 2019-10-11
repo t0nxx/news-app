@@ -22,6 +22,7 @@ const source_module_1 = require("./source/source.module");
 const aboutUs_module_1 = require("./aboutUs/aboutUs.module");
 const helpMe_module_1 = require("./helpMe/helpMe.module");
 const terms_module_1 = require("./terms/terms.module");
+const report_module_1 = require("./report/report.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -38,6 +39,7 @@ AppModule = __decorate([
             source_module_1.SourceModule,
             helpMe_module_1.HelpMeModule,
             aboutUs_module_1.AboutUsModule,
+            report_module_1.ReportModule,
             terms_module_1.TermsModule,
             typeorm_1.TypeOrmModule.forRoot({
                 type: 'mysql',
