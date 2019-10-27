@@ -60,7 +60,8 @@ let UserController = class UserController {
     updateUser(id, updateUserDto) {
         return __awaiter(this, void 0, void 0, function* () {
             if (updateUserDto.img) {
-                updateUserDto.profileImage = yield awsUploader_1.UploadToS3(updateUserDto.img);
+                updateUserDto.profileImage = yield awsUploader_1.UploadToS3Base64(updateUserDto.img);
+                delete updateUserDto.img;
             }
             return yield this.userService.updateUser(id, updateUserDto);
         });
