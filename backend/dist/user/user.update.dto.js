@@ -44,6 +44,10 @@ __decorate([
     __metadata("design:type", String)
 ], UserUpdateDto.prototype, "password", void 0);
 __decorate([
+    swagger_1.ApiModelProperty(),
+    __metadata("design:type", String)
+], UserUpdateDto.prototype, "img", void 0);
+__decorate([
     swagger_1.ApiModelPropertyOptional(),
     class_validator_1.IsOptional(),
     __metadata("design:type", Boolean)

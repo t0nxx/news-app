@@ -57,10 +57,10 @@ let UserController = class UserController {
             return this.userService.createNewUser(userDto);
         });
     }
-    updateUser(id, updateUserDto, image) {
+    updateUser(id, updateUserDto) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (image) {
-                updateUserDto.profileImage = yield awsUploader_1.UploadToS3(image);
+            if (updateUserDto.img) {
+                updateUserDto.profileImage = yield awsUploader_1.UploadToS3(updateUserDto.img);
             }
             return yield this.userService.updateUser(id, updateUserDto);
         });
@@ -149,9 +149,8 @@ __decorate([
     common_1.UseInterceptors(platform_express_1.FileInterceptor('image')),
     __param(0, user_decorator_1.User('id')),
     __param(1, common_1.Body()),
-    __param(2, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, user_update_dto_1.UserUpdateDto, Object]),
+    __metadata("design:paramtypes", [Object, user_update_dto_1.UserUpdateDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateUser", null);
 __decorate([

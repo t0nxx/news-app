@@ -8,9 +8,7 @@ function sendMail(mail, resetCode) {
         from: 'Hakaya mail@hakaya.news',
         to: `${mail}`,
         subject: 'Reset Password',
-        text: ` Hi Hesham :D
-        this is test email 
-        after activation 
+        text: ` Hi , 
         Your code is ${resetCode} .`
     };
     mg.messages().send(data, (error, body) => {

@@ -47,7 +47,7 @@ export declare class UserController {
         };
         token: string;
     }>;
-    updateUser(id: any, updateUserDto: UserUpdateDto, image: any): Promise<any>;
+    updateUser(id: any, updateUserDto: UserUpdateDto): Promise<any>;
     updateUserNotificationToken(id: any, updateUserNotiTokenDto: NotiTokenDto): Promise<any>;
     deletPie(id: any): Promise<{
         data: {

@@ -4,6 +4,7 @@ export declare class UserUpdateDto {
     number: string;
     password: string;
     profileImage: string;
+    img: string;
     receiveNotification: boolean;
 }
 export declare function hashUpdatePass(pass: any): Promise<string>;
