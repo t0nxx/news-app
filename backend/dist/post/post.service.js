@@ -32,6 +32,7 @@ const hashtage_entity_1 = require("../hashtag/hashtage.entity");
 const source_entity_1 = require("../source/source.entity");
 const comment_entity_1 = require("../comment/comment.entity");
 const lodash_1 = require("lodash");
+const fcm_1 = require("../notification/fcm");
 let PostService = class PostService {
     constructor(PostRepository, tagRepository, categoryRepository, userRepository, sourceRepository, postReationsRepository, commentRepository) {
         this.PostRepository = PostRepository;
@@ -279,6 +280,32 @@ let PostService = class PostService {
             newPost.categories.push(...categories);
             newPost.source = source;
             const create = yield this.PostRepository.save(newPost);
+            const users = yield this.userRepository.createQueryBuilder('user')
+                .innerJoinAndSelect('user.subscribed', 'categories')
+                .where(`categories.id IN (${newPost.categories})`)
+                .select(['user.fcmTokens'])
+                .where('user.receiveNotification = true')
+                .getMany();
+            const tokens = users.map(e => e.fcmTokens);
+            const flatArr = lodash_1.flatten(tokens);
+            const splited = lodash_1.chunk(flatArr, 99);
+            splited.forEach(arr => {
+                arr = arr.filter(e => e.length);
+                const message = {
+                    notification: {
+                        title: 'New Post',
+                        body: create.title,
+                    },
+                    android: {
+                        priority: 'high',
+                        notification: {
+                            sound: 'default',
+                        }
+                    },
+                    tokens: arr,
+                };
+                fcm_1.sendNotification(message);
+            });
             const savePost = yield this.PostRepository.findOne({ id: create.id });
             return { data: savePost };
         });

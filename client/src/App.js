@@ -45,7 +45,7 @@ const App = () => (
       <Resource name="comments" create={CommentCreate} edit={CommentEdit} icon={CommentIcon} />,
       <Resource name="sources" list={SourceList} create={SourceCreate} edit={SourceEdit} icon={SourceIcon} />,
       <Resource name="uploads" list={UploaderList} create={UploaderCreate} edit={UploaderEdit} icon={FileUpload} />,
-      <Resource name="notifications" list={NotificationList} create={NotificationCreate} icon={NotificationsIcon} />,
+      // <Resource name="notifications" list={NotificationList} create={NotificationCreate} icon={NotificationsIcon} />,
       <Resource name="aboutUs/dashboard" list={AboutUsList} edit={AboutUsEdit} icon={SourceIcon} />,
       <Resource name="helpMe" list={HelpMeList} edit={HelpMeEdit} icon={NotificationsIcon} />,
       <Resource name="terms/dashboard" list={TermsList} edit={TermsEdit} icon={CommentIcon} />,

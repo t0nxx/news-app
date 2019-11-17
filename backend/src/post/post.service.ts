@@ -12,8 +12,8 @@ import { Category } from '../category/category.entity';
 import { HashTag } from '../hashtag/hashtage.entity';
 import { Source } from '../source/source.entity';
 import { Comment } from '../comment/comment.entity';
-import { remove, some } from 'lodash';
-
+import { remove, some, chunk, flatten } from 'lodash';
+import { sendNotification } from '../notification/fcm';
 @Injectable()
 export class PostService {
     constructor(
@@ -309,6 +309,38 @@ export class PostService {
         newPost.source = source;
 
         const create = await this.PostRepository.save(newPost);
+        // notification in post
+
+        const users = await this.userRepository.createQueryBuilder('user')
+            .innerJoinAndSelect('user.subscribed', 'categories')
+            .where(`categories.id IN (${newPost.categories})`)
+            .select(['user.fcmTokens'])
+            .where('user.receiveNotification = true')
+            .getMany();
+
+        const tokens = users.map(e => e.fcmTokens);
+        const flatArr = flatten(tokens);
+        // max of fcm tokens is 100 per req
+        const splited = chunk(flatArr, 99);
+
+        splited.forEach(arr => {
+            // remove empty from the array
+            arr = arr.filter(e => e.length)
+            const message = {
+                notification: {
+                    title: 'New Post',
+                    body: create.title,
+                },
+                android: {
+                    priority: 'high',
+                    notification: {
+                        sound: 'default',
+                    }
+                },
+                tokens: arr,
+            };
+            sendNotification(message);
+        });
 
         const savePost = await this.PostRepository.findOne({ id: create.id });
         return { data: savePost };
