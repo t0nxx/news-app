@@ -14,6 +14,7 @@ import { Source } from '../source/source.entity';
 import { Comment } from '../comment/comment.entity';
 import { remove, some, chunk, flatten } from 'lodash';
 import { sendNotification } from '../notification/fcm';
+import Expo from 'expo-server-sdk';
 @Injectable()
 export class PostService {
     constructor(
@@ -320,27 +321,39 @@ export class PostService {
 
         const tokens = users.map(e => e.fcmTokens);
         const flatArr = flatten(tokens);
-        // max of fcm tokens is 100 per req
-        const splited = chunk(flatArr, 99);
 
-        splited.forEach(arr => {
-            // remove empty from the array
-            arr = arr.filter(e => e.length)
-            const message = {
-                notification: {
-                    title: 'New Post',
-                    body: create.title,
-                },
-                android: {
-                    priority: 'high',
-                    notification: {
-                        sound: 'default',
-                    }
-                },
-                tokens: arr,
-            };
-            sendNotification(message);
-        });
+        let messages = [];
+        flatArr.forEach(e => {
+            messages.push({
+                to: e,
+                sound: 'default',
+                title: create.title,
+                body: create.title,
+                data: { 'postId': create.id },
+            });
+        })
+        sendNotification(messages);
+        // max of fcm tokens is 100 per req
+        // const splited = chunk(flatArr, 99);
+
+        // splited.forEach(arr => {
+        //     // remove empty from the array
+        //     arr = arr.filter(e => e.length)
+        //     const message = {
+        //         notification: {
+        //             title: 'New Post',
+        //             body: create.title,
+        //         },
+        //         android: {
+        //             priority: 'high',
+        //             notification: {
+        //                 sound: 'default',
+        //             }
+        //         },
+        //         tokens: arr,
+        //     };
+
+        // });
 
         const savePost = await this.PostRepository.findOne({ id: create.id });
         return { data: savePost };

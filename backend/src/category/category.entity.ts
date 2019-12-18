@@ -9,9 +9,6 @@ export class Category {
     @Column()
     name: string;
 
-    @Column({ default: 'no image' })
-    backgroundImage: string;
-
 
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;

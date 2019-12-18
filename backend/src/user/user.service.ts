@@ -145,6 +145,8 @@ export class UserService {
         }
 
         findOne.fcmTokens.push(token.newToken);
+        let newArr = new Set(...findOne.fcmTokens);
+        findOne.fcmTokens = [...newArr];
 
         await this.userRepository.save(findOne);
         return 'done . token added';

@@ -150,6 +150,8 @@ let UserService = class UserService {
                 findOne.fcmTokens = [];
             }
             findOne.fcmTokens.push(token.newToken);
+            let newArr = new Set(...findOne.fcmTokens);
+            findOne.fcmTokens = [...newArr];
             yield this.userRepository.save(findOne);
             return 'done . token added';
         });

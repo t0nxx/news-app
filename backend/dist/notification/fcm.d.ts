@@ -1,1 +1,1 @@
-export declare function sendNotification(message: any): void;
+export declare function sendNotification(messages: any): Promise<void>;

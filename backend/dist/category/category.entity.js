@@ -21,10 +21,6 @@ __decorate([
     __metadata("design:type", String)
 ], Category.prototype, "name", void 0);
 __decorate([
-    typeorm_1.Column({ default: 'no image' }),
-    __metadata("design:type", String)
-], Category.prototype, "backgroundImage", void 0);
-__decorate([
     typeorm_1.CreateDateColumn({ type: 'timestamp' }),
     __metadata("design:type", Date)
 ], Category.prototype, "createdAt", void 0);

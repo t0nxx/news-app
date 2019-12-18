@@ -288,24 +288,17 @@ let PostService = class PostService {
                 .getMany();
             const tokens = users.map(e => e.fcmTokens);
             const flatArr = lodash_1.flatten(tokens);
-            const splited = lodash_1.chunk(flatArr, 99);
-            splited.forEach(arr => {
-                arr = arr.filter(e => e.length);
-                const message = {
-                    notification: {
-                        title: 'New Post',
-                        body: create.title,
-                    },
-                    android: {
-                        priority: 'high',
-                        notification: {
-                            sound: 'default',
-                        }
-                    },
-                    tokens: arr,
-                };
-                fcm_1.sendNotification(message);
+            let messages = [];
+            flatArr.forEach(e => {
+                messages.push({
+                    to: e,
+                    sound: 'default',
+                    title: create.title,
+                    body: create.title,
+                    data: { 'postId': create.id },
+                });
             });
+            fcm_1.sendNotification(messages);
             const savePost = yield this.PostRepository.findOne({ id: create.id });
             return { data: savePost };
         });

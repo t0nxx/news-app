@@ -52,7 +52,6 @@ export class CategoryService {
             throw new BadRequestException('no data provided');
         }
         findOne.name = updatecategory.name;
-        findOne.backgroundImage = updatecategory.backgroundImage;
 
         await this.categoryRepository.save(findOne);
         const updated = await this.categoryRepository.findOne(id);
