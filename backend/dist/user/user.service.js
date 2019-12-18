@@ -29,6 +29,7 @@ const generate_jwt_1 = require("../shared/generate.jwt");
 const category_entity_1 = require("../category/category.entity");
 const QueryOrderFormat_1 = require("../shared/QueryOrderFormat");
 const sendMail_1 = require("../shared/sendMail");
+const lodash_1 = require("lodash");
 let UserService = class UserService {
     constructor(userRepository, categoryRepository) {
         this.userRepository = userRepository;
@@ -149,8 +150,8 @@ let UserService = class UserService {
             if (findOne.fcmTokens == null) {
                 findOne.fcmTokens = [];
             }
-            findOne.fcmTokens.push(token.newToken);
-            let newArr = new Set(...findOne.fcmTokens);
+            let tempArr = [...findOne.fcmTokens, token.newToken];
+            let newArr = lodash_1.union(tempArr);
             findOne.fcmTokens = [...newArr];
             yield this.userRepository.save(findOne);
             return 'done . token added';

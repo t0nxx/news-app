@@ -11,6 +11,7 @@ import { Category } from '../category/category.entity';
 import { FormatQueryOrderAndPagination } from '../shared/QueryOrderFormat';
 import { NotiTokenDto } from './notiToken.dto';
 import { sendMail } from '../shared/sendMail';
+import { union } from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -144,8 +145,8 @@ export class UserService {
             findOne.fcmTokens = [];
         }
 
-        findOne.fcmTokens.push(token.newToken);
-        let newArr = new Set(...findOne.fcmTokens);
+        let tempArr = [...findOne.fcmTokens, token.newToken]
+        let newArr = union(tempArr);
         findOne.fcmTokens = [...newArr];
 
         await this.userRepository.save(findOne);
