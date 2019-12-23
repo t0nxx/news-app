@@ -8,11 +8,14 @@ export class Comment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column('longtext')
     body: string;
 
     @Column({ default: 0 })
     reports: number;
+
+    @Column({ default: 0 })
+    reply_count: number;
     // /* multi level Children */
     // @TreeChildren()
     // children: Comment[];

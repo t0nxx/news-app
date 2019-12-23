@@ -19,13 +19,17 @@ __decorate([
     __metadata("design:type", Number)
 ], Comment.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column('longtext'),
     __metadata("design:type", String)
 ], Comment.prototype, "body", void 0);
 __decorate([
     typeorm_1.Column({ default: 0 }),
     __metadata("design:type", Number)
 ], Comment.prototype, "reports", void 0);
+__decorate([
+    typeorm_1.Column({ default: 0 }),
+    __metadata("design:type", Number)
+], Comment.prototype, "reply_count", void 0);
 __decorate([
     typeorm_1.Column({ default: null }),
     __metadata("design:type", Number)

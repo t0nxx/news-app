@@ -4,6 +4,7 @@ export declare class Comment {
     id: number;
     body: string;
     reports: number;
+    reply_count: number;
     parentId: number;
     user: User;
     post: Post;

@@ -25,7 +25,8 @@ export class CommentService {
             .createQueryBuilder('comment')
             .innerJoin('comment.post', 'post')
             .innerJoin('comment.user', 'user')
-            .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage']);
+            .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage'])
+            .orderBy('comment.id','DESC');
 
         if (paginate.postId) {
             q.where(`comment.parentId IS NULL`) /* null mean not has parent id */
@@ -102,6 +103,8 @@ export class CommentService {
         if (commentDto.parentId) {
             const parent = await this.commentRepository.findOne({ id: commentDto.parentId })
             comment.parentId = parent.id;
+            parent.reply_count = parent.reply_count + 1 ;
+            await this.postRepository.save(parent);
         }
         post.commentsCount = post.commentsCount + 1;
         await this.postRepository.save(post);
