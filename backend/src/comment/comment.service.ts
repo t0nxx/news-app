@@ -104,7 +104,7 @@ export class CommentService {
             const parent = await this.commentRepository.findOne({ id: commentDto.parentId })
             comment.parentId = parent.id;
             parent.reply_count = parent.reply_count + 1 ;
-            await this.postRepository.save(parent);
+            await this.commentRepository.save(parent);
         }
         post.commentsCount = post.commentsCount + 1;
         await this.postRepository.save(post);
