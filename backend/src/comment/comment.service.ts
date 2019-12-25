@@ -26,7 +26,7 @@ export class CommentService {
             .innerJoin('comment.post', 'post')
             .innerJoin('comment.user', 'user')
             .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage'])
-            .orderBy('comment.id','DESC');
+            .orderBy('comment.id', 'DESC');
 
         if (paginate.postId) {
             q.where(`comment.parentId IS NULL`) /* null mean not has parent id */
@@ -47,7 +47,7 @@ export class CommentService {
             .innerJoin('comment.post', 'post')
             .innerJoin('comment.user', 'user')
             .where(`user.id = ${id}`)
-            .addSelect(['post.id']);
+            .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage']);
 
         const qAfterFormat = FormatQueryOrderAndPagination(paginate, q, ['comment.body'], 'comment');
         const [data, count] = await qAfterFormat.getManyAndCount();
@@ -103,7 +103,7 @@ export class CommentService {
         if (commentDto.parentId) {
             const parent = await this.commentRepository.findOne({ id: commentDto.parentId })
             comment.parentId = parent.id;
-            parent.reply_count = parent.reply_count + 1 ;
+            parent.reply_count = parent.reply_count + 1;
             await this.commentRepository.save(parent);
         }
         post.commentsCount = post.commentsCount + 1;
