@@ -51,7 +51,7 @@ AppModule = __decorate([
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
                 synchronize: true,
                 logging: true,
-                charset: 'UTF8MB4_GENERAL_CI',
+                charset: 'UTF8_GENERAL_CI',
             }),
         ],
         controllers: [app_controller_1.AppController],

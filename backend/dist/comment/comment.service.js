@@ -60,7 +60,7 @@ let CommentService = class CommentService {
                 .innerJoin('comment.post', 'post')
                 .innerJoin('comment.user', 'user')
                 .where(`user.id = ${id}`)
-                .addSelect(['post.id']);
+                .addSelect(['post.id', 'user.id', 'user.fullName', 'user.profileImage']);
             const qAfterFormat = QueryOrderFormat_1.FormatQueryOrderAndPagination(paginate, q, ['comment.body'], 'comment');
             const [data, count] = yield qAfterFormat.getManyAndCount();
             return { data, count };
