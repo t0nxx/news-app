@@ -40,7 +40,7 @@ export class CommentService {
         const [data, count] = await qAfterFormat.getManyAndCount();
         return { data, count };
     }
-
+//
     async getMyComments(id: number, paginate: any) {
         const q = this.commentRepository
             .createQueryBuilder('comment')
